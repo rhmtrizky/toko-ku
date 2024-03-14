@@ -11,7 +11,7 @@ export default function Home() {
     <>
       <Navbar data={data} />
       <h1>HOME PAGE</h1>
-      <p>halo bang {data?.user?.fullname}</p>
+      <p>halo bang {data?.user?.name}</p>
     </>
   );
 }
