@@ -64,7 +64,7 @@ const LoginView = () => {
         />
         {isError && <p className="text-color-red text-sm italic">Email or Password is incorrect</p>}
         <div className="flex gap-1 text-sm">
-          <p>Haven't an account? </p>
+          <p>Have not an account?</p>
           <Link href={'/auth/register'}>
             <p className="font-semibold text-color-blue italic">Register</p>
           </Link>
