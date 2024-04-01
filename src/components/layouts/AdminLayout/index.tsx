@@ -11,6 +11,11 @@ const SideBarItems = [
     url: '/admin/products',
     icon: 'bx-cart-add',
   },
+  {
+    title: 'Users',
+    url: '/admin/users',
+    icon: 'bxs-group',
+  },
 ];
 
 type PropTypes = {
@@ -19,9 +24,9 @@ type PropTypes = {
 const AdminLayout = (props: PropTypes) => {
   const { children } = props;
   return (
-    <div>
+    <div className="flex ">
       <SideBar lists={SideBarItems} />
-      {children}
+      <div className="w-full px-10 py-7"> {children}</div>
     </div>
   );
 };
