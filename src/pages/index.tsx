@@ -1,4 +1,4 @@
-import Navbar from '@/components/layouts/Navbar';
+import Navbar from '@/components/fragments/Navbar';
 import { useSession } from 'next-auth/react';
 import { Inter } from 'next/font/google';
 
