@@ -7,11 +7,11 @@ const jwtAuth = (req: any, res: any, callback: Function) => {
       if (decoded) {
         callback(decoded);
       } else {
-        return res.status(401).json({ status: false, code: 403, message: 'Unauthorized' });
+        return res.status(403).json({ status: false, code: 403, message: 'Unauthorized' });
       }
     });
   } else {
-    return res.status(401).json({ status: false, code: 403, message: 'MANA TOKEN LU BABIII' });
+    return res.status(403).json({ status: false, code: 403, message: 'Access Denied' });
   }
 };
 

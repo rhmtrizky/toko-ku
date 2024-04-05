@@ -6,6 +6,7 @@ const userService = {
   updateUser: (id: string, data: any, token: string) => instance.put(`/api/user/${id}`, { data }, headers(token)),
   deleteUser: (id: string, token: string) => instance.delete(`/api/user/${id}`, headers(token)),
   getProfile: (token: string) => instance.get('/api/user/profile', headers(token)),
+  updateProfile: (id: string, data: any, token: string) => instance.put(`/api/user/profile/${id}`, { data }, headers(token)),
 };
 
 export default userService;

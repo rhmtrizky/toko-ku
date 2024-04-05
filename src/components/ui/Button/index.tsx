@@ -6,15 +6,17 @@ type ButtonProps = {
   type: 'button' | 'submit' | 'reset' | undefined;
   onClick?: () => void;
   className: string;
+  disabled: boolean;
 };
 
 const Button = (props: any) => {
-  const { icon, label, type, onClick, className } = props;
+  const { icon, label, type, onClick, className, disabled } = props;
   return (
     <button
       onClick={onClick}
       className={className}
       type={type}
+      disabled={disabled}
     >
       <div className="flex gap-2 justify-center items-center">
         {icon && (

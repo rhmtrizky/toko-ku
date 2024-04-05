@@ -54,6 +54,7 @@ const authOptions: NextAuthOptions = {
         token.password = user.password;
         token.role = user.role;
         token.id = user.id;
+        token.image = user.image;
       }
 
       if (account?.provider === 'google') {
@@ -105,6 +106,9 @@ const authOptions: NextAuthOptions = {
       }
       if ('id' in token) {
         session.user.id = token.id;
+      }
+      if ('image' in token) {
+        session.user.image = token.image;
       }
       const accessToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || '', {
         algorithm: 'HS256',

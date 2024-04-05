@@ -6,6 +6,7 @@ export async function signUp(
     email: string;
     fullname: string;
     password: string;
+    image?: string;
     role: string;
   },
   callback: Function
@@ -18,6 +19,7 @@ export async function signUp(
     if (!userData.role) {
       userData.role = 'member';
     }
+    userData.image = '';
     userData.password = await bcrypt.hash(userData.password, 10);
     addData('users', userData, (result: boolean) => {
       if (result) {
