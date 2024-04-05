@@ -1,4 +1,3 @@
-import React from 'react';
 import UsersAdminView from '@/components/views/admin/Users';
 import userService from '@/services/user';
 import { useEffect, useState } from 'react';
