@@ -8,10 +8,11 @@ export default function WithAuth(middleware: NextMiddleware, requireAuth: string
   return async (req: NextRequest, next: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname.split('/')[1];
     if (requireAuth.includes(pathname)) {
-      const token = await getToken({
+      const token: any = await getToken({
         req,
         secret: process.env.NEXTAUTH_SECRET,
       });
+
       if (!token && !authPage.includes(pathname)) {
         const url = new URL('/auth/login', req.url);
         url.searchParams.set('callbackUrl', encodeURI(req.url));

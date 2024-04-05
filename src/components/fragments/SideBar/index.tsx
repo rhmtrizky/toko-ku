@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 type PropTypes = {
+  title: string;
   lists: Array<{
     title: string;
     url: string;
@@ -11,13 +12,13 @@ type PropTypes = {
   }>;
 };
 const SideBar = (props: PropTypes) => {
-  const { lists } = props;
+  const { lists, title } = props;
   const { pathname } = useRouter();
 
   return (
     <div className="w-60 h-screen bg-color-dark flex flex-col justify-between p-5">
       <div className="">
-        <h1 className="text-color-primary font-semibold text-2xl">Admin Panel</h1>
+        <h1 className="text-color-primary font-semibold text-2xl">{title}</h1>
         <div className="flex flex-col gap-2 mt-7">
           {lists.map((item, index) => (
             <Link

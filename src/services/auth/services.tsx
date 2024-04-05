@@ -6,7 +6,7 @@ export async function signUp(
     email: string;
     fullname: string;
     password: string;
-    role?: string;
+    role: string;
   },
   callback: Function
 ) {
@@ -37,15 +37,24 @@ export async function signIn(email: string) {
   }
 }
 
-export async function loginWithGoogle(data: any, callback: Function) {
+export async function loginWithGoogle(
+  data: {
+    id?: string;
+    email: string;
+    password?: string;
+    role?: string;
+  },
+  callback: Function
+) {
   const user = await retrieveDataByField('users', 'email', data.email);
-
   if (user?.length > 0) {
     callback(user[0]);
   } else {
-    data.role == 'member';
-    addData('users', data, (result: boolean) => {
-      if (result) {
+    data.role = 'member';
+    await addData('users', data, (status: boolean, res: any) => {
+      const userId = res.path.split('/').pop();
+      data.id = userId;
+      if (status) {
         callback(data);
       }
     });

@@ -3,35 +3,35 @@ import SideBar from '@/components/fragments/SideBar';
 const SideBarItems = [
   {
     title: 'Dashboard',
-    url: '/admin',
+    url: '/member',
     icon: 'bxs-dashboard',
   },
   {
-    title: 'Products',
-    url: '/admin/products',
-    icon: 'bx-cart-add',
+    title: 'Orders',
+    url: '/member/orders',
+    icon: 'bxs-package',
   },
   {
-    title: 'Users',
-    url: '/admin/users',
-    icon: 'bxs-group',
+    title: 'Profiles',
+    url: '/member/profile',
+    icon: 'bxs-user',
   },
 ];
 
 type PropTypes = {
   children: React.ReactNode;
 };
-const AdminLayout = (props: PropTypes) => {
+const MemberLayout = (props: PropTypes) => {
   const { children } = props;
   return (
     <div className="flex ">
       <SideBar
         lists={SideBarItems}
-        title="Admin Panel"
+        title="Toko-ku"
       />
       <div className="w-full px-10 py-7">{children}</div>
     </div>
   );
 };
 
-export default AdminLayout;
+export default MemberLayout;

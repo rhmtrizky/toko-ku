@@ -4,6 +4,7 @@ import nextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
+import jwt from 'jsonwebtoken';
 
 const authOptions: NextAuthOptions = {
   session: {
@@ -52,13 +53,14 @@ const authOptions: NextAuthOptions = {
         token.fullname = user.fullname;
         token.password = user.password;
         token.role = user.role;
+        token.id = user.id;
       }
 
       if (account?.provider === 'google') {
         const data = {
-          email: user?.email,
+          email: user.email,
           image: user?.image,
-          fullname: user?.name,
+          fullname: user.name,
           type: 'google',
         };
 
@@ -67,6 +69,7 @@ const authOptions: NextAuthOptions = {
           token.fullname = data.fullname;
           token.image = data?.image;
           token.role = data.role;
+          token.id = data.id;
         });
       }
 
@@ -100,6 +103,14 @@ const authOptions: NextAuthOptions = {
       if ('role' in token) {
         session.user.role = token.role;
       }
+      if ('id' in token) {
+        session.user.id = token.id;
+      }
+      const accessToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || '', {
+        algorithm: 'HS256',
+      });
+      session.accessToken = accessToken;
+
       return session;
     },
   },
