@@ -1,4 +1,5 @@
 import MemberLayout from '@/components/layouts/MemberLayout';
+import AlertUi from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import ProgressUi from '@/components/ui/Progress';
@@ -16,16 +17,62 @@ type PropTypes = {
 const ProfileMemberView = (props: PropTypes) => {
   const { profile, setProfile, session } = props;
   const [changeImage, setChangeImage] = useState<any>({});
-  const [errorUploadImage, setErrorUploadImage] = useState<any>({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [alert, setAlert] = useState<any>({});
+  const [isLoading, setIsLoading] = useState('');
   const [progressPercent, setProgressPercent] = useState<any>({});
+
+  const handleUpdateProfile = async (e: any) => {
+    e.preventDefault();
+    setIsLoading('profile');
+    const form: any = e.target as HTMLFormElement;
+    const data = {
+      fullname: form.fullname.value,
+    };
+    const result = await userService.updateProfile(profile.data.id, data, session.data?.accessToken);
+    if (result.status == 200) {
+      setProfile({
+        ...profile,
+        data: {
+          ...profile.data,
+          fullname: data.fullname,
+        },
+      });
+      setAlert({
+        message: 'Success Update Profile',
+        status: true,
+        type: 'profile',
+      });
+      setTimeout(() => {
+        setAlert({
+          message: '',
+          status: false,
+          type: 'profile',
+        });
+      }, 3000);
+      setIsLoading('');
+    } else {
+      setIsLoading('');
+      setAlert({
+        message: 'Failed Update Profile',
+        status: true,
+        type: 'profile',
+      });
+      setTimeout(() => {
+        setAlert({
+          message: '',
+          status: false,
+          type: 'profile',
+        });
+      }, 3000);
+    }
+  };
 
   const handleChangeProfilePicture = (e: any) => {
     try {
       e.preventDefault();
       const file = e.target[0].files[0];
 
-      setIsLoading(true);
+      setIsLoading('image');
       if (file) {
         uploadFile(
           profile?.data?.id,
@@ -54,22 +101,24 @@ const ProfileMemberView = (props: PropTypes) => {
                   status: !status,
                   progressPercent: 0,
                 });
-                setIsLoading(false);
+                setIsLoading('');
                 setChangeImage({});
                 e.target[0].value = '';
               }
             } else {
-              setErrorUploadImage({
+              setAlert({
                 message: '*Failed to upload image, size must be less than 1MB',
                 status: !status,
+                type: 'image',
               });
               setTimeout(() => {
-                setIsLoading(false);
+                setIsLoading('');
                 setChangeImage({});
                 e.target[0].value = '';
-                setErrorUploadImage({
+                setAlert({
                   message: '',
                   status: status,
+                  type: 'image',
                 });
               }, 5000);
             }
@@ -131,12 +180,12 @@ const ProfileMemberView = (props: PropTypes) => {
                   }}
                 />
               </div>
-              {errorUploadImage.status && <p className="text-color-red font-semibold text-center text-sm italic">{errorUploadImage.message}</p>}
+              {alert.status && alert.type == 'image' && <p className="text-color-red font-semibold text-center text-sm italic">{alert.message}</p>}
 
               {changeImage.name && (
                 <Button
                   type="submit"
-                  label={isLoading ? 'Upload ...' : 'Upload Profile'}
+                  label={isLoading == 'image' ? 'Upload ...' : 'Upload Profile'}
                   className="bg-color-green text-color-primary py-2 px-1 rounded-md mt-3 font-semibold px-3"
                 />
               )}
@@ -148,7 +197,7 @@ const ProfileMemberView = (props: PropTypes) => {
           <form
             className="flex flex-col gap-2"
             action=""
-            // onSubmit={handleUpdateUser}
+            onSubmit={handleUpdateProfile}
           >
             <Input
               label="Fullname"
@@ -161,20 +210,26 @@ const ProfileMemberView = (props: PropTypes) => {
               type="email"
               name="email"
               defaultValue={profile?.data?.email}
+              disabled
             />
             <Input
               label="Password"
               type="password"
               name="password"
               placeholder="Password"
+              disabled
             />
-            <div className="flex justify-end">
+            <div className="flex justify-between items-center">
               <Button
-                // label={isLoading ? 'Updating...' : 'Update'}
-                label={'Update'}
+                label={isLoading == 'profile' ? 'Updating...' : 'Update'}
                 type="submit"
                 className="bg-color-blue text-color-primary py-2 px-1 rounded-md mt-3 font-semibold px-3"
               />
+              {alert.status && alert.type == 'profile' && (
+                <div className="w-1/2">
+                  <AlertUi message={alert.message} />
+                </div>
+              )}
             </div>
           </form>
         </div>

@@ -18,7 +18,7 @@ const Input = (props: InputProps) => {
         {label}
       </label>
       <input
-        className="w-full border-2 border-color-gray px-3 py-2 rounded-md bg-color-input"
+        className={'disabled:opacity-60 w-full border-2 border-color-gray px-3 py-2 rounded-md bg-color-input'}
         type={type}
         id={name}
         name={name}
