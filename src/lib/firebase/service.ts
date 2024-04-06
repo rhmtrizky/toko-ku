@@ -68,7 +68,7 @@ export async function deleteData(collectionName: string, id: string, callback: F
     });
 }
 
-export async function uploadFile(userId: string, file: any, callback: Function) {
+export async function uploadFile(userId: string, file: any, progressCallback: Function, callback: Function) {
   if (file) {
     if (file.size < 1048576) {
       const newFileName = 'profile.' + file.name.split('.')[1];
@@ -79,6 +79,7 @@ export async function uploadFile(userId: string, file: any, callback: Function) 
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log(progress);
+          progressCallback(true, progress);
         },
         (err) => {
           console.log(err);
@@ -93,6 +94,7 @@ export async function uploadFile(userId: string, file: any, callback: Function) 
     } else {
       return callback(false);
     }
+  } else {
+    return callback(false);
   }
-  return true;
 }

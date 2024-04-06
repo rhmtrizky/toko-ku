@@ -1,6 +1,7 @@
 import MemberLayout from '@/components/layouts/MemberLayout';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import ProgressUi from '@/components/ui/Progress';
 import { uploadFile } from '@/lib/firebase/service';
 import userService from '@/services/user';
 import Image from 'next/image';
@@ -17,20 +18,26 @@ const ProfileMemberView = (props: PropTypes) => {
   const [changeImage, setChangeImage] = useState<any>({});
   const [errorUploadImage, setErrorUploadImage] = useState<any>({});
   const [isLoading, setIsLoading] = useState(false);
-  console.log(profile);
+  const [progressPercent, setProgressPercent] = useState<any>({});
 
   const handleChangeProfilePicture = (e: any) => {
     try {
       e.preventDefault();
       const file = e.target[0].files[0];
-      console.log(file);
 
       setIsLoading(true);
       if (file) {
-        uploadFile(profile?.data?.id, file, async (status: boolean, downloadURL: string) => {
-          console.log(status);
-          if (status) {
-            try {
+        uploadFile(
+          profile?.data?.id,
+          file,
+          (status: boolean, progressPercent: number) => {
+            setProgressPercent({
+              status: status,
+              progressPercent: progressPercent.toFixed(2),
+            });
+          },
+          async (status: boolean, downloadURL: string) => {
+            if (status) {
               const data = {
                 image: downloadURL,
               };
@@ -43,32 +50,31 @@ const ProfileMemberView = (props: PropTypes) => {
                     image: downloadURL,
                   },
                 });
+                setProgressPercent({
+                  status: !status,
+                  progressPercent: 0,
+                });
                 setIsLoading(false);
                 setChangeImage({});
                 e.target[0].value = '';
               }
-            } catch (error) {
-              console.log(error);
-              setChangeImage({});
-              e.target[0].value = '';
-              setIsLoading(false);
-            }
-          } else {
-            setErrorUploadImage({
-              message: 'Image size too large, please upload image less than 1mb',
-              status: true,
-            });
-            setTimeout(() => {
-              setChangeImage({});
-              e.target[0].value = '';
-              setIsLoading(false);
+            } else {
               setErrorUploadImage({
-                message: '',
-                status: false,
+                message: '*Failed to upload image, size must be less than 1MB',
+                status: !status,
               });
-            }, 5000);
+              setTimeout(() => {
+                setIsLoading(false);
+                setChangeImage({});
+                e.target[0].value = '';
+                setErrorUploadImage({
+                  message: '',
+                  status: status,
+                });
+              }, 5000);
+            }
           }
-        });
+        );
       }
     } catch (e) {
       console.log(e);
@@ -84,7 +90,7 @@ const ProfileMemberView = (props: PropTypes) => {
             <div className="w-full h-full flex justify-center flex-col items-center py-3">
               {profile.data?.image ? (
                 <Image
-                  className="rounded-full p-3 w-56 h-52"
+                  className="rounded-full p-3 w-48 h-48 object-cover"
                   src={profile.data?.image}
                   alt="profile"
                   width={200}
@@ -125,15 +131,16 @@ const ProfileMemberView = (props: PropTypes) => {
                   }}
                 />
               </div>
-              {errorUploadImage.status && <p className="text-color-red font-semibold text-center text-sm italic">*{errorUploadImage.message}</p>}
+              {errorUploadImage.status && <p className="text-color-red font-semibold text-center text-sm italic">{errorUploadImage.message}</p>}
 
               {changeImage.name && (
                 <Button
                   type="submit"
                   label={isLoading ? 'Upload ...' : 'Upload Profile'}
-                  className="bg-color-green text-color-primary py-2 px-1 rounded-md mt-1 font-semibold px-3"
+                  className="bg-color-green text-color-primary py-2 px-1 rounded-md mt-3 font-semibold px-3"
                 />
               )}
+              <div className="mt-3">{progressPercent.status && <ProgressUi percent={progressPercent.progressPercent} />}</div>
             </div>
           </form>
         </div>
