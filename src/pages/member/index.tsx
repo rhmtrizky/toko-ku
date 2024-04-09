@@ -1,6 +1,6 @@
 import DashboardMemberView from '@/components/views/member/Dashboard';
 
-const MemberAdmin = () => {
+const MemberDashboard = () => {
   return (
     <>
       <DashboardMemberView />
@@ -8,4 +8,4 @@ const MemberAdmin = () => {
   );
 };
 
-export default MemberAdmin;
+export default MemberDashboard;
