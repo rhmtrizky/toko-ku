@@ -1,23 +1,24 @@
-import React from 'react';
-import { Alert, Space } from 'antd';
 type PropTypes = {
   message: string;
   type: any;
 };
 
-const AlertUi: React.FC<PropTypes> = (props) => {
+const AlertUi = (props: PropTypes) => {
   const { message, type } = props;
   return (
-    <Space
-      direction="vertical"
-      style={{ width: '100%' }}
-    >
-      <Alert
-        message={message}
-        type={type}
-        showIcon
-      />
-    </Space>
+    <>
+      {type === 'error' ? (
+        <div className="flex gap-3 text-color-primary font-semibold items-center w-54 bg-color-red h-10 justify-center rounded">
+          <i className="bx bxs-error-circle text-2xl"></i>
+          <h3>{message}</h3>
+        </div>
+      ) : (
+        <div className="flex gap-3 text-color-primary font-semibold items-center w-54 bg-color-blue h-10 justify-center rounded">
+          <i className="bx bxs-check-circle text-2xl"></i>
+          <h3>{message}</h3>
+        </div>
+      )}
+    </>
   );
 };
 

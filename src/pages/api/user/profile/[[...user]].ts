@@ -30,9 +30,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     jwtAuth(req, res, async (decoded: any) => {
       if (decoded) {
         if (data.password) {
-          const passwordConfirm = await compare(data.oldPassword, data.encryptedPassword);
-          if (!passwordConfirm) {
-            res.status(400).json({ status: false, code: 400, message: 'Wrong Password' });
+          const oldPasswordConfirm = await compare(data.oldPassword, data.encryptedPassword);
+          if (!oldPasswordConfirm) {
+            res.status(400).json({ status: false, code: 400, message: 'Password is wrong' });
+          }
+          const newPasswordConfirm = await compare(data.password, data.encryptedPassword);
+          if (newPasswordConfirm) {
+            res.status(400).json({ status: false, code: 400, message: 'Password already used before' });
           }
           delete data.oldPassword;
           delete data.encryptedPassword;
@@ -42,7 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         await updateData('users', user[0], data, (result: boolean) => {
           if (result) {
-            res.status(200).json({ status: true, code: 200, message: 'Success', data: data });
+            res.status(200).json({ status: true, code: 200, message: 'Success Update Password', data: data });
           } else {
             res.status(400).json({ status: false, code: 400, message: 'Failed' });
           }

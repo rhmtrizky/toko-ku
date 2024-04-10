@@ -1,5 +1,4 @@
 import MemberLayout from '@/components/layouts/MemberLayout';
-import AlertUi from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import ProgressUi from '@/components/ui/Progress';
@@ -8,6 +7,7 @@ import userService from '@/services/user';
 import Image from 'next/image';
 import { useState } from 'react';
 import ModalUpdatePassword from './ModalUpdatePassword';
+import AlertUi from '@/components/ui/Alert';
 
 type PropTypes = {
   profile: any;
@@ -143,6 +143,7 @@ const ProfileMemberView = (props: PropTypes) => {
     <>
       <MemberLayout>
         <div className="text-2xl font-bold mb-3">Profile</div>
+        <div className="my-3">{progressPercent.status && <ProgressUi percent={progressPercent.progressPercent} />}</div>
         <div className="w-full flex gap-5">
           <div className="w-1/4 border-2 border-color-gray p-3">
             <form onSubmit={handleChangeProfilePicture}>
@@ -199,27 +200,28 @@ const ProfileMemberView = (props: PropTypes) => {
                     className="bg-color-green text-color-primary py-2 px-1 rounded-md mt-3 font-semibold px-3"
                   />
                 )}
-                <div className="mt-3">{progressPercent.status && <ProgressUi percent={progressPercent.progressPercent} />}</div>
               </div>
             </form>
           </div>
           <div className="w-3/4 border-2 border-color-gray px-5 py-7 rounded-md">
-            {alert?.status && alert.type == 'password' && alert?.statusCode == 200 && (
-              <div className="w-1/2">
-                <AlertUi
-                  message={alert.message}
-                  type="success"
-                />
-              </div>
-            )}
-            {alert?.status && alert?.type == 'profile' && (
-              <div className="w-1/2">
-                <AlertUi
-                  message={alert.message}
-                  type="success"
-                />
-              </div>
-            )}
+            <div className="w-full flex justify-center">
+              {alert?.status && alert.type == 'password' && alert?.statusCode == 200 && (
+                <div className="w-1/2">
+                  <AlertUi
+                    message={alert.message}
+                    type="success"
+                  />
+                </div>
+              )}
+              {alert?.status && alert?.type == 'profile' && (
+                <div className="w-1/2">
+                  <AlertUi
+                    message={alert.message}
+                    type="success"
+                  />
+                </div>
+              )}
+            </div>
             <form
               className="flex flex-col gap-2 mt-3"
               action=""
@@ -277,7 +279,6 @@ const ProfileMemberView = (props: PropTypes) => {
         <ModalUpdatePassword
           profile={profile}
           session={session}
-          setProfile={setProfile}
           setOpenModal={setOpenModal}
           setAlert={setAlert}
           alert={alert}

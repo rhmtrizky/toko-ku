@@ -28,9 +28,10 @@ const ModalUpdatePassword = (props: PropTypes) => {
         encryptedPassword: profile.data.password,
       };
       const result = await userService.updateProfile(profile.data.id, data, session.data?.accessToken);
+      console.log(result);
       if (result.status == 200) {
         setAlert({
-          message: 'Success Update Password',
+          message: result.data.message,
           status: true,
           type: 'password',
           statusCode: 200,
@@ -47,9 +48,11 @@ const ModalUpdatePassword = (props: PropTypes) => {
         setIsLoading(false);
       }
     } catch (error) {
+      console.log(error.response.data.message);
+
       setIsLoading(false);
       setAlert({
-        message: 'Old Password is wrong!',
+        message: error.response.data.message,
         status: true,
         type: 'password',
         statusCode: 400,
@@ -73,7 +76,7 @@ const ModalUpdatePassword = (props: PropTypes) => {
         onSubmit={handleUpdatPassword}
       >
         {alert?.status && alert?.type == 'password' && alert?.statusCode == 400 && (
-          <div className="w-1/2">
+          <div>
             <AlertUi
               message={alert.message}
               type="error"
@@ -81,7 +84,7 @@ const ModalUpdatePassword = (props: PropTypes) => {
           </div>
         )}
         <Input
-          label="Old Password"
+          label="Password"
           type="password"
           name="old-password"
           placeholder="Password"

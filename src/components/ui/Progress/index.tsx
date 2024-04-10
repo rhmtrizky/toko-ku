@@ -1,34 +1,13 @@
-import { Flex, Progress } from 'antd';
-import type { ProgressProps } from 'antd';
+import React from 'react';
+import { ProgressBar } from 'primereact/progressbar';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
 
-const twoColors: ProgressProps['strokeColor'] = {
-  '0%': '#108ee9',
-  '100%': '#87d068',
-};
-
-const conicColors: ProgressProps['strokeColor'] = {
-  '0%': '#87d068',
-  '50%': '#ffe58f',
-  '100%': '#ffccc7',
-};
-type PropTypes = {
-  percent: number;
-};
-
-const ProgressUi: React.FC<PropTypes> = (props) => {
-  const { percent } = props;
+const ProgressUi = ({ percent }: { percent: number }) => {
   return (
-    <Flex
-      vertical
-      gap="middle"
-    >
-      <Progress
-        percent={percent}
-        strokeColor={twoColors}
-        type="circle"
-        size={80}
-      />
-    </Flex>
+    <div className="card">
+      <ProgressBar value={percent}></ProgressBar>
+    </div>
   );
 };
 
