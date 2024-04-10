@@ -48,8 +48,6 @@ const ModalUpdatePassword = (props: PropTypes) => {
         setIsLoading(false);
       }
     } catch (error) {
-      console.log(error.response.data.message);
-
       setIsLoading(false);
       setAlert({
         message: error.response.data.message,
