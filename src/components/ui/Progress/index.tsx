@@ -1,4 +1,3 @@
-import React from 'react';
 import { ProgressBar } from 'primereact/progressbar';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
