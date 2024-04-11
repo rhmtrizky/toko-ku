@@ -11,10 +11,11 @@ type PropTypes = {
   updatedUser: any;
   setUpdatedUser: any;
   setUsersData: any;
+  setToaster: any;
 };
 
 const ModalUpdateUser = (props: PropTypes) => {
-  const { updatedUser, setUpdatedUser, setUsersData } = props;
+  const { updatedUser, setUpdatedUser, setUsersData, setToaster } = props;
   const [isLoading, setIsLoading] = useState(false);
   const session: any = useSession();
 
@@ -37,11 +38,19 @@ const ModalUpdateUser = (props: PropTypes) => {
         setUpdatedUser({});
         const { data } = await userService.getAllUsers(session.data?.accessToken);
         setUsersData(data.data);
+        setToaster({
+          variant: 'success',
+          message: 'Success Update User',
+        });
       }
     } catch (error) {
       setIsLoading(false);
       setIsLoading(false);
       setUpdatedUser({});
+      setToaster({
+        variant: 'error',
+        message: 'Failed Update User',
+      });
     }
   };
   return (

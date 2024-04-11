@@ -8,10 +8,11 @@ type PropTypes = {
   deletedUser: any;
   setDeletedUser: any;
   setUsersData: any;
+  setToaster: any;
 };
 
 const ModalDeleteUser = (props: PropTypes) => {
-  const { deletedUser, setDeletedUser, setUsersData } = props;
+  const { deletedUser, setDeletedUser, setUsersData, setToaster } = props;
   const [isLoading, setIsLoading] = useState(false);
   const session: any = useSession();
 
@@ -25,11 +26,19 @@ const ModalDeleteUser = (props: PropTypes) => {
         setDeletedUser({});
         const { data } = await userService.getAllUsers(session.data?.accessToken);
         setUsersData(data.data);
+        setToaster({
+          variant: 'success',
+          message: 'Success Delete User',
+        });
       }
     } catch (error) {
       setIsLoading(false);
       setIsLoading(false);
       setDeletedUser({});
+      setToaster({
+        variant: 'error',
+        message: 'Failed Delete User',
+      });
     }
   };
   return (

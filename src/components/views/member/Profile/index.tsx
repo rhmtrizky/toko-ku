@@ -13,17 +13,11 @@ type PropTypes = {
   profile: any;
   setProfile: any;
   session: any;
-};
-type AlertTypes = {
-  message: string;
-  status: boolean;
-  type: string;
-  statusCode?: any;
+  setToaster: any;
 };
 
 const ProfileMemberView = (props: PropTypes) => {
-  const [alert, setAlert] = useState<AlertTypes | undefined>(undefined);
-  const { profile, setProfile, session } = props;
+  const { profile, setProfile, session, setToaster } = props;
   const [changeImage, setChangeImage] = useState<any>({});
   const [isLoading, setIsLoading] = useState('');
   const [progressPercent, setProgressPercent] = useState<any>({});
@@ -46,33 +40,17 @@ const ProfileMemberView = (props: PropTypes) => {
           fullname: data.fullname,
         },
       });
-      setAlert({
+      setToaster({
+        variant: 'success',
         message: 'Success Update Profile',
-        status: true,
-        type: 'profile',
       });
-      setTimeout(() => {
-        setAlert({
-          message: '',
-          status: false,
-          type: 'profile',
-        });
-      }, 3000);
       setIsLoading('');
     } else {
       setIsLoading('');
-      setAlert({
+      setToaster({
+        variant: 'error',
         message: 'Failed Update Profile',
-        status: true,
-        type: 'profile',
       });
-      setTimeout(() => {
-        setAlert({
-          message: '',
-          status: false,
-          type: 'profile',
-        });
-      }, 3000);
     }
   };
 
@@ -110,26 +88,22 @@ const ProfileMemberView = (props: PropTypes) => {
                   status: !status,
                   progressPercent: 0,
                 });
+                setToaster({
+                  variant: 'success',
+                  message: 'Success Update Profile Image',
+                });
                 setIsLoading('');
                 setChangeImage({});
                 e.target[0].value = '';
               }
             } else {
-              setAlert({
-                message: '*Failed to upload image, size must be less than 1MB',
-                status: !status,
-                type: 'image',
+              setToaster({
+                variant: 'error',
+                message: 'Size image should be less than 1MB',
               });
-              setTimeout(() => {
-                setIsLoading('');
-                setChangeImage({});
-                e.target[0].value = '';
-                setAlert({
-                  message: '',
-                  status: status,
-                  type: 'image',
-                });
-              }, 5000);
+              setIsLoading('');
+              setChangeImage({});
+              e.target[0].value = '';
             }
           }
         );
@@ -191,7 +165,6 @@ const ProfileMemberView = (props: PropTypes) => {
                     }}
                   />
                 </div>
-                {alert?.status && alert?.type == 'image' && <p className="text-color-red font-semibold text-center text-sm italic">{alert.message}</p>}
 
                 {changeImage.name && (
                   <Button
@@ -204,24 +177,6 @@ const ProfileMemberView = (props: PropTypes) => {
             </form>
           </div>
           <div className="w-3/4 border-2 border-color-gray px-5 py-7 rounded-md">
-            <div className="w-full flex justify-center">
-              {alert?.status && alert.type == 'password' && alert?.statusCode == 200 && (
-                <div className="w-1/2">
-                  <AlertUi
-                    message={alert.message}
-                    type="success"
-                  />
-                </div>
-              )}
-              {alert?.status && alert?.type == 'profile' && (
-                <div className="w-1/2">
-                  <AlertUi
-                    message={alert.message}
-                    type="success"
-                  />
-                </div>
-              )}
-            </div>
             <form
               className="flex flex-col gap-2 mt-3"
               action=""
@@ -280,8 +235,7 @@ const ProfileMemberView = (props: PropTypes) => {
           profile={profile}
           session={session}
           setOpenModal={setOpenModal}
-          setAlert={setAlert}
-          alert={alert}
+          setToaster={setToaster}
         />
       )}
     </>

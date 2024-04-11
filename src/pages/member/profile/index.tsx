@@ -3,7 +3,12 @@ import userService from '@/services/user';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
-const MemberAdminProfile = () => {
+type PropTypes = {
+  setToaster: any;
+};
+
+const MemberAdminProfile = (props: PropTypes) => {
+  const { setToaster } = props;
   const [profile, setProfile] = useState({});
   const session: any = useSession();
   useEffect(() => {
@@ -25,6 +30,7 @@ const MemberAdminProfile = () => {
       profile={profile}
       setProfile={setProfile}
       session={session}
+      setToaster={setToaster}
     />
   );
 };

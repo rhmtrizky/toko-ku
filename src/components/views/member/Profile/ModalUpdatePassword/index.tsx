@@ -8,14 +8,21 @@ import { FormEvent, useState } from 'react';
 type PropTypes = {
   profile: any;
   session: any;
-  setAlert: any;
   setOpenModal: any;
-  alert: any;
+  setToaster: any;
+};
+
+type AlertTypes = {
+  message: string;
+  status: boolean;
+  type: string;
+  statusCode?: any;
 };
 
 const ModalUpdatePassword = (props: PropTypes) => {
-  const { profile, session, setAlert, setOpenModal, alert } = props;
+  const { profile, session, setOpenModal, setToaster } = props;
   const [isLoading, setIsLoading] = useState(false);
+  const [alert, setAlert] = useState<AlertTypes | undefined>(undefined);
 
   const handleUpdatPassword = async (event: FormEvent<HTMLFormElement>) => {
     try {
@@ -28,26 +35,15 @@ const ModalUpdatePassword = (props: PropTypes) => {
         encryptedPassword: profile.data.password,
       };
       const result = await userService.updateProfile(profile.data.id, data, session.data?.accessToken);
-      console.log(result);
       if (result.status == 200) {
-        setAlert({
+        setToaster({
+          variant: 'success',
           message: result.data.message,
-          status: true,
-          type: 'password',
-          statusCode: 200,
         });
-        setTimeout(() => {
-          setAlert({
-            message: '',
-            status: false,
-            type: 'password',
-            statusCode: 200,
-          });
-        }, 3000);
         setOpenModal(false);
         setIsLoading(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       setIsLoading(false);
       setAlert({
         message: error.response.data.message,

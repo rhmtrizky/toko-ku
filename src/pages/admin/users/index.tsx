@@ -3,7 +3,12 @@ import userService from '@/services/user';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
-const PageAdminUsers = () => {
+type PropTypes = {
+  setToaster: any;
+};
+
+const PageAdminUsers = (props: PropTypes) => {
+  const { setToaster } = props;
   const [users, setUsers] = useState([]);
   const session: any = useSession();
   useEffect(() => {
@@ -13,7 +18,12 @@ const PageAdminUsers = () => {
     };
     getAllUsers();
   }, []);
-  return <UsersAdminView users={users} />;
+  return (
+    <UsersAdminView
+      setToaster={setToaster}
+      users={users}
+    />
+  );
 };
 
 export default PageAdminUsers;
