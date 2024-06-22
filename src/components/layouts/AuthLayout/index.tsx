@@ -1,4 +1,3 @@
-import CarouselUi from '@/components/ui/Carousel';
 import Link from 'next/link';
 
 type PropTypes = {
