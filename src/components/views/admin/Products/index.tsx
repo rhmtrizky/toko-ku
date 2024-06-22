@@ -1,7 +1,5 @@
 import AdminLayout from '@/components/layouts/AdminLayout';
 import Button from '@/components/ui/Button';
-// import TableUi from '@/components/ui/TableUi';
-// import { Image, Space } from 'antd';
 import { useEffect } from 'react';
 import { useState } from 'react';
 

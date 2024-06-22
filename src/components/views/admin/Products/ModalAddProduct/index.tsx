@@ -4,7 +4,6 @@ import Modal from '@/components/ui/Modal';
 import Select from '@/components/ui/Select';
 import { uploadFile } from '@/lib/firebase/service';
 import productService from '@/services/product';
-// import { Image } from 'antd';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';

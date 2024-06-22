@@ -1,7 +1,5 @@
 import AdminLayout from '@/components/layouts/AdminLayout';
 import Button from '@/components/ui/Button';
-import TableUi from '@/components/ui/TableUi';
-import { Space } from 'antd';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import ModalUpdateUser from './ModalUpdateUser';

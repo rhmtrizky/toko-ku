@@ -6,9 +6,7 @@ import { uploadFile } from '@/lib/firebase/service';
 import userService from '@/services/user';
 import { useState } from 'react';
 import ModalUpdatePassword from './ModalUpdatePassword';
-import AlertUi from '@/components/ui/Alert';
 import Image from 'next/image';
-// import { Image } from 'antd';
 
 type PropTypes = {
   profile: any;
