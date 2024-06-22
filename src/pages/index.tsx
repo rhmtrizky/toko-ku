@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Navbar data={data} />
-      <h1>HOME PAGE dfdf</h1>
+      <h1>HOME PAGE</h1>
       {/* <p>halo bang {data?.user.fullname}</p> */}
     </>
   );
