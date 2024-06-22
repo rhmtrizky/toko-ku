@@ -57,27 +57,29 @@ const LoginView = () => {
   };
   return (
     <AuthLayout
-      title="Login"
+      title="LOGIN"
       link="/auth/register"
       linkText="Don't have an account?"
-      linkTitle="Register"
+      linkTitle="Create an account"
       isError={isError}
       errorText="Invalid email or password"
       subChildren={
         <>
-          <hr className="text-color-gray" />
-          <div className="flex flex-col gap-2">
+          <div className="flex justify-center items-center gap-2 w-full">
+            <div className="text-color-primary h-0.5 w-full bg-color-primary" />
+            <p className="text-color-primary italic text-sm">or</p>
+            <div className="text-color-primary h-0.5 w-full bg-color-primary" />
+          </div>
+          <div className="flex justify-center items-center gap-2 mt-1">
             <Button
-              label="Google"
               type="button"
-              className="bg-color-primary text-color-dark py-2 px-1 rounded-md"
+              className=" flex justify-center items-center bg-color-primary text-color-dark py-2 px-3 rounded-md"
               onClick={() => signIn('google', { callbackUrl: '/', redirect: false })}
               icon={GoogleIcon}
             />
             <Button
-              label="Github"
               type="button"
-              className="bg-color-primary text-color-dark py-2 px-1 rounded-md"
+              className=" flex justify-center items-center bg-color-primary text-color-dark py-2 px-3 rounded-md"
               onClick={() => signIn('github', { callbackUrl: '/', redirect: false })}
               icon={GithubIcon}
             />
@@ -87,28 +89,26 @@ const LoginView = () => {
     >
       <div>
         <form
-          className="flex flex-col gap-2"
+          className="flex flex-col gap-3"
           action=""
           onSubmit={handleSubmit}
         >
           <Input
-            label="email"
             type="email"
             name="email"
-            placeholder="example@example.com"
+            placeholder="Email"
           />
           {formErrors.email && <div className="text-color-red">{formErrors.email}</div>}
           <Input
-            label="password"
             type="password"
             name="password"
-            placeholder="password"
+            placeholder="Password"
           />
           {formErrors.password && <div className="text-color-red">{formErrors.password}</div>}
           <Button
-            label={isLoading ? 'Loading' : 'Login'}
+            label={isLoading ? 'Loading...' : 'Sign In'}
             type="submit"
-            className="bg-color-green text-color-primary py-2 px-1 rounded-md"
+            className="bg-color-red font-semibold text-color-primary py-2 px-1 rounded-md mt-2"
           />
         </form>
       </div>

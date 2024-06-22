@@ -1,5 +1,5 @@
 import instance from '@/lib/axios/instance';
-import headers from './headers';
+import headers from '../headers';
 
 const userService = {
   getAllUsers: (token: string) => instance.get('/api/user', headers(token)),

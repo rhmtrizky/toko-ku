@@ -4,10 +4,11 @@ import Input from '@/components/ui/Input';
 import ProgressUi from '@/components/ui/Progress';
 import { uploadFile } from '@/lib/firebase/service';
 import userService from '@/services/user';
-import Image from 'next/image';
 import { useState } from 'react';
 import ModalUpdatePassword from './ModalUpdatePassword';
 import AlertUi from '@/components/ui/Alert';
+import Image from 'next/image';
+// import { Image } from 'antd';
 
 type PropTypes = {
   profile: any;
@@ -63,6 +64,8 @@ const ProfileMemberView = (props: PropTypes) => {
       if (file) {
         uploadFile(
           profile?.data?.id,
+          'users',
+          'profile',
           file,
           (status: boolean, progressPercent: number) => {
             setProgressPercent({
@@ -75,6 +78,7 @@ const ProfileMemberView = (props: PropTypes) => {
               const data = {
                 image: downloadURL,
               };
+
               const result = await userService.updateProfile(profile.data.id, data, session.data?.accessToken);
               if (result.status == 200) {
                 setProfile({

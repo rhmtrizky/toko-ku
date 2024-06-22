@@ -66,7 +66,7 @@ const RegisterView = () => {
     <AuthLayout
       title="Register"
       link="/auth/login"
-      linkText="Don't have an account?"
+      linkText="Have an account?"
       linkTitle="Login"
       isError={isError}
       errorText="Email already registered"
@@ -78,31 +78,28 @@ const RegisterView = () => {
           onSubmit={handleSubmit}
         >
           <Input
-            label="email"
             type="email"
             name="email"
-            placeholder="example@example.com"
+            placeholder="Email"
           />
           {formErrors.email && <div className="text-color-red">{formErrors.email}</div>}
           <Input
-            label="fullname"
             type="text"
             name="fullname"
-            placeholder="Full Name"
+            placeholder="Fullname"
           />
           {formErrors.fullname && <div className="text-color-red">{formErrors.fullname}</div>}
           <Input
-            label="password"
             type="password"
             name="password"
-            placeholder="password"
+            placeholder="Password"
           />
           {formErrors.password && <div className="text-color-red">{formErrors.password}</div>}
 
           <Button
             label={isLoading ? 'Loading...' : 'Register'}
             type="submit"
-            className="bg-color-blue text-color-primary py-2 px-1 rounded-md"
+            className="bg-color-red text-color-primary py-2 px-1 rounded-md mt-4"
           />
         </form>
       </div>

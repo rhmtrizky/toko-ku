@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import ModalUpdateUser from './ModalUpdateUser';
 import ModalDeleteUser from './ModalDeleteUser';
+import TableNextUi from '@/components/ui/TableNextUi';
 
 type PropTypes = {
   users: any[];
@@ -25,54 +26,64 @@ const UsersAdminView = (props: PropTypes) => {
   const columns = [
     {
       title: 'No.',
-      key: 'No.',
-      render: (_: any, user: any, index: any) => <p>{index + 1}</p>,
+      uid: 'index',
     },
     {
       title: 'Fullname',
-      dataIndex: 'fullname',
-      key: 'fullname',
+      uid: 'fullname',
     },
     {
       title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      uid: 'email',
     },
     {
       title: 'Role',
-      dataIndex: 'role',
-      key: 'role',
+      uid: 'role',
     },
     {
       title: 'Actions',
-      key: 'actions',
-      render: (_: any, user: any) => (
-        <Space size="middle">
-          <Button
-            label="Update"
-            type="button"
-            className="bg-color-blue text-color-primary py-1 px-3 rounded-md font-semibold"
-            onClick={() => setUpdatedUser(user)}
-          />
-          <Button
-            label="Delete"
-            type="button"
-            className="bg-color-red text-color-primary py-1 px-3 rounded-md font-semibold"
-            onClick={() => setDeletedUser(user)}
-          />
-        </Space>
-      ),
+      uid: 'actions',
     },
   ];
+
+  const renderCellContent = (data: any, columnKey: any) => {
+    switch (columnKey) {
+      case 'index': {
+        return <p>{data.index + 1}</p>;
+      }
+      case 'actions':
+        return (
+          <div className="flex gap-2 justify-center items-center">
+            <Button
+              label="Update"
+              type="button"
+              className="bg-color-blue text-color-primary py-1 px-3 rounded-md font-semibold"
+              onClick={() => setUpdatedUser(data)}
+            />
+            <Button
+              label="Delete"
+              type="button"
+              className="bg-color-red text-color-primary py-1 px-3 rounded-md font-semibold"
+              onClick={() => setDeletedUser(data)}
+            />
+          </div>
+        );
+      default:
+        return data[columnKey];
+    }
+  };
+
+  const processedData = usersData.map((user: any, index: any) => ({ ...user, index }));
 
   return (
     <>
       <AdminLayout>
         <h1 className="text-2xl font-bold mb-5">Users Management</h1>
         <div>
-          <TableUi
-            data={usersData}
+          <TableNextUi
+            data={processedData}
             columns={columns}
+            renderCellContent={renderCellContent}
           />
         </div>
       </AdminLayout>

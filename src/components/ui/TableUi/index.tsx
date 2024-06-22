@@ -11,7 +11,7 @@ type PropTypes = {
   columns: any[];
 };
 
-const TableUi: React.FC<PropTypes> = (props) => {
+const TableUi = (props: PropTypes) => {
   const { data, columns } = props;
 
   return (

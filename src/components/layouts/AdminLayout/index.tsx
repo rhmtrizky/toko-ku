@@ -16,6 +16,11 @@ const SideBarItems = [
     url: '/admin/users',
     icon: 'bxs-group',
   },
+  {
+    title: 'My Account',
+    url: '/member',
+    icon: 'bxs-group',
+  },
 ];
 
 type PropTypes = {

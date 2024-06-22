@@ -16,6 +16,8 @@ type PropTypes = {
 
 const ModalUpdateUser = (props: PropTypes) => {
   const { updatedUser, setUpdatedUser, setUsersData, setToaster } = props;
+  console.log(updatedUser);
+
   const [isLoading, setIsLoading] = useState(false);
   const session: any = useSession();
 
@@ -26,7 +28,7 @@ const ModalUpdateUser = (props: PropTypes) => {
     const data = {
       fullname: form.fullname.value,
       email: form.email.value,
-      password: form.password.value,
+      password: form.password.value === null ? updatedUser.password : form.password.value,
       role: form.role.value,
     };
 

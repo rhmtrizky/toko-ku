@@ -18,7 +18,7 @@ const Button = (props: any) => {
       type={type}
       disabled={disabled}
     >
-      <div className="flex gap-2 justify-center items-center">
+      <div>
         {icon && (
           <Image
             src={icon}
