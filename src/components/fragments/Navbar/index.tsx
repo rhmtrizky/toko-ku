@@ -9,7 +9,7 @@ import SideBar from '../SideBar';
 import { IoClose } from 'react-icons/io5';
 
 const Navbar = () => {
-  const { data } = useSession();
+  const { data }: any = useSession();
   const [sidebar, setSidebar] = useState(false);
 
   const SideBarItems = [
