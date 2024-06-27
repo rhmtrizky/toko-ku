@@ -43,7 +43,7 @@ const ModalDeleteUser = (props: PropTypes) => {
   };
   return (
     <Modal onClose={() => setDeletedUser('')}>
-      <h1 className="text-xl font-semibold mb-3">
+      <h1 className="text-lg font-semibold mb-3">
         Are you sure to delete <span className="text-color-red">{`"${deletedUser.fullname}"`}</span>?
       </h1>
       <div className="flex justify-end gap-3 mt-5">

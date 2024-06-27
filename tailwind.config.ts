@@ -12,6 +12,7 @@ const config: Config = {
     colors: {
       color: {
         primary: '#F6F6EE',
+        white: '#FFFFFF',
         green: '#1BDA38',
         secondary: '#393e46',
         dark: '#222831',
@@ -23,6 +24,7 @@ const config: Config = {
         input: '#E4E4E4',
         pink: '#DCA8A3',
         textPink: '#9A9090',
+        cream: '#EBEBDF',
       },
     },
   },

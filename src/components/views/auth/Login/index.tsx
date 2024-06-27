@@ -1,12 +1,11 @@
 import { signIn } from 'next-auth/react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import GoogleIcon from '../../../../../public/googleIcon.png';
 import GithubIcon from '../../../../../public/githubIcon.png';
-import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import AuthLayout from '@/components/layouts/AuthLayout';
+import InputUi from '@/components/ui/Input';
 
 const LoginView = () => {
   const { push, query } = useRouter();
@@ -89,17 +88,17 @@ const LoginView = () => {
     >
       <div>
         <form
-          className="flex flex-col gap-3"
+          className="flex flex-col gap-2"
           action=""
           onSubmit={handleSubmit}
         >
-          <Input
+          <InputUi
             type="email"
             name="email"
             placeholder="Email"
           />
           {formErrors.email && <div className="text-color-red">{formErrors.email}</div>}
-          <Input
+          <InputUi
             type="password"
             name="password"
             placeholder="Password"
@@ -108,7 +107,7 @@ const LoginView = () => {
           <Button
             label={isLoading ? 'Loading...' : 'Sign In'}
             type="submit"
-            className="bg-color-red font-semibold text-color-primary py-2 px-1 rounded-md mt-2"
+            className="bg-color-red font-semibold text-color-primary py-2 px-1 rounded-md mt-5"
           />
         </form>
       </div>

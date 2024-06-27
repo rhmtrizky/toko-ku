@@ -7,6 +7,7 @@
 @layer base {
   html {
     font-family: 'poppins', sans-serif;
+    background-color: #bc7050;
     /* .rubik {
       font-family: 'Rubik', sans-serif;
       font-optical-sizing: auto;
@@ -14,4 +15,8 @@
       font-style: normal;
     } */
   }
+}
+
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }

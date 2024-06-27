@@ -1,0 +1,21 @@
+{
+  "items": {
+    "responsive": [
+      {
+        "id": 1,
+
+        "imageUrl": "https://spaces.ilfen.co/assets/image/produk/1719028672-WhatsApp_Image_2024-06-20_at_16_17_43_(1).jpeg"
+      },
+      {
+        "id": 2,
+        "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quos mollitia sed quod consectetur at quam dolore praesentium neque eos assumenda iusto nam laborum laboriosam odio blanditiis possimus accusantium recusandae porro exercitationem itaque",
+        "imageUrl": "https://spaces.ilfen.co/assets/image/produk/1719028672-WhatsApp_Image_2024-06-20_at_17_01_20_(1).jpeg"
+      },
+      {
+        "id": 3,
+
+        "imageUrl": "https://spaces.ilfen.co/assets/image/produk/1719028672-WhatsApp_Image_2024-06-20_at_16_17_43_(1).jpeg"
+      }
+    ]
+  }
+}

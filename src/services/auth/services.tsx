@@ -6,14 +6,16 @@ export async function signUp(
     email: string;
     fullname: string;
     password: string;
+    phoneNumber: string;
     image?: string;
     role: string;
   },
   callback: Function
 ) {
-  const data = await retrieveDataByField('users', 'email', userData.email);
+  const dataEmail = await retrieveDataByField('users', 'email', userData.email);
+  const dataPhoneNumber = await retrieveDataByField('users', 'phoneNumber', userData.phoneNumber);
 
-  if (data.length > 0) {
+  if (dataEmail.length > 0 || dataPhoneNumber.length > 0) {
     callback(false);
   } else {
     if (!userData.role) {

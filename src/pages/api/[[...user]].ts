@@ -22,10 +22,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     let field = {
       fullname: '',
       email: '',
+      phoneNumber: '',
       password: '',
       role: '',
     };
     field.fullname = data.fullname;
+    field.phoneNumber = data.phoneNumber;
     field.email = data.email;
     field.role = data.role;
     if (data.password) {

@@ -1,7 +1,7 @@
 import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import InputUi from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
-import Select from '@/components/ui/Select';
+import SelectUi from '@/components/ui/Select';
 import { uploadFile } from '@/lib/firebase/service';
 import productService from '@/services/product';
 import { useSession } from 'next-auth/react';
@@ -32,6 +32,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
       stock: form.stock.value,
       category: form.category.value,
     };
+    console.log(data.category);
 
     try {
       const result = await productService.updateProduct(updatedProduct.id, data, session.data?.accessToken);
@@ -40,7 +41,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
         await handleImageUpload(imageFile, updatedProduct.id);
         setIsLoading(false);
         setUpdatedProduct({});
-        const { data } = await productService.getAllProducts(session.data?.accessToken);
+        const { data } = await productService.getAllProducts();
         setProductsData(data.data);
         setToaster({
           variant: 'success',
@@ -77,7 +78,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
           };
           const result = await productService.updateProduct(productId, data, session.data?.accessToken);
           if (result.status === 200) {
-            const { data } = await productService.getAllProducts(session.data?.accessToken);
+            const { data } = await productService.getAllProducts();
             setProductsData(data.data);
             setToaster({
               variant: 'success',
@@ -102,44 +103,44 @@ const ModalUpdateProduct = (props: PropTypes) => {
   };
   return (
     <Modal onClose={() => setUpdatedProduct({})}>
-      <h1 className="text-2xl font-semibold mb-3">Update User</h1>
+      <h1 className="text-lg font-semibold mb-3">Update User</h1>
       <form
-        className="flex flex-col gap-2"
+        className="flex flex-col gap-4"
         action=""
         onSubmit={handleUpdateProduct}
       >
-        <Input
+        <InputUi
           label="Title"
           type="name"
           name="name"
+          placeholder="Title"
           defaultValue={updatedProduct.name}
         />
-        <Input
+        <InputUi
           label="Price"
-          type="price"
+          type="number"
           name="price"
+          placeholder="Price"
           defaultValue={updatedProduct.price}
         />
-        <Input
+        <InputUi
           label="Stock"
-          type="stock"
+          type="number"
           name="stock"
-          placeholder="stock"
+          placeholder="Stock"
           defaultValue={updatedProduct.stock}
         />
-        <Select
+        <SelectUi
           label="Category"
-          className="w-full border-2 border-color-gray px-3 py-2 rounded-md bg-color-input"
           name="category"
           defaultValue={updatedProduct.category}
           options={[
-            { value: '', label: 'Choose Category' },
             { value: 'kalung', label: 'Kalung' },
             { value: 'gelang', label: 'Gelang' },
             { value: 'cincin', label: 'Cincin' },
           ]}
         />
-        <div className="relative w-full h-40 flex flex-col justify-center items-center">
+        <div className="relative w-full h-40 flex flex-col justify-center items-center border-2 border-color-gray rounded-md">
           {imageFile ? (
             <div className="flex flex-col justify-center items-center gap-2">
               <Image

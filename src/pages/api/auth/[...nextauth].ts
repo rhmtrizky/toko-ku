@@ -51,6 +51,7 @@ const authOptions: NextAuthOptions = {
       if (account?.provider === 'credentials') {
         token.email = user.email;
         token.fullname = user.fullname;
+        token.phoneNumber = user.phoneNumber;
         token.password = user.password;
         token.role = user.role;
         token.id = user.id;
@@ -62,12 +63,14 @@ const authOptions: NextAuthOptions = {
           email: user.email,
           image: user?.image,
           fullname: user.name,
+          phoneNumber: '',
           type: 'google',
         };
 
         await loginWithGoogle(data, (data: any) => {
           token.email = data.email;
           token.fullname = data.fullname;
+          token.phoneNumber = data.phoneNumber;
           token.image = data?.image;
           token.role = data.role;
           token.id = data.id;
@@ -79,12 +82,14 @@ const authOptions: NextAuthOptions = {
           email: user?.email,
           image: user?.image,
           fullname: user?.name,
+          phoneNumber: '',
           type: 'github',
         };
 
         await loginWithGithub(data, (data: any) => {
           token.email = data.email;
           token.fullname = data.fullname;
+          token.phoneNumber = data.phoneNumber;
           token.image = data?.image;
           token.role = data.role;
         });
@@ -97,6 +102,9 @@ const authOptions: NextAuthOptions = {
       }
       if ('fullname' in token) {
         session.user.fullname = token.fullname;
+      }
+      if ('phoneNumber' in token) {
+        session.user.phoneNumber = token.phoneNumber;
       }
       if ('password' in token) {
         session.user.password = token.password;

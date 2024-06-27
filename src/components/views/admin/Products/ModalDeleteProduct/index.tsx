@@ -24,7 +24,7 @@ const ModalDeleteproduct = (props: PropTypes) => {
       if (result.status == 200) {
         setIsLoading(false);
         setDeletedProduct({});
-        const { data } = await productService.getAllProducts(session.data?.accessToken);
+        const { data } = await productService.getAllProducts();
         setProductsData(data.data);
         setToaster({
           variant: 'success',
@@ -43,7 +43,7 @@ const ModalDeleteproduct = (props: PropTypes) => {
   };
   return (
     <Modal onClose={() => setDeletedProduct('')}>
-      <h1 className="text-xl font-semibold mb-3">
+      <h1 className="text-md font-semibold mb-3">
         Are you sure to delete <span className="text-color-red">{`"${deletedProduct.name}"`}</span>?
       </h1>
       <div className="flex justify-end gap-3 mt-5">

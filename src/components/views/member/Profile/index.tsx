@@ -1,12 +1,12 @@
 import MemberLayout from '@/components/layouts/MemberLayout';
 import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
 import ProgressUi from '@/components/ui/Progress';
 import { uploadFile } from '@/lib/firebase/service';
 import userService from '@/services/user';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalUpdatePassword from './ModalUpdatePassword';
 import Image from 'next/image';
+import InputUi from '@/components/ui/Input';
 
 type PropTypes = {
   profile: any;
@@ -28,6 +28,7 @@ const ProfileMemberView = (props: PropTypes) => {
     const form: any = e.target as HTMLFormElement;
     const data = {
       fullname: form.fullname.value,
+      phoneNumber: form.phoneNumber.value,
     };
 
     const result = await userService.updateProfile(profile.data.id, data, session.data?.accessToken);
@@ -37,6 +38,7 @@ const ProfileMemberView = (props: PropTypes) => {
         data: {
           ...profile.data,
           fullname: data.fullname,
+          phoneNumber: data.phoneNumber,
         },
       });
       setToaster({
@@ -143,7 +145,7 @@ const ProfileMemberView = (props: PropTypes) => {
                     <p className="text-center text-sm p-3 bg-color-gray rounded-md">{changeImage.name}</p>
                   ) : (
                     <div className="text-center text-sm p-3 bg-color-gray rounded-md">
-                      <p>Upload new Aavatar, larger image will be resize automatically</p>
+                      <p>Upload new avatar, larger image will be resize automatically</p>
                       <br />
                       <div>
                         <p>
@@ -184,20 +186,27 @@ const ProfileMemberView = (props: PropTypes) => {
               action=""
               onSubmit={handleUpdateProfile}
             >
-              <Input
+              <InputUi
                 label="Fullname"
                 type="fullname"
                 name="fullname"
                 defaultValue={profile?.data?.fullname}
               />
 
-              <Input
+              <InputUi
                 label="Email"
                 type="email"
                 name="email"
                 defaultValue={profile?.data?.email}
                 disabled
               />
+              <InputUi
+                label="Phone Number"
+                type="number"
+                name="phoneNumber"
+                defaultValue={profile?.data?.phoneNumber}
+              />
+              {profile?.data?.phoneNumber == '' && <p className="text-sm text-color-red ">Please enter a valid phone number</p>}
               <label
                 htmlFor="Password"
                 className="font-semibold"

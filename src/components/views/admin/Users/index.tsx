@@ -35,6 +35,10 @@ const UsersAdminView = (props: PropTypes) => {
       uid: 'email',
     },
     {
+      title: 'Phone Number',
+      uid: 'phoneNumber',
+    },
+    {
       title: 'Role',
       uid: 'role',
     },

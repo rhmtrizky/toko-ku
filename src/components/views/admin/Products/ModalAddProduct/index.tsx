@@ -1,5 +1,5 @@
 import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import InputUi from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
 import Select from '@/components/ui/Select';
 import { uploadFile } from '@/lib/firebase/service';
@@ -43,7 +43,7 @@ const ModalAddProduct = (props: PropTypes) => {
         } else {
           setIsLoading(false);
           setOpenModalAddProduct(false);
-          const { data } = await productService.getAllProducts(session.data?.accessToken);
+          const { data } = await productService.getAllProducts();
           setProductsData(data.data);
           setToaster({
             variant: 'success',
@@ -55,7 +55,7 @@ const ModalAddProduct = (props: PropTypes) => {
       console.error(error);
       setIsLoading(false);
       setOpenModalAddProduct(false);
-      const { data } = await productService.getAllProducts(session.data?.accessToken);
+      const { data } = await productService.getAllProducts();
       setProductsData(data.data);
       setToaster({
         variant: 'error',
@@ -83,7 +83,7 @@ const ModalAddProduct = (props: PropTypes) => {
           };
           const result = await productService.updateProduct(productId, data, session.data?.accessToken);
           if (result.status === 200) {
-            const { data } = await productService.getAllProducts(session.data?.accessToken);
+            const { data } = await productService.getAllProducts();
             setProductsData(data.data);
             setToaster({
               variant: 'success',
@@ -110,27 +110,23 @@ const ModalAddProduct = (props: PropTypes) => {
 
   return (
     <Modal onClose={() => setOpenModalAddProduct(true)}>
-      <h1 className="text-2xl font-semibold mb-3">Add Product</h1>
+      <h1 className="text-lg font-semibold mb-1">Add Product</h1>
       <form
         className="flex flex-col gap-2"
         onSubmit={handleAddProduct}
       >
-        <Input
-          label="Product Name"
+        <InputUi
           type="text"
           name="name"
-          placeholder="Input product name"
+          placeholder="Product Name"
         />
-        <Input
-          label="Price"
+        <InputUi
           type="number"
           name="price"
-          placeholder="Input price"
+          placeholder="Price"
         />
-
         <Select
           label="Category"
-          className="w-full border-2 border-color-gray px-3 py-2 rounded-md bg-color-input"
           name="category"
           options={[
             { value: '', label: 'Choose Category' },
@@ -139,13 +135,13 @@ const ModalAddProduct = (props: PropTypes) => {
             { value: 'cincin', label: 'Cincin' },
           ]}
         />
-        <Input
+        <InputUi
           label="Stock"
           type="number"
           name="stock"
           placeholder="Input stock"
         />
-        <div className="relative w-full h-40 flex flex-col justify-center items-center">
+        <div className="relative w-full h-full py-2 flex flex-col justify-center items-center border-2 border-color-gray rounded-md mt-2">
           {imageFile ? (
             <div className="flex flex-col justify-center items-center gap-2">
               <Image
@@ -186,10 +182,10 @@ const ModalAddProduct = (props: PropTypes) => {
             </>
           )}
         </div>
-        <div className="flex justify-end w-full bg-color-primary gap-3">
+        <div className="flex justify-end w-full gap-3">
           <Button
             label={'Cancel'}
-            className="bg-color-primary text-color-dark py-1 px-3 rounded-md mt-3 border-2 border-color-gray"
+            className=" text-color-dark py-1 px-3 rounded-md mt-3 border-2 border-color-gray"
             disabled={isLoading}
             onClick={() => setOpenModalAddProduct(false)}
           />

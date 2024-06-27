@@ -1,4 +1,4 @@
-import { classNames } from 'primereact/utils';
+import { Input } from '@nextui-org/react';
 
 type InputProps = {
   label?: string;
@@ -11,29 +11,23 @@ type InputProps = {
   className?: string;
 };
 
-const Input = (props: InputProps) => {
-  const { label, type, name, placeholder, defaultValue, disabled, onChange, className } = props;
+const InputUi = (props: InputProps) => {
+  const { label, type, name, placeholder, defaultValue, disabled, onChange } = props;
+  console.log(defaultValue);
+
   return (
-    <div className="flex flex-col gap-1">
-      <label
-        htmlFor={name}
-        className="font-semibold"
-      >
-        {label}
-      </label>
-      <input
-        className={className ? className : 'disabled:opacity-60 w-full border-color-input border-2  px-3 py-2 rounded-md bg-color-primary text-color-dark '}
-        type={type}
-        id={name}
-        name={name}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-        disabled={disabled}
-        onChange={onChange ? onChange : () => {}}
-        style={{ outline: 'none' }}
-      />
-    </div>
+    <Input
+      key={'inside'}
+      labelPlacement={'inside'}
+      type={type}
+      name={name}
+      label={label ? label : placeholder}
+      defaultValue={defaultValue}
+      disabled={disabled}
+      onChange={onChange}
+      style={{ outline: 'none', backgroundColor: 'transparent' }}
+    />
   );
 };
 
-export default Input;
+export default InputUi;

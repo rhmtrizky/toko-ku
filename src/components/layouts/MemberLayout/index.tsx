@@ -29,7 +29,7 @@ const MemberLayout = (props: PropTypes) => {
         lists={SideBarItems}
         title="Toko-ku"
       />
-      <div className="w-full px-10 py-7">{children}</div>
+      <div className="ml-[20%] w-full px-10 py-7 h-auto min-h-screen">{children}</div>
     </div>
   );
 };

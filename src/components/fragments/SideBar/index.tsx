@@ -16,7 +16,7 @@ const SideBar = (props: PropTypes) => {
   const { pathname } = useRouter();
 
   return (
-    <div className="w-60 h-screen bg-color-dark flex flex-col justify-between p-5">
+    <div className="w-1/5 h-screen fixed bg-color-dark flex flex-col justify-between p-5">
       <div className="">
         <h1 className="text-color-primary font-semibold text-2xl">{title}</h1>
         <div className="flex flex-col gap-2 mt-7">

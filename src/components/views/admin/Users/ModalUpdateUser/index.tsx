@@ -1,10 +1,9 @@
 import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import InputUi from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
-import Select from '@/components/ui/Select';
+import SelectUi from '@/components/ui/Select';
 import userService from '@/services/user';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
 type PropTypes = {
@@ -16,7 +15,6 @@ type PropTypes = {
 
 const ModalUpdateUser = (props: PropTypes) => {
   const { updatedUser, setUpdatedUser, setUsersData, setToaster } = props;
-  console.log(updatedUser);
 
   const [isLoading, setIsLoading] = useState(false);
   const session: any = useSession();
@@ -28,6 +26,7 @@ const ModalUpdateUser = (props: PropTypes) => {
     const data = {
       fullname: form.fullname.value,
       email: form.email.value,
+      phoneNumber: form.phoneNumber.value,
       password: form.password.value === null ? updatedUser.password : form.password.value,
       role: form.role.value,
     };
@@ -57,33 +56,41 @@ const ModalUpdateUser = (props: PropTypes) => {
   };
   return (
     <Modal onClose={() => setUpdatedUser({})}>
-      <h1 className="text-2xl font-semibold mb-3">Update User</h1>
+      <h1 className="text-lg font-semibold mb-5">Update User</h1>
       <form
-        className="flex flex-col gap-2"
+        className="flex flex-col gap-4"
         action=""
         onSubmit={handleUpdateUser}
       >
-        <Input
+        <InputUi
           label="Fullname"
           type="fullname"
           name="fullname"
+          placeholder="Fullname"
           defaultValue={updatedUser.fullname}
         />
-        <Input
+        <InputUi
           label="Email"
           type="email"
           name="email"
+          placeholder="Email"
           defaultValue={updatedUser.email}
         />
-        <Input
+        <InputUi
+          label="Phone Number"
+          type="number"
+          name="phoneNumber"
+          placeholder="Phone Number"
+          defaultValue={updatedUser.phoneNumber}
+        />
+        <InputUi
           label="Password"
           type="password"
           name="password"
           placeholder="Password"
         />
-        <Select
+        <SelectUi
           label="Role"
-          className="w-full border-2 border-color-gray px-3 py-2 rounded-md bg-color-input"
           name="role"
           defaultValue={updatedUser.role}
           options={[

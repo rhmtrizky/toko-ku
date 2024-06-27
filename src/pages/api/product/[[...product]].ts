@@ -7,16 +7,12 @@ import jwtAuth from '@/middlewares/jwtAuth';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { product }: any = req.query;
   if (req.method === 'GET') {
-    jwtAuth(req, res, async (decoded: any) => {
-      if (decoded) {
-        const products = await retrieveData('products');
-        const data = products.map((product: any) => {
-          // delete user.password;
-          return product;
-        });
-        res.status(200).json({ status: true, message: 'Success', data: data });
-      }
+    const products = await retrieveData('products');
+    const data = products.map((product: any) => {
+      // delete user.password;
+      return product;
     });
+    res.status(200).json({ status: true, message: 'Success', data: data });
   } else if (req.method === 'POST') {
     jwtAuth(req, res, async (decoded: any) => {
       let { data } = req.body;
