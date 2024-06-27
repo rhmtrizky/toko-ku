@@ -11,7 +11,6 @@ export default function Home() {
     try {
       const { data } = await productService.getAllProducts();
       setProducts(data.data);
-      console.log(data.data);
     } catch (error) {
       console.error('Error fetching products:', error);
     }

@@ -1,5 +1,7 @@
 import Button from '@/components/ui/Button';
+import userService from '@/services/user';
 import Converter from '@/utils/Converter';
+import { set } from 'firebase/database';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -8,31 +10,69 @@ import { FaMinus, FaPlus } from 'react-icons/fa';
 
 type PropTypes = {
   product: any;
+  productId: any;
+  cart: any;
+  setToaster: any;
 };
 
 const DetailProductView = (props: PropTypes) => {
-  const { product } = props;
-  const { status }: any = useSession();
+  const { product, productId, cart, setToaster } = props;
+  const { status, data: session }: any = useSession();
   const router = useRouter();
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(1);
-  console.log(status);
 
   useEffect(() => {
     if (product?.price) {
-      setPrice(parseInt(product?.price) * qty);
+      setPrice(parseInt(product.price, 10) * qty);
     }
   }, [product, qty]);
 
   useEffect(() => {
     if (qty < 1) {
       setQty(1);
-      setPrice(parseInt(product?.price) * qty);
+    } else if (product?.price) {
+      setPrice(parseInt(product.price, 10) * qty);
     }
-  }, [qty]);
+  }, [qty, product]);
 
   const handleAddToCart = async () => {
-    console.log('add to cart');
+    let newCart = [];
+
+    const existingItem = cart?.find((item: any) => item.id === productId);
+
+    if (existingItem) {
+      newCart = cart.map((item: any) => {
+        if (item.id === productId) {
+          return { ...item, qty: item.qty + qty };
+        }
+        return item;
+      });
+    } else {
+      newCart = [
+        ...(cart || []),
+        {
+          id: productId,
+          qty: qty,
+        },
+      ];
+    }
+
+    try {
+      const result = await userService.addToCart({ carts: newCart }, session?.accessToken);
+      if (result.status === 200) {
+        setToaster({
+          variant: 'success',
+          message: 'Successfully Added Item To Cart',
+        });
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      setToaster({
+        variant: 'error',
+        message: 'Failed Added Item To Cart',
+      });
+    }
   };
 
   return (

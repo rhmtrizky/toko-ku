@@ -6,7 +6,6 @@ import jwtAuth from '@/middlewares/jwtAuth';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     const { product }: any = req.query;
-    console.log(product);
     if (product) {
       const detailProduct = await retrieveDataById('products', product[0]);
       res.status(200).json({ status: true, message: 'Success', data: detailProduct });

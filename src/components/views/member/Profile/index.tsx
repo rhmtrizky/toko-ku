@@ -3,7 +3,7 @@ import Button from '@/components/ui/Button';
 import ProgressUi from '@/components/ui/Progress';
 import { uploadFile } from '@/lib/firebase/service';
 import userService from '@/services/user';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ModalUpdatePassword from './ModalUpdatePassword';
 import Image from 'next/image';
 import InputUi from '@/components/ui/Input';

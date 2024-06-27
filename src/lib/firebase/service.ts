@@ -78,7 +78,6 @@ export async function uploadFile(id: string, type: string, name: string, file: a
         'state_changed',
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(progress);
           progressCallback(true, progress);
         },
         (err) => {

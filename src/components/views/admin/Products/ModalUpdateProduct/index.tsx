@@ -32,7 +32,6 @@ const ModalUpdateProduct = (props: PropTypes) => {
       stock: form.stock.value,
       category: form.category.value,
     };
-    console.log(data.category);
 
     try {
       const result = await productService.updateProduct(updatedProduct.id, data, session.data?.accessToken);

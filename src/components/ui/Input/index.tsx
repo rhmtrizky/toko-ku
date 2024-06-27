@@ -13,7 +13,6 @@ type InputProps = {
 
 const InputUi = (props: InputProps) => {
   const { label, type, name, placeholder, defaultValue, disabled, onChange } = props;
-  console.log(defaultValue);
 
   return (
     <Input
