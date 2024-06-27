@@ -18,7 +18,6 @@ const SideBar = (props: PropTypes) => {
   const { lists, title, closeIcon, onClick, bgColor } = props;
   const { pathname } = useRouter();
   const { status } = useSession();
-  console.log(status);
 
   return (
     <div className={`lg:w-1/5 md:w-[50%] sm:w-[70%] w-[70%] h-screen fixed bg-color-${bgColor} flex flex-col justify-between p-5`}>

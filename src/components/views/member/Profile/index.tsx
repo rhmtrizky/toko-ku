@@ -136,7 +136,7 @@ const ProfileMemberView = (props: PropTypes) => {
                   />
                 ) : (
                   <div className="rounded-full p-3 w-48 h-48 bg-color-gray flex justify-center items-center mb-4">
-                    <h1 className="text-7xl font-bold text-color-blue">{profile.data?.fullname.charAt(0)}</h1>
+                    <h1 className="text-7xl font-bold text-color-blue">{profile.data?.fullname?.charAt(0)}</h1>
                   </div>
                 )}
 

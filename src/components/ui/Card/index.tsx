@@ -3,6 +3,7 @@ import { Card, CardBody, CardFooter } from '@nextui-org/react';
 import Converter from '@/utils/Converter';
 import Button from '../Button';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const CardProduct = ({ title, datas, setDetailProduct }: any) => {
   return (
@@ -16,15 +17,20 @@ const CardProduct = ({ title, datas, setDetailProduct }: any) => {
             isPressable
             onPress={() => console.log('item pressed')}
           >
-            <CardBody className="overflow-visible p-0">
-              <Image
-                width={200}
-                height={200}
-                alt={data.name}
-                className="w-full object-cover h-[230px] shadow-md rounded-md"
-                src={data.image}
-              />
-            </CardBody>
+            <Link
+              href={`/products/${data.id}`}
+              className="w-full"
+            >
+              <CardBody className="overflow-visible p-0">
+                <Image
+                  width={200}
+                  height={200}
+                  alt={data.name}
+                  className="w-full object-cover h-[230px] shadow-md rounded-md"
+                  src={data.image}
+                />
+              </CardBody>
+            </Link>
 
             <CardFooter className="text-small flex lg:flex-row md:flex-row sm:flex-col flex-col justify-between lg:items-center md:items-centersm:items-start items-start gap-2">
               <div className="flex flex-col justify-center items-start">

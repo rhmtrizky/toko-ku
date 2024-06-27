@@ -108,7 +108,7 @@ const Navbar = () => {
         <div className="lg:w-[0] md:w-[50%] sm:w-[70%] w-[70%] h-screen bg-color-primary absolute top-0 left-0 lg:hidden md:flex sm:flex flex bg-color-red">
           <SideBar
             lists={SideBarItems}
-            title={`Hallo, ${data && !data?.user?.hasOwnProperty('fullname') ? data?.user?.name?.split(' ')[0] : data?.user?.fullname?.split(' ')[0]}`}
+            title={`${data ? `Hallo, ${data?.user?.name?.split(' ')[0] || data?.user?.fullname?.split(' ')[0]}` : 'Please Login First...'}`}
             closeIcon={<IoClose />}
             onClick={() => setSidebar(!sidebar)}
             bgColor={'pink'}

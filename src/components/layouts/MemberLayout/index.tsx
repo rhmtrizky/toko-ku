@@ -28,6 +28,7 @@ const MemberLayout = (props: PropTypes) => {
       <SideBar
         lists={SideBarItems}
         title="Toko-ku"
+        bgColor={'pink'}
       />
       <div className="ml-[20%] w-full px-10 py-7 h-auto min-h-screen">{children}</div>
     </div>

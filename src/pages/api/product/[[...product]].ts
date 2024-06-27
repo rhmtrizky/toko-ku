@@ -1,17 +1,19 @@
-import { addData, deleteData, retrieveData, updateData } from '@/lib/firebase/service';
+import { addData, deleteData, retrieveData, retrieveDataById, updateData } from '@/lib/firebase/service';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import jwtAuth from '@/middlewares/jwtAuth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { product }: any = req.query;
   if (req.method === 'GET') {
-    const products = await retrieveData('products');
-    const data = products.map((product: any) => {
-      // delete user.password;
-      return product;
-    });
-    res.status(200).json({ status: true, message: 'Success', data: data });
+    const { product }: any = req.query;
+    console.log(product);
+    if (product) {
+      const detailProduct = await retrieveDataById('products', product[0]);
+      res.status(200).json({ status: true, message: 'Success', data: detailProduct });
+    } else {
+      const products = await retrieveData('products');
+      res.status(200).json({ status: true, message: 'Success', data: products });
+    }
   } else if (req.method === 'POST') {
     jwtAuth(req, res, async (decoded: any) => {
       let { data } = req.body;
@@ -37,6 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
   } else if (req.method === 'PUT') {
     jwtAuth(req, res, async (decoded: any) => {
+      const { product }: any = req.query;
       const { data } = req.body;
 
       if (decoded && decoded.role === 'admin') {
@@ -53,6 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
   } else if (req.method === 'DELETE') {
     jwtAuth(req, res, async (decoded: any) => {
+      const { product }: any = req.query;
       if (decoded && decoded.role === 'admin') {
         await deleteData('products', product[0], (result: boolean) => {
           if (result) {
