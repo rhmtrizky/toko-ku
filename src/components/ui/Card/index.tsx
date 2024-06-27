@@ -6,8 +6,8 @@ import Image from 'next/image';
 
 const CardProduct = ({ title, datas, setDetailProduct }: any) => {
   return (
-    <div className="flex flex-col justify-center lg:px-10 md:px-10 sm:px-5 px-5 gap-3">
-      <h1 className="text-3xl text-color-pink font-semibold">{title}</h1>
+    <div className="flex flex-col justify-center lg:px-10 md:px-10 sm:px-3 px-3 gap-3">
+      <h1 className="lg:text-3xl md:text-3xl sm:text-2xl text-2xl text-color-pink font-semibold">{title}</h1>
       <div className="lg:gap-4 md:gap-4 sm:gap-2 gap-2 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 ">
         {datas.map((data: any, index: number) => (
           <Card
@@ -26,9 +26,9 @@ const CardProduct = ({ title, datas, setDetailProduct }: any) => {
               />
             </CardBody>
 
-            <CardFooter className="text-small justify-between ">
+            <CardFooter className="text-small flex lg:flex-row md:flex-row sm:flex-col flex-col justify-between lg:items-center md:items-centersm:items-start items-start gap-2">
               <div className="flex flex-col justify-center items-start">
-                <b className="text-color-pink">{data.name}</b>
+                <b className="text-color-pink text-start">{data.name}</b>
                 <p className="text-default-500">{Converter(data.price)}</p>
               </div>
               <Button

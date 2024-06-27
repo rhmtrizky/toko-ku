@@ -27,11 +27,13 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <SessionProvider session={session}>
       <NextUIProvider>
-        {showNavbar && <Navbar />}
-        <Component
-          {...pageProps}
-          setToaster={setToaster}
-        />
+        <div className="relative">
+          <div className="fixed top-0 left-0 right-0 z-40">{showNavbar && <Navbar />}</div>
+          <Component
+            {...pageProps}
+            setToaster={setToaster}
+          />
+        </div>
         {Object.keys(toaster).length > 0 && (
           <Toaster
             variant={toaster.variant}

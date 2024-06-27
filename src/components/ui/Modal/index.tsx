@@ -15,7 +15,7 @@ const Modal = ({ children, onClose }: { children: React.ReactNode; onClose: any 
   }, [onClose]);
 
   return (
-    <div className="w-full h-screen fixed top-0 bg-color-transparant flex justify-center items-center overflow-auto ">
+    <div className="w-full h-screen fixed top-0 bg-color-transparant flex justify-center items-center overflow-auto z-40">
       <div
         className="min-w-[30%] min-h-1/3 bg-color-primary max-h-3/4 rounded-md p-5 my-auto"
         ref={ref}

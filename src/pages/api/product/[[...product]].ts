@@ -1,7 +1,6 @@
 import { addData, deleteData, retrieveData, updateData } from '@/lib/firebase/service';
 import { NextApiRequest, NextApiResponse } from 'next';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+
 import jwtAuth from '@/middlewares/jwtAuth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

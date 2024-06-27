@@ -16,17 +16,19 @@ const ModalDetailProduct = (props: PropTypes) => {
       {/* <h1 className="text-md font-semibold mb-3">
         Detail Product <span className="text-color-red">{`"${detailProduct.name}"`}</span>?
       </h1> */}
-      <div className="flex w-auto h-auto">
-        <Image
-          width="550"
-          height="550"
-          src={detailProduct.image}
-          alt={detailProduct.name}
-          className="w-[350px] h-[450px] object-cover"
-        />
+      <div className="flex lg:flex-row md:flex-row sm:flex-col flex-col w-auto h-auto gap-2">
+        <div className="flex justify-center lg:items-start md:items-start sm:items-center items-center bg-color-pink">
+          <Image
+            width="550"
+            height="550"
+            src={detailProduct.image}
+            alt={detailProduct.name}
+            className="lg:w-[350px] lg:h-[450px] md:w-[350px] md:h-[450px] sm:w-[350px] sm:h-[180px] w-[350px] h-[180px] object-cover"
+          />
+        </div>
         <div className="flex flex-col justify-between items-start px-3 w-[350px] gap-2">
           <div className="flex flex-col">
-            <h1 className="text-3xl  text-color-pink">{detailProduct.name}</h1>
+            <h1 className="Lg:text-3xl md:text-3xl sm:text-2xl text-2xl text-color-pink font-semibold">{detailProduct.name}</h1>
             <p className="text-color-pink font-normal">{Converter(detailProduct.price)}</p>
             <p className="text-color-pink font-normal">{detailProduct.category}</p>
             <div className="mt-5">
