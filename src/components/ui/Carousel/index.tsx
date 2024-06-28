@@ -14,12 +14,12 @@ const ResponsiveCarousel = () => {
       dynamicHeight={false}
       showThumbs={false}
       autoPlay={true}
-      interval={3000}
+      interval={5000}
     >
       {responsive.map((item) => (
         <div
           key={item.id}
-          className="h-[80vh] w-full bg-color-cream relative"
+          className="lg:h-[90vh] md:h-[70vh] sm:h-[65vh] h-[65vh] w-full bg-color-cream relative"
         >
           <div className="h-full bg-blue-500 flex items-center justify-center">
             <img
