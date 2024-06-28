@@ -14,7 +14,7 @@ const ProductsView = (props: PropTypes) => {
   return (
     <>
       <div className="w-full h-auto pb-10 flex flex-col gap-10 mt-20">
-        <div>
+        <div className="flex flex-col gap-5">
           <ResponsiveCarousel />
           <CardProduct
             title={'KALUNG'}
@@ -22,7 +22,7 @@ const ProductsView = (props: PropTypes) => {
             setDetailProduct={setDetailProduct}
           />
         </div>
-        <div>
+        <div className="flex flex-col gap-5">
           <ResponsiveCarousel />
           <CardProduct
             title={'CINCIN'}

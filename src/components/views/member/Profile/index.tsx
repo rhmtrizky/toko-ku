@@ -7,6 +7,8 @@ import { useState } from 'react';
 import ModalUpdatePassword from './ModalUpdatePassword';
 import Image from 'next/image';
 import InputUi from '@/components/ui/Input';
+import { Input } from '@nextui-org/react';
+import { RiErrorWarningLine } from 'react-icons/ri';
 
 type PropTypes = {
   profile: any;
@@ -21,6 +23,8 @@ const ProfileMemberView = (props: PropTypes) => {
   const [isLoading, setIsLoading] = useState('');
   const [progressPercent, setProgressPercent] = useState<any>({});
   const [openModal, setOpenModal] = useState(false);
+
+  console.log(profile);
 
   const handleUpdateProfile = async (e: any) => {
     e.preventDefault();
@@ -123,7 +127,7 @@ const ProfileMemberView = (props: PropTypes) => {
         <div className="text-2xl font-bold mb-3">Profile</div>
         <div className="my-3">{progressPercent.status && <ProgressUi percent={progressPercent.progressPercent} />}</div>
         <div className="w-full flex gap-5">
-          <div className="w-1/4 border-2 border-color-gray p-3">
+          <div className="w-2/5 border-2 border-color-gray p-3">
             <form onSubmit={handleChangeProfilePicture}>
               <div className="w-full h-full flex justify-center flex-col items-center py-3">
                 {profile.data?.image ? (
@@ -180,33 +184,41 @@ const ProfileMemberView = (props: PropTypes) => {
               </div>
             </form>
           </div>
-          <div className="w-3/4 border-2 border-color-gray px-5 py-7 rounded-md">
+          <div className="w-3/5 border-2 border-color-gray px-5 py-7 rounded-md">
             <form
-              className="flex flex-col gap-2 mt-3"
+              className="flex flex-col gap-4 mt-3"
               action=""
               onSubmit={handleUpdateProfile}
             >
-              <InputUi
-                label="Fullname"
+              <input
                 type="fullname"
                 name="fullname"
-                defaultValue={profile?.data?.fullname}
+                defaultValue={profile.data?.fullname}
+                className="w-full py-2 px-3  bg-color-white shadow-md rounded-md text-color-red"
               />
 
-              <InputUi
-                label="Email"
+              <input
                 type="email"
                 name="email"
-                defaultValue={profile?.data?.email}
+                defaultValue={profile.data?.email}
+                className="w-full py-2 px-3  bg-color-gray shadow-md rounded-md text-color-red"
                 disabled
               />
-              <InputUi
-                label="Phone Number"
+              <input
                 type="number"
                 name="phoneNumber"
-                defaultValue={profile?.data?.phoneNumber}
+                placeholder="+62 8xxxxx"
+                defaultValue={profile.data?.phoneNumber}
+                className="w-full py-2 px-3  bg-color-white shadow-md rounded-md text-color-red"
               />
-              {profile?.data?.phoneNumber == '' && <p className="text-sm text-color-red ">Please enter a valid phone number</p>}
+              {profile?.data?.phoneNumber == '' && (
+                <p className="text-sm text-color-red flex items-center gap-1">
+                  <span>
+                    <RiErrorWarningLine size={20} />
+                  </span>
+                  Please fill a valid phone number
+                </p>
+              )}
               <label
                 htmlFor="Password"
                 className="font-semibold"

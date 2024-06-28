@@ -12,6 +12,9 @@ const ResponsiveCarousel = () => {
       showIndicators={true}
       infiniteLoop={true}
       dynamicHeight={false}
+      showThumbs={false}
+      autoPlay={true}
+      interval={3000}
     >
       {responsive.map((item) => (
         <div
