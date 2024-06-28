@@ -10,8 +10,8 @@ const CartPageView = (props: PropTypes) => {
   const { products, cart } = props;
 
   return (
-    <div className="w-full h-auto min-h-screen flex  gap-3 justify-center items-center mt-20 pb-10">
-      <div className="w-3/5 flex flex-col gap-4 justify-center items-center">
+    <div className="w-full h-auto min-h-screen my-20 pb-10 relative">
+      <div className="w-full flex flex-col gap-4 justify-center items-center pt-5">
         {cart.map((item: any, index: any) => (
           <CardCartProduct
             key={index}
@@ -21,10 +21,8 @@ const CartPageView = (props: PropTypes) => {
           />
         ))}
       </div>
-      <div className="w-2/5 h-screen flex gap-3 justify-center items-start pt-2 px-5">
-        <div className="w-full bg-color-cream min-h-[200px] rounded-md text-color-pink px-4 py-2">
-          <h1 className="text-md font-bold">Summary</h1>
-        </div>
+      <div className="w-full bg-color-pink min-h-[100px] rounded-md text-color-primary px-4 py-2 fixed bottom-0 right-0 left-0 z-40">
+        <h1 className="text-md font-bold">Summary</h1>
       </div>
     </div>
   );
