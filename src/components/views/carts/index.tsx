@@ -14,6 +14,7 @@ const CartPageView = (props: PropTypes) => {
       <div className="w-3/5 flex flex-col gap-4 justify-center items-center">
         {cart.map((item: any, index: any) => (
           <CardCartProduct
+            key={index}
             item={item}
             products={products}
             index={index}
