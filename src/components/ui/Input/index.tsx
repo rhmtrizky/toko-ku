@@ -24,7 +24,7 @@ const InputUi = (props: InputProps) => {
       defaultValue={defaultValue}
       disabled={disabled}
       onChange={onChange}
-      // style={{ outline: 'none', backgroundColor: 'transparent' }}
+      style={{ outline: 'none', backgroundColor: 'transparent' }}
     />
   );
 };
