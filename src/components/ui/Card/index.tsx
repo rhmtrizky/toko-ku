@@ -9,7 +9,7 @@ const CardProduct = ({ title, datas, setDetailProduct }: any) => {
   return (
     <div className="flex flex-col justify-center lg:px-10 md:px-10 sm:px-3 px-3 gap-3">
       <h1 className="lg:text-3xl md:text-3xl sm:text-2xl text-2xl text-color-pink font-semibold">{title}</h1>
-      <div className="lg:gap-4 md:gap-4 sm:gap-2 gap-2 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 ">
+      <div className="lg:gap-4 md:gap-4 sm:gap-3 gap-3 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 ">
         {datas.map((data: any, index: number) => (
           <Card
             shadow="sm"
