@@ -57,7 +57,7 @@ const CartPageView = (props: PropTypes) => {
 
   return (
     <div className="w-full h-auto min-h-screen mt-20 pb-10 relative">
-      {cart.length !== 0 ? (
+      {cart !== undefined && cart?.length !== 0 ? (
         <>
           <div className="w-full flex flex-col gap-4 justify-center items-center pt-5 pb-20">
             {cart?.map((item: any, index: any) => (
