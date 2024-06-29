@@ -4,7 +4,12 @@ import userService from '@/services/user';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
-const CartsPage = () => {
+type PropTypes = {
+  setToaster: any;
+};
+
+const CartsPage = (props: PropTypes) => {
+  const { setToaster } = props;
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const session: any = useSession();
@@ -39,6 +44,8 @@ const CartsPage = () => {
     <CartPageView
       products={products}
       cart={cart}
+      setToaster={setToaster}
+      setCart={setCart}
     />
   );
 };
