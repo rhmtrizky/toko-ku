@@ -1,6 +1,6 @@
 import { Input } from '@nextui-org/react';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiUser } from 'react-icons/fi';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { MdFavoriteBorder } from 'react-icons/md';
@@ -9,7 +9,12 @@ import SideBar from '../SideBar';
 import { IoClose } from 'react-icons/io5';
 import Link from 'next/link';
 
-const Navbar = () => {
+type PropTypes = {
+  cart: any;
+};
+
+const Navbar = (props: PropTypes) => {
+  const { cart } = props;
   const { data }: any = useSession();
   const [sidebar, setSidebar] = useState(false);
 
@@ -78,7 +83,12 @@ const Navbar = () => {
             </div>
             <div className="flex gap-3 items-center text-color-pink">
               <MdFavoriteBorder size={23} />
-              <Link href={'/carts'}>
+              <Link
+                href={'/carts'}
+                className="w-[35px] h-[40px] relative flex flex-col gap-4 justify-center items-center"
+              >
+                {cart?.length !== 0 && cart !== undefined ? <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">{cart?.length}</p> : <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">0</p>}
+
                 <RiShoppingBagLine size={23} />
               </Link>
               <FiUser size={23} />
@@ -103,10 +113,34 @@ const Navbar = () => {
           </div>
         </div>
         <div className="lg:hidden md:flex sm:flex flex justify-between w-full h-full items-center px-5">
-          <button onClick={() => setSidebar(!sidebar)}>
-            <GiHamburgerMenu size={23} />
-          </button>
-          <p className="text-color-pink font-semibold text-xl">LOGO TOKO</p>
+          <div className="flex gap-3 items-center">
+            <button onClick={() => setSidebar(!sidebar)}>
+              <GiHamburgerMenu size={23} />
+            </button>
+            <p className="text-color-pink font-semibold text-lg">LOGO TOKO</p>
+          </div>
+          <div className="flex lg:gap-3 md:gap-3 sm:gap-1 gap-1 items-center text-color-pink">
+            <MdFavoriteBorder size={23} />
+            <Link
+              href={'/carts'}
+              className="w-[35px] h-[40px] relative flex flex-col gap-4 justify-center items-center"
+            >
+              {cart?.length !== 0 && cart !== undefined ? <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">{cart?.length}</p> : <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">0</p>}
+
+              <RiShoppingBagLine size={23} />
+            </Link>
+            <FiUser size={23} />
+            {data &&
+              (!data?.user?.hasOwnProperty('fullname') ? (
+                <p className="font-semibold text-sm">
+                  Hallo, <span className="font-bold text-color-pink">{data?.user?.name?.split(' ')[0]}</span>
+                </p>
+              ) : (
+                <p className="font-semibold text-sm">
+                  Hallo, <span className="font-bold text-color-pink">{data?.user?.fullname?.split(' ')[0]}</span>
+                </p>
+              ))}
+          </div>
         </div>
       </div>
       {sidebar && (

@@ -6,12 +6,13 @@ import { useEffect, useState } from 'react';
 
 type PropTypes = {
   setToaster: any;
+  cart: any;
+  setCart: any;
 };
 
 const CartsPage = (props: PropTypes) => {
-  const { setToaster } = props;
+  const { setToaster, cart, setCart } = props;
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
   const session: any = useSession();
   const getAllProducts = async () => {
     try {

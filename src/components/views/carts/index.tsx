@@ -20,8 +20,6 @@ const CartPageView = (props: PropTypes) => {
   const [deleteCart, setDeleteCart] = useState<any>({});
   const [qty, setQty] = useState<number>(1);
 
-  console.log(cart);
-
   const getTotalPrice = () => {
     const total = cart?.reduce((acc: number, item: any) => {
       const product = products.find((product: any) => product.id === item.id);

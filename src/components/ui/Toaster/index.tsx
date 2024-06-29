@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 type PropTypes = {
   variant: string;
   message: string;
-  setTouster: any;
+  setToaster: any;
 };
 
 const toasterVariant: any = {
@@ -20,7 +20,7 @@ const toasterVariant: any = {
 };
 
 const Toaster = (props: PropTypes) => {
-  const { variant, message, setTouster } = props;
+  const { variant, message, setToaster } = props;
   const [lengthBar, setLengthBar] = useState(100);
   const timerRef: any = useRef(null);
 
@@ -42,7 +42,7 @@ const Toaster = (props: PropTypes) => {
       <div className="fixed min-w-72 min-h-24 flex justify-start items-center gap-3 rounded-md shadow-xl px-5 py-3 bg-color-primary">
         <button
           className="absolute top-4 right-4"
-          onClick={() => setTouster({})}
+          onClick={() => setToaster({})}
         >
           <i className="bx bx-x-circle text-xl font-semibold"></i>
         </button>

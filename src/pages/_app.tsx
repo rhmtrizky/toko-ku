@@ -1,18 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '@/styles/globals.css';
 import { SessionProvider, useSession } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import 'boxicons/css/boxicons.min.css';
 import Toaster from '@/components/ui/Toaster';
-import { useEffect, useState } from 'react';
 import { NextUIProvider } from '@nextui-org/react';
 import Navbar from '@/components/fragments/Navbar';
 import { useRouter } from 'next/router';
+import userService from '@/services/user';
 
-export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
+  return (
+    <SessionProvider session={session}>
+      <MainApp
+        Component={Component}
+        pageProps={pageProps}
+      />
+    </SessionProvider>
+  );
+};
+
+const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
   const [toaster, setToaster] = useState<any>({});
   const router = useRouter();
   const excludedPaths = ['/auth', '/admin', '/member'];
+  const [cart, setCart] = useState([]);
+  const { data: sessionData, status: sessionStatus }: any = useSession();
+
+  const getCarts = async (token: string) => {
+    try {
+      const carts = await userService.getCart(token);
+      setCart(carts.data.data);
+    } catch (error) {
+      console.log(error, 'failed get cart');
+    }
+  };
+
+  useEffect(() => {
+    if (sessionStatus === 'authenticated' && sessionData?.accessToken) {
+      getCarts(sessionData.accessToken);
+    }
+  }, [sessionStatus, sessionData]);
 
   const showNavbar = !excludedPaths.some((path) => router.pathname.startsWith(path));
 
@@ -25,23 +53,29 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   }, [toaster]);
 
   return (
-    <SessionProvider session={session}>
-      <NextUIProvider>
-        <div className="relative">
-          <div className="fixed top-0 left-0 right-0 z-40">{showNavbar && <Navbar />}</div>
-          <Component
-            {...pageProps}
-            setToaster={setToaster}
-          />
-        </div>
-        {Object.keys(toaster).length > 0 && (
-          <Toaster
-            variant={toaster.variant}
-            message={toaster.message}
-            setTouster={setToaster}
-          />
+    <NextUIProvider>
+      <div className="relative">
+        {showNavbar && (
+          <div className="fixed top-0 left-0 right-0 z-40">
+            <Navbar cart={cart} />
+          </div>
         )}
-      </NextUIProvider>
-    </SessionProvider>
+        <Component
+          {...pageProps}
+          setToaster={setToaster}
+          setCart={setCart}
+          cart={cart}
+        />
+      </div>
+      {Object.keys(toaster).length > 0 && (
+        <Toaster
+          variant={toaster.variant}
+          message={toaster.message}
+          setToaster={setToaster}
+        />
+      )}
+    </NextUIProvider>
   );
-}
+};
+
+export default MyApp;

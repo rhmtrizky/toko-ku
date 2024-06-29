@@ -15,10 +15,11 @@ type PropTypes = {
   productId: any;
   cart: any;
   setToaster: any;
+  setCart: any;
 };
 
 const DetailProductView = (props: PropTypes) => {
-  const { product, productId, cart, setToaster } = props;
+  const { product, productId, cart, setToaster, setCart } = props;
   const { status, data: session }: any = useSession();
   const router = useRouter();
   const [price, setPrice] = useState(0);
@@ -68,6 +69,9 @@ const DetailProductView = (props: PropTypes) => {
     try {
       const result = await userService.addToCart({ carts: newCart }, session?.accessToken);
       if (result.status === 200) {
+        const carts = await userService.getCart(session?.accessToken);
+        console.log(carts);
+        setCart(carts?.data?.data);
         setAlertGoToCart(true);
         setIsLoading(false);
       }

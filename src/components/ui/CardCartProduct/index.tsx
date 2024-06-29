@@ -26,7 +26,7 @@ const CardCartProduct = (props: PropTypes) => {
     if (getCartProducts(item.id)?.price) {
       setPrice(parseInt(getCartProducts(item.id)?.price, 10) * qty);
     }
-  }, [item, qty]);
+  }, [item, products]);
 
   useEffect(() => {
     if (qty < 1) {
