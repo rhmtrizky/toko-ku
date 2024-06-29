@@ -1,4 +1,5 @@
 import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
 import userService from '@/services/user';
 import Converter from '@/utils/Converter';
 import { set } from 'firebase/database';
@@ -7,6 +8,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
+import { ImHappy } from 'react-icons/im';
 
 type PropTypes = {
   product: any;
@@ -22,6 +24,7 @@ const DetailProductView = (props: PropTypes) => {
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [alertGoToCart, setAlertGoToCart] = useState(false);
 
   useEffect(() => {
     if (product?.price) {
@@ -65,10 +68,7 @@ const DetailProductView = (props: PropTypes) => {
     try {
       const result = await userService.addToCart({ carts: newCart }, session?.accessToken);
       if (result.status === 200) {
-        setToaster({
-          variant: 'success',
-          message: 'Successfully Added Item To Cart',
-        });
+        setAlertGoToCart(true);
         setIsLoading(false);
       }
     } catch (error) {
@@ -130,6 +130,28 @@ const DetailProductView = (props: PropTypes) => {
           </div>
         </div>
       </div>
+      {alertGoToCart && (
+        <Modal onClose={() => setAlertGoToCart(false)}>
+          <div className="flex justify-center items-center text-color-pink flex-col gap-2">
+            <ImHappy size={80} />
+            <h1 className="font-semibold text-lg ">Yeayy, success add product to your cart !!</h1>
+            <div className="flex flex-col w-full gap-4 mt-2">
+              <Button
+                label={'Go To Cart'}
+                type={status === 'unauthenticated' ? 'button' : 'submit'}
+                className="bg-color-red text-color-primary py-2 px-3 rounded-md font-semibold w-full opacity-70 hover:opacity-90"
+                onClick={() => router.push('/carts/')}
+              />
+              <Button
+                label="Get Others Product"
+                type="button"
+                className="bg-color-prinmary text-color-pink border-color-pink border-2 py-2 px-3 rounded-md font-semibold w-full opacity-70 hover:opacity-90"
+                onClick={() => setAlertGoToCart(false)}
+              />
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

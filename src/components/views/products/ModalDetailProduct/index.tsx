@@ -2,6 +2,7 @@ import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
 import Converter from '@/utils/Converter';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type PropTypes = {
   detailProduct: any;
@@ -40,12 +41,13 @@ const ModalDetailProduct = (props: PropTypes) => {
             </div>
           </div>
           <div className="flex flex-col w-full gap-4">
-            <Button
-              label="Add to cart"
-              type="button"
-              className="bg-color-red text-color-primary py-2 px-3 rounded-md font-semibold w-full opacity-70 hover:opacity-90"
-              // onClick={() => setDetailProduct('')}
-            />
+            <Link href={`/products/${detailProduct.id}`}>
+              <Button
+                label="Add to cart"
+                type="button"
+                className="bg-color-red text-color-primary py-2 px-3 rounded-md font-semibold w-full opacity-70 hover:opacity-90"
+              />
+            </Link>
             <Button
               label="Add to favorite"
               type="button"
