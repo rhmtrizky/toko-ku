@@ -61,7 +61,7 @@ const CardCartProduct = (props: PropTypes) => {
               <p className="lg:text-lg md:text-[15px] sm:text-[15px] text-[15px] font-semibold">{getCartProducts(item.id)?.name}</p>
               <button
                 onClick={() => setDeleteCart(item)}
-                className="text-color-pink font-semibold"
+                className="text-color-pink font-semibold lg:hidden md:hidden sm:flex flex"
               >
                 <MdOutlineDeleteOutline size={23} />
               </button>
