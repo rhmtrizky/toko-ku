@@ -1,6 +1,9 @@
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
+import userService from '@/services/user';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useState } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 
 type PropTypes = {
@@ -9,12 +12,61 @@ type PropTypes = {
   qty: number;
   setQty: any;
   getProduct: any;
-  handleUpdateCart: () => void;
-  isLoading: boolean;
+  cart: any;
+  setCart: any;
+  setToaster: any;
 };
 
 const ModalUpdateCart = (props: PropTypes) => {
-  const { setUpdateCart, updateCart, qty, setQty, getProduct, handleUpdateCart, isLoading } = props;
+  const { setUpdateCart, updateCart, qty, setQty, getProduct, cart, setCart, setToaster } = props;
+  const [isLoading, setIsLoading] = useState(false);
+  const session: any = useSession();
+
+  const handleUpdateCart = async () => {
+    setIsLoading(true);
+    let newCart = [];
+
+    const existingItem = cart?.find((item: any) => item.id === updateCart.id);
+
+    if (existingItem) {
+      newCart = cart.map((item: any) => {
+        if (item.id === updateCart.id) {
+          return { ...item, qty: qty };
+        }
+        return item;
+      });
+    } else {
+      newCart = [
+        ...(cart || []),
+        {
+          id: updateCart.id,
+          qty: qty,
+        },
+      ];
+    }
+    try {
+      const result = await userService.addToCart({ carts: newCart }, session?.data?.accessToken);
+
+      if (result.status === 200) {
+        const carts = await userService.getCart(session?.data?.accessToken);
+        setCart(carts.data.data);
+        setToaster({
+          variant: 'success',
+          message: 'Success Update Product',
+        });
+        setIsLoading(false);
+        setUpdateCart({});
+      }
+    } catch (error) {
+      console.error('Error update cart:', error);
+      setToaster({
+        variant: 'error',
+        message: 'Failed Update Product',
+      });
+      setUpdateCart({});
+      setIsLoading(false);
+    }
+  };
   return (
     <Modal onClose={() => setUpdateCart({})}>
       <div className="flex justify-start items-center gap-2">

@@ -1,12 +1,11 @@
 import CardCartProduct from '@/components/ui/CardCartProduct';
-import userService from '@/services/user';
 import Converter from '@/utils/Converter';
-import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import ModalUpdateCart from './ModalUpdateCart';
 import { BsCart3 } from 'react-icons/bs';
 import Button from '@/components/ui/Button';
 import Link from 'next/link';
+import ModalDeleteCart from './ModalDeleteCart';
 
 type PropTypes = {
   products: any;
@@ -18,9 +17,8 @@ type PropTypes = {
 const CartPageView = (props: PropTypes) => {
   const { products, cart, setToaster, setCart } = props;
   const [updateCart, setUpdateCart] = useState<any>({});
+  const [deleteCart, setDeleteCart] = useState<any>({});
   const [qty, setQty] = useState<number>(1);
-  const session: any = useSession();
-  const [isLoading, setIsLoading] = useState(false);
 
   console.log(cart);
 
@@ -48,52 +46,6 @@ const CartPageView = (props: PropTypes) => {
     return product;
   };
 
-  const handleUpdateCart = async () => {
-    setIsLoading(true);
-    let newCart = [];
-
-    const existingItem = cart?.find((item: any) => item.id === updateCart.id);
-
-    if (existingItem) {
-      newCart = cart.map((item: any) => {
-        if (item.id === updateCart.id) {
-          return { ...item, qty: qty };
-        }
-        return item;
-      });
-    } else {
-      newCart = [
-        ...(cart || []),
-        {
-          id: updateCart.id,
-          qty: qty,
-        },
-      ];
-    }
-    try {
-      const result = await userService.addToCart({ carts: newCart }, session?.data?.accessToken);
-
-      if (result.status === 200) {
-        const carts = await userService.getCart(session?.data?.accessToken);
-        setCart(carts.data.data);
-        setToaster({
-          variant: 'success',
-          message: 'Success Update Product',
-        });
-        setIsLoading(false);
-        setUpdateCart({});
-      }
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      setToaster({
-        variant: 'error',
-        message: 'Failed Update Product',
-      });
-      setUpdateCart({});
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
     if (updateCart && updateCart.qty) {
       const parsedQty = parseInt(updateCart.qty);
@@ -105,7 +57,7 @@ const CartPageView = (props: PropTypes) => {
 
   return (
     <div className="w-full h-auto min-h-screen mt-20 pb-10 relative">
-      {cart !== undefined || 0 ? (
+      {cart.length !== 0 ? (
         <>
           <div className="w-full flex flex-col gap-4 justify-center items-center pt-5">
             {cart?.map((item: any, index: any) => (
@@ -114,6 +66,7 @@ const CartPageView = (props: PropTypes) => {
                 item={item}
                 products={products}
                 setUpdateCart={setUpdateCart}
+                setDeleteCart={setDeleteCart}
               />
             ))}
           </div>
@@ -153,8 +106,18 @@ const CartPageView = (props: PropTypes) => {
           qty={qty}
           setQty={setQty}
           getProduct={getProduct}
-          handleUpdateCart={handleUpdateCart}
-          isLoading={isLoading}
+          cart={cart}
+          setCart={setCart}
+          setToaster={setToaster}
+        />
+      )}
+      {Object.keys(deleteCart).length > 0 && (
+        <ModalDeleteCart
+          setDeleteCart={setDeleteCart}
+          deleteCart={deleteCart}
+          cart={cart}
+          setCart={setCart}
+          setToaster={setToaster}
         />
       )}
     </div>

@@ -3,18 +3,19 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import Button from '../Button';
+import { MdOutlineDeleteOutline } from 'react-icons/md';
 
 type PropTypes = {
   item: any;
   products: any;
   setUpdateCart: any;
+  setDeleteCart: any;
 };
 
 const CardCartProduct = (props: PropTypes) => {
-  const { item, products, setUpdateCart } = props;
+  const { item, products, setUpdateCart, setDeleteCart } = props;
   const [qty, setQty] = useState(item.qty);
   const [price, setPrice] = useState(0);
-  console.log(item, 'item');
 
   const getCartProducts = (id: string) => {
     const product = products.find((product: any) => product.id === id);
@@ -56,7 +57,15 @@ const CardCartProduct = (props: PropTypes) => {
             />
           </div>
           <div className="w-[60%] text-color-pink flex flex-col justify-center items-start gap-1">
-            <p className="lg:text-lg md:text-[15px] sm:text-[15px] text-[15px] font-semibold">{getCartProducts(item.id)?.name}</p>
+            <div className="w-full flex justify-between items-center">
+              <p className="lg:text-lg md:text-[15px] sm:text-[15px] text-[15px] font-semibold">{getCartProducts(item.id)?.name}</p>
+              <button
+                onClick={() => setDeleteCart(item)}
+                className="text-color-pink font-semibold"
+              >
+                <MdOutlineDeleteOutline size={23} />
+              </button>
+            </div>
             <p className="text-xs lg:flex md:hidden sm:hidden hidden max">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam itaque.</p>
             <p className="text-color-pink lg:hidden md:flex sm:flex flex">{getCartProducts(item.id)?.category}</p>
             <h1 className=" font-semibold text-color-pink lg:hidden md:flex sm:flex flex">{Converter(price)}</h1>
@@ -103,7 +112,7 @@ const CardCartProduct = (props: PropTypes) => {
               />
               <Button
                 label="Delete"
-                // onClick={() => setUpdateCart({})}
+                onClick={() => setDeleteCart(item)}
                 className="bg-color-pink text-color-cream py-1 px-2 rounded"
               />
             </div>
@@ -135,7 +144,7 @@ const CardCartProduct = (props: PropTypes) => {
             />
             <Button
               label="Delete"
-              // onClick={() => setUpdateCart({})}
+              onClick={() => setDeleteCart(item)}
               className="bg-color-pink text-color-cream py-1 px-2 rounded"
             />
           </div>
