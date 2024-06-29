@@ -38,7 +38,7 @@ const Toaster = (props: PropTypes) => {
   }, []);
 
   return (
-    <div className="w-full h-screen fixed flex justify-end items-end bottom-5 right-5">
+    <div className="w-full h-screen fixed flex justify-end items-end bottom-5 right-5 z-40">
       <div className="fixed min-w-72 min-h-24 flex justify-start items-center gap-3 rounded-md shadow-xl px-5 py-3 bg-color-primary">
         <button
           className="absolute top-4 right-4"

@@ -7,6 +7,7 @@ import { MdFavoriteBorder } from 'react-icons/md';
 import { RiSearch2Line, RiShoppingBagLine } from 'react-icons/ri';
 import SideBar from '../SideBar';
 import { IoClose } from 'react-icons/io5';
+import Link from 'next/link';
 
 const Navbar = () => {
   const { data }: any = useSession();
@@ -30,7 +31,7 @@ const Navbar = () => {
     },
     {
       title: 'Cart',
-      url: '/cart',
+      url: '/carts',
       icon: 'bxs-group',
     },
     {
@@ -54,7 +55,9 @@ const Navbar = () => {
               <p className="text-color-pink font-semibold text-xl">LOGO TOKO</p>
             </div>
             <div className="flex w-3/4 h-full items-center justify-evenly items-center px-5 text-color-pink font-normal text-[15px]">
-              <p>HOME</p>
+              <Link href={'/'}>
+                <p>HOME</p>
+              </Link>
               <p>PRODUCTS</p>
               <p>CATEGORIES</p>
             </div>
@@ -75,7 +78,9 @@ const Navbar = () => {
             </div>
             <div className="flex gap-3 items-center text-color-pink">
               <MdFavoriteBorder size={23} />
-              <RiShoppingBagLine size={23} />
+              <Link href={'/carts'}>
+                <RiShoppingBagLine size={23} />
+              </Link>
               <FiUser size={23} />
               {data &&
                 (!data?.user?.hasOwnProperty('fullname') ? (

@@ -21,6 +21,7 @@ const DetailProductView = (props: PropTypes) => {
   const router = useRouter();
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (product?.price) {
@@ -36,7 +37,10 @@ const DetailProductView = (props: PropTypes) => {
     }
   }, [qty, product]);
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (e: any) => {
+    e.preventDefault();
+    setIsLoading(true);
+
     let newCart = [];
 
     const existingItem = cart?.find((item: any) => item.id === productId);
@@ -65,9 +69,11 @@ const DetailProductView = (props: PropTypes) => {
           variant: 'success',
           message: 'Successfully Added Item To Cart',
         });
+        setIsLoading(false);
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
+      setIsLoading(false);
       setToaster({
         variant: 'error',
         message: 'Failed Added Item To Cart',
@@ -109,10 +115,10 @@ const DetailProductView = (props: PropTypes) => {
             </div>
             <div className="flex flex-col w-full gap-4 mt-2">
               <Button
-                label="Add to cart"
+                label={isLoading ? 'Loading...' : 'Add to cart'}
                 type={status === 'unauthenticated' ? 'button' : 'submit'}
                 className="bg-color-red text-color-primary py-2 px-3 rounded-md font-semibold w-full opacity-70 hover:opacity-90"
-                onClick={() => (status === 'unauthenticated' ? router.push(`/auth/login?callbackUrl=${router.asPath}`) : handleAddToCart())}
+                onClick={(e: any) => (status === 'unauthenticated' ? router.push(`/auth/login?callbackUrl=${router.asPath}`) : handleAddToCart(e))}
               />
               <Button
                 label="Add to favorite"
