@@ -44,7 +44,7 @@ const CardCartProduct = (props: PropTypes) => {
   }, [item]);
 
   return (
-    <div className="w-[90%] h-full lg:min-h-[200px] md:min-h-[180px] sm:min-h-[165px] min-h-[165px] bg-color-cream rounded-md flex justify-center items-center px-10 py-2">
+    <div className="w-[90%] h-full lg:min-h-[200px] md:min-h-[180px] sm:min-h-[165px] min-h-[165px] bg-color-cream rounded-md flex justify-center items-center px-10 py-2 shadow-md">
       <div className="flex lg:flex-row md:flex-col sm:flex-col flex-col justify-center items-center gap-2 w-full h-full gap-2">
         <div className="w-full flex justify-center md:justify-around sm:justify-around justify-around items-center lg:gap-4 md:gap-4 sm:gap-4 gap-4">
           <div className="w-[40%] h-full">
