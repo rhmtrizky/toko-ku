@@ -196,6 +196,7 @@ const ProfileMemberView = (props: PropTypes) => {
                 defaultValue={profile.data?.fullname}
                 className="w-full py-2 px-3  bg-color-white shadow-md rounded-md text-color-dark"
                 style={{ outline: 'none' }}
+                required
               />
 
               <input
@@ -213,6 +214,7 @@ const ProfileMemberView = (props: PropTypes) => {
                 defaultValue={profile.data?.phoneNumber}
                 className="w-full py-2 px-3  bg-color-white shadow-md rounded-md text-color-dark"
                 style={{ outline: 'none' }}
+                required
               />
               {profile?.data?.phoneNumber == '' && (
                 <p className="text-sm text-color-red flex items-center gap-1">

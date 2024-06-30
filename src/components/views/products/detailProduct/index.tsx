@@ -141,7 +141,7 @@ const DetailProductView = (props: PropTypes) => {
             <h1 className="font-semibold text-lg ">Yeayy, success add product to your cart !!</h1>
             <div className="flex flex-col w-full gap-4 mt-2">
               <Button
-                label={'Go To Cart'}
+                label={'Go to Cart'}
                 type={status === 'unauthenticated' ? 'button' : 'submit'}
                 className="bg-color-red text-color-primary py-2 px-3 rounded-md font-semibold w-full opacity-70 hover:opacity-90"
                 onClick={() => router.push('/carts/')}

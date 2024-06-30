@@ -9,10 +9,11 @@ type InputProps = {
   disabled?: boolean;
   onChange?: (value: any) => void;
   className?: string;
+  required?: boolean;
 };
 
 const InputUi = (props: InputProps) => {
-  const { label, type, name, placeholder, defaultValue, disabled, onChange } = props;
+  const { label, type, name, placeholder, defaultValue, disabled, onChange, required } = props;
 
   return (
     <Input
@@ -20,7 +21,7 @@ const InputUi = (props: InputProps) => {
       labelPlacement={'inside'}
       type={type}
       name={name}
-      required
+      required={required}
       label={label ? label : placeholder}
       defaultValue={defaultValue}
       disabled={disabled}

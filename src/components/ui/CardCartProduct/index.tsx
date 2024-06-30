@@ -56,7 +56,7 @@ const CardCartProduct = (props: PropTypes) => {
               className="object-cover rounded-md max-h-[160px]"
             />
           </div>
-          <div className="w-[60%] text-color-pink flex flex-col justify-center items-start gap-1">
+          <div className="w-[60%] text-color-pink flex flex-col justify-center items-start gap-0">
             <div className="w-full flex justify-between items-center">
               <p className="lg:text-lg md:text-[15px] sm:text-[15px] text-[15px] font-semibold">{getCartProducts(item.id)?.name}</p>
               <button
@@ -69,8 +69,10 @@ const CardCartProduct = (props: PropTypes) => {
             <div className="lg:max-h-[70px] md:max-h-[60px] sm:max-h-[40px] max-h-[40px] lg:flex md:flex sm:hidden hidden overflow-auto">
               {getCartProducts(item.id)?.description !== '' ? <p className="text-color-pink font-normal text-xs">{getCartProducts(item.id)?.description}</p> : <p className="text-color-pink font-normal text-sm italic">No description</p>}
             </div>
-            <p className="text-color-pink lg:hidden md:flex sm:flex flex">{getCartProducts(item.id)?.category}</p>
-            <h1 className=" font-semibold text-color-pink lg:hidden md:flex sm:flex flex">{Converter(price)}</h1>
+            <div className="lg:mt-[3px] md:mt-[3px] sm:mt-[-5px] mt-[-5px] mb-3">
+              <p className="text-color-pink lg:hidden md:flex sm:flex flex">{getCartProducts(item.id)?.category}</p>
+              <h1 className=" font-semibold text-color-pink lg:hidden md:flex sm:flex flex text-sm">{Converter(price)}</h1>
+            </div>
             <div className="lg:hidden md:hidden sm:flex flex gap-3 justify-evenly items-center bg-color-cream rounded-md text-color-pink py-1 w-[100px] font-semibold text-sm">
               <button onClick={() => setUpdateCart(item)}>
                 <FaMinus size={13} />

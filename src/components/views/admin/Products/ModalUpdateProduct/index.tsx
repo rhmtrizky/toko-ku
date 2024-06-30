@@ -116,6 +116,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
           name="name"
           placeholder="Title"
           defaultValue={updatedProduct.name}
+          required={true}
         />
         <InputUi
           label="Price"
@@ -123,6 +124,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
           name="price"
           placeholder="Price"
           defaultValue={updatedProduct.price}
+          required={true}
         />
         <InputUi
           label="Stock"
@@ -130,6 +132,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
           name="stock"
           placeholder="Stock"
           defaultValue={updatedProduct.stock}
+          required={true}
         />
         <SelectUi
           label="Category"

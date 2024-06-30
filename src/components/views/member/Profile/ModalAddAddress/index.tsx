@@ -96,12 +96,14 @@ const ModalAddAddress = (props: PropTypes) => {
           type="text"
           name="recipient"
           placeholder="Recipient"
+          required={true}
         />
         <InputUi
           label="Detail Address"
           type="text"
           name="detailAddress"
           placeholder="Detail Address"
+          required={true}
         />
         <InputUi
           label="Notes Address"

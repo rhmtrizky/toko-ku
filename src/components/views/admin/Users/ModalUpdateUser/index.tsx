@@ -68,6 +68,7 @@ const ModalUpdateUser = (props: PropTypes) => {
           name="fullname"
           placeholder="Fullname"
           defaultValue={updatedUser.fullname}
+          required={true}
         />
         <InputUi
           label="Email"
@@ -75,6 +76,7 @@ const ModalUpdateUser = (props: PropTypes) => {
           name="email"
           placeholder="Email"
           defaultValue={updatedUser.email}
+          required={true}
         />
         <InputUi
           label="Phone Number"
@@ -82,6 +84,7 @@ const ModalUpdateUser = (props: PropTypes) => {
           name="phoneNumber"
           placeholder="Phone Number"
           defaultValue={updatedUser.phoneNumber}
+          required={true}
         />
         <InputUi
           label="Password"

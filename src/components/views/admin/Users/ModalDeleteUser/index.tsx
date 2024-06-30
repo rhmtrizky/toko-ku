@@ -54,7 +54,7 @@ const ModalDeleteUser = (props: PropTypes) => {
           className="bg-color-gray text-color-dark py-1 px-3 rounded-md font-semibold"
         />
         <Button
-          label={isLoading ? 'Deleting' : 'Delete'}
+          label={isLoading ? 'Deleting...' : 'Delete'}
           type="button"
           onClick={handleDeleteUser}
           className="bg-color-red text-color-primary py-1 px-3 rounded-md font-semibold"

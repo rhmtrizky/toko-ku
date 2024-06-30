@@ -119,11 +119,13 @@ const ModalAddProduct = (props: PropTypes) => {
           type="text"
           name="name"
           placeholder="Product Name"
+          required={true}
         />
         <InputUi
           type="number"
           name="price"
           placeholder="Price"
+          required={true}
         />
         <Select
           label="Category"
@@ -140,6 +142,7 @@ const ModalAddProduct = (props: PropTypes) => {
           type="number"
           name="stock"
           placeholder="Input stock"
+          required={true}
         />
         <div className="relative w-full h-full py-2 flex flex-col justify-center items-center border-2 border-color-gray rounded-md mt-2">
           {imageFile ? (

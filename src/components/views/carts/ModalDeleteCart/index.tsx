@@ -61,7 +61,7 @@ const ModalDeleteCart = (props: PropTypes) => {
           className="bg-color-cream text-color-red py-1 px-3 rounded-md font-semibold"
         />
         <Button
-          label={isLoading ? 'Deleting' : 'Delete'}
+          label={isLoading ? 'Deleting...' : 'Delete'}
           type="button"
           onClick={handleDeleteCart}
           className="bg-color-red text-color-primary py-1 px-3 rounded-md font-semibold opacity-[75%]"
