@@ -47,6 +47,10 @@ const ProductsAdminView = (props: PropTypes) => {
       uid: 'category',
     },
     {
+      title: 'Description',
+      uid: 'description',
+    },
+    {
       title: 'Stock',
       uid: 'stock',
     },
@@ -66,8 +70,8 @@ const ProductsAdminView = (props: PropTypes) => {
           <Image
             src={data.image}
             alt="image"
-            width={70}
-            height={70}
+            width={200}
+            height={200}
           />
         );
       case 'actions':

@@ -12,6 +12,8 @@ type PropTypes = {
 const ModalDetailProduct = (props: PropTypes) => {
   const { detailProduct, setDetailProduct } = props;
 
+  console.log(detailProduct);
+
   return (
     <Modal onClose={() => setDetailProduct('')}>
       {/* <h1 className="text-md font-semibold mb-3">
@@ -34,10 +36,7 @@ const ModalDetailProduct = (props: PropTypes) => {
             <p className="text-color-pink font-normal">{detailProduct.category}</p>
             <div className="mt-5">
               <h3 className="text-color-pink font-normal">Description :</h3>
-              <p className="text-color-pink font-normal text-sm">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, a. Natus at illum maiores rerum error eveniet nostrum, ex tempore quasi adipisci! Saepe nostrum autem dolor accusantium sit veniam ut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, facilis distinctio explicabo aut doloremque nemo accusantium
-                blanditiis ullam error deleniti sint reprehenderit atque provident sequi perferendis, at nam eaque est.
-              </p>
+              {detailProduct?.description !== '' ? <p className="text-color-pink font-normal text-sm">{detailProduct?.description}</p> : <p className="text-color-pink font-normal text-sm italic">No description</p>}
             </div>
           </div>
           <div className="flex flex-col w-full gap-4">

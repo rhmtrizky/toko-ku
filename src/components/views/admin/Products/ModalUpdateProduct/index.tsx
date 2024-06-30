@@ -4,6 +4,7 @@ import Modal from '@/components/ui/Modal';
 import SelectUi from '@/components/ui/Select';
 import { uploadFile } from '@/lib/firebase/service';
 import productService from '@/services/product';
+import { Textarea } from '@nextui-org/react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
@@ -30,6 +31,7 @@ const ModalUpdateProduct = (props: PropTypes) => {
       name: form.name.value,
       price: form.price.value,
       stock: form.stock.value,
+      description: form.description.value,
       category: form.category.value,
     };
 
@@ -138,6 +140,12 @@ const ModalUpdateProduct = (props: PropTypes) => {
             { value: 'gelang', label: 'Gelang' },
             { value: 'cincin', label: 'Cincin' },
           ]}
+        />
+        <Textarea
+          label="Description"
+          type="text"
+          name="description"
+          defaultValue={updatedProduct.description}
         />
         <div className="relative w-full h-40 flex flex-col justify-center items-center border-2 border-color-gray rounded-md">
           {imageFile ? (

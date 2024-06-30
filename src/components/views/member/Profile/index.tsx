@@ -1,4 +1,3 @@
-import MemberLayout from '@/components/layouts/MemberLayout';
 import Button from '@/components/ui/Button';
 import ProgressUi from '@/components/ui/Progress';
 import { uploadFile } from '@/lib/firebase/service';
@@ -6,9 +5,9 @@ import userService from '@/services/user';
 import { useState } from 'react';
 import ModalUpdatePassword from './ModalUpdatePassword';
 import Image from 'next/image';
-import InputUi from '@/components/ui/Input';
-import { Input } from '@nextui-org/react';
 import { RiErrorWarningLine } from 'react-icons/ri';
+import ModalUpdateAddress from './ModalUpdateAddress';
+import ModalAddAddress from './ModalAddAddress';
 
 type PropTypes = {
   profile: any;
@@ -23,8 +22,9 @@ const ProfileMemberView = (props: PropTypes) => {
   const [isLoading, setIsLoading] = useState('');
   const [progressPercent, setProgressPercent] = useState<any>({});
   const [openModal, setOpenModal] = useState(false);
-
-  console.log(profile);
+  const [selectAddress, setSelectAddress] = useState(0);
+  const [openModalAddress, setOpenModalAddress] = useState({});
+  const [openModalNewAddress, setModalOpenNewAddress] = useState(false);
 
   const handleUpdateProfile = async (e: any) => {
     e.preventDefault();
@@ -123,16 +123,16 @@ const ProfileMemberView = (props: PropTypes) => {
 
   return (
     <>
-      <MemberLayout>
-        <div className="text-2xl font-bold mb-3">Profile</div>
+      <div className="w-full min-h-screen h-auto flex flex-col justify-center px-20 py-10">
+        <div className="text-2xl font-bold text-color-pink">Profile</div>
         <div className="my-3">{progressPercent.status && <ProgressUi percent={progressPercent.progressPercent} />}</div>
-        <div className="w-full flex gap-5">
-          <div className="w-2/5 border-2 border-color-gray p-3">
+        <div className="w-full flex lg:flex-row md:flex-row sm:flex-col flex-col justify-center lg:items-start md:items-start sm:items-center items-center gap-5">
+          <div className="lg:w-2/5 md:w-2/5 sm:w-[350px] w-[350px] border-2 border-color-gray p-3">
             <form onSubmit={handleChangeProfilePicture}>
               <div className="w-full h-full flex justify-center flex-col items-center py-3">
                 {profile.data?.image ? (
                   <Image
-                    className="rounded-full p-3 w-48 h-48 object-cover"
+                    className="rounded-full w-48 h-48 object-cover border-2 border-color-gray mb-4"
                     src={profile.data?.image}
                     alt="profile"
                     width={200}
@@ -144,7 +144,7 @@ const ProfileMemberView = (props: PropTypes) => {
                   </div>
                 )}
 
-                <div className="relative ">
+                <div className="relative">
                   {changeImage.name ? (
                     <p className="text-center text-sm p-3 bg-color-gray rounded-md">{changeImage.name}</p>
                   ) : (
@@ -184,7 +184,7 @@ const ProfileMemberView = (props: PropTypes) => {
               </div>
             </form>
           </div>
-          <div className="w-3/5 border-2 border-color-gray px-5 py-7 rounded-md">
+          <div className="lg:w-3/5 md:w-3/5 sm:w-[350px] w-[350px]  border-2 border-color-gray px-5 py-7 rounded-md">
             <form
               className="flex flex-col gap-4 mt-3"
               action=""
@@ -194,22 +194,25 @@ const ProfileMemberView = (props: PropTypes) => {
                 type="fullname"
                 name="fullname"
                 defaultValue={profile.data?.fullname}
-                className="w-full py-2 px-3  bg-color-white shadow-md rounded-md text-color-red"
+                className="w-full py-2 px-3  bg-color-white shadow-md rounded-md text-color-dark"
+                style={{ outline: 'none' }}
               />
 
               <input
                 type="email"
                 name="email"
                 defaultValue={profile.data?.email}
-                className="w-full py-2 px-3  bg-color-gray shadow-md rounded-md text-color-red"
+                className="w-full py-2 px-3  bg-color-gray shadow-md rounded-md text-color-dark opacity-70"
                 disabled
+                style={{ outline: 'none' }}
               />
               <input
                 type="number"
                 name="phoneNumber"
                 placeholder="+62 8xxxxx"
                 defaultValue={profile.data?.phoneNumber}
-                className="w-full py-2 px-3  bg-color-white shadow-md rounded-md text-color-red"
+                className="w-full py-2 px-3  bg-color-white shadow-md rounded-md text-color-dark"
+                style={{ outline: 'none' }}
               />
               {profile?.data?.phoneNumber == '' && (
                 <p className="text-sm text-color-red flex items-center gap-1">
@@ -219,6 +222,33 @@ const ProfileMemberView = (props: PropTypes) => {
                   Please fill a valid phone number
                 </p>
               )}
+              <div className="w-full flex flex-col gap-1 border-2 border-color-gray rounded-md p-3 bg-color-white">
+                <h3 className="font-semibold">Shipping Address</h3>
+                {profile.data?.address?.map((item: any, id: number) => (
+                  <div
+                    className={`w-full flex justify-between border-2 border-color-gray rounded-md p-3 mb-1 ${item.isMain ? 'bg-color-gray opacity-85' : 'bg-color-white'}`}
+                    key={id}
+                    onClick={() => {
+                      setSelectAddress(id);
+                      setOpenModalAddress(item);
+                    }}
+                  >
+                    <div className="w-4/5 flex flex-col gap-1">
+                      <p className="font-bold text-color-dark text-md">{item.recipient}</p>
+                      <p className="text-color-dark lg:text-sm md:text-sm sm:text-sm text-sm">{item.detailAddress}</p>
+                      {item.note !== '' ? <p className="italic text-sm">Note : {item.note}</p> : <p className="italic text-sm">Note : No Note</p>}
+                    </div>
+                    {item.isMain && <div className="flex justify-center items-center bg-color-blue font-semibold text-color-primary py-1 px-1 rounded-md w-1/5 h-8 lg:text-sm md:text-sm sm:text-xs text-xs text-justify">Main</div>}
+                  </div>
+                ))}
+                <Button
+                  label={'Add New Address'}
+                  type="button"
+                  className="bg-color-pink text-color-primary py-2 px-1 rounded-md mt-3 font-semibold px-3"
+                  onClick={() => setModalOpenNewAddress(true)}
+                />
+              </div>
+
               <label
                 htmlFor="Password"
                 className="font-semibold"
@@ -246,19 +276,40 @@ const ProfileMemberView = (props: PropTypes) => {
                 <Button
                   label={isLoading == 'profile' ? 'Updating...' : 'Update'}
                   type="submit"
-                  className="bg-color-blue text-color-primary py-2 px-1 rounded-md mt-3 font-semibold px-3"
+                  className="bg-color-pink text-color-primary py-2 px-1 rounded-md mt-3 font-semibold px-3"
                 />
               </div>
             </form>
           </div>
         </div>
-      </MemberLayout>
+      </div>
       {openModal && (
         <ModalUpdatePassword
           profile={profile}
           session={session}
           setOpenModal={setOpenModal}
           setToaster={setToaster}
+        />
+      )}
+      {Object.keys(openModalAddress).length > 0 && (
+        <ModalUpdateAddress
+          profile={profile}
+          setProfile={setProfile}
+          selectAddress={selectAddress}
+          session={session}
+          setToaster={setToaster}
+          openModalAddress={openModalAddress}
+          setOpenModalAddress={setOpenModalAddress}
+        />
+      )}
+      {openModalNewAddress && (
+        <ModalAddAddress
+          profile={profile}
+          setProfile={setProfile}
+          session={session}
+          setToaster={setToaster}
+          openModalNewAddress={openModalNewAddress}
+          setModalOpenNewAddress={setModalOpenNewAddress}
         />
       )}
     </>

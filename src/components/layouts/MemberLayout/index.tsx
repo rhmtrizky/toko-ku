@@ -1,5 +1,3 @@
-import SideBar from '@/components/fragments/SideBar';
-
 const SideBarItems = [
   {
     title: 'Dashboard',
@@ -25,12 +23,7 @@ const MemberLayout = (props: PropTypes) => {
   const { children } = props;
   return (
     <div className="flex ">
-      <SideBar
-        lists={SideBarItems}
-        title="Toko-ku"
-        bgColor={'pink'}
-      />
-      <div className="ml-[20%] w-full px-10 py-7 h-auto min-h-screen">{children}</div>
+      <div className=" w-full px-10 py-7 h-auto min-h-screen">{children}</div>
     </div>
   );
 };

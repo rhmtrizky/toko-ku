@@ -102,7 +102,7 @@ const DetailProductView = (props: PropTypes) => {
             <div className="flex flex-col gap-5">
               <h1 className="Lg:text-3xl md:text-3xl sm:text-2xl text-2xl text-color-pink font-semibold">{product?.name}</h1>
               <div className="text-color-pink font-normal text-sm flex flex-col gap-1">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, a. Natus at illum maiores rerum error eveniet nostrum, ex tempore quasi adipisci! Saepe nostrum autem dolor accusantium sit veniam ut! Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                {product?.description !== '' ? <p>{product?.description}</p> : <p className="text-color-pink font-normal text-sm italic">No description</p>}
                 <p>RATING | 314 Terjual</p>
               </div>
 

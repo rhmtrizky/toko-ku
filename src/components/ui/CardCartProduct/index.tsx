@@ -66,7 +66,9 @@ const CardCartProduct = (props: PropTypes) => {
                 <MdOutlineDeleteOutline size={23} />
               </button>
             </div>
-            <p className="text-xs lg:flex md:hidden sm:hidden hidden max">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam itaque.</p>
+            <div className="lg:max-h-[70px] md:max-h-[60px] sm:max-h-[40px] max-h-[40px] lg:flex md:flex sm:hidden hidden overflow-auto">
+              {getCartProducts(item.id)?.description !== '' ? <p className="text-color-pink font-normal text-xs">{getCartProducts(item.id)?.description}</p> : <p className="text-color-pink font-normal text-sm italic">No description</p>}
+            </div>
             <p className="text-color-pink lg:hidden md:flex sm:flex flex">{getCartProducts(item.id)?.category}</p>
             <h1 className=" font-semibold text-color-pink lg:hidden md:flex sm:flex flex">{Converter(price)}</h1>
             <div className="lg:hidden md:hidden sm:flex flex gap-3 justify-evenly items-center bg-color-cream rounded-md text-color-pink py-1 w-[100px] font-semibold text-sm">
@@ -78,19 +80,6 @@ const CardCartProduct = (props: PropTypes) => {
                 <FaPlus size={13} />
               </button>
             </div>
-            {/* <div className="lg:hidden md:hidden sm:flex flex justify-end items-center gap-2 text-xs">
-              <Button
-                label="Update"
-                type="button"
-                onClick={() => setUpdateCart(item)}
-                className="bg-color-pink text-color-cream py-1 px-2 rounded"
-              />
-              <Button
-                label="Delete"
-                // onClick={() => setUpdateCart({})}
-                className="bg-color-pink text-color-cream py-1 px-2 rounded"
-              />
-            </div> */}
           </div>
 
           <div className="lg:hidden md:flex sm:hidden hidden gap-3 justify-evenly items-center bg-color-cream rounded-md text-color-pink py-1 w-[120px] font-semibold text-sm">

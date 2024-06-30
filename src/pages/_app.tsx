@@ -23,7 +23,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) =>
 const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
   const [toaster, setToaster] = useState<any>({});
   const router = useRouter();
-  const excludedPaths = ['/auth', '/admin', '/member'];
+  const excludedPaths = ['/auth', '/admin'];
   const [cart, setCart] = useState([]);
   const { data: sessionData, status: sessionStatus }: any = useSession();
 

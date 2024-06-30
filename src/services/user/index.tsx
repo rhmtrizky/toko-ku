@@ -9,6 +9,7 @@ const userService = {
   updateProfile: (id: string, data: any, token: string) => instance.put(`/api/user/profile/${id}`, { data }, headers(token)),
   getCart: (token: string) => instance.get(`/api/user/cart`, headers(token)),
   addToCart: (data: any, token: string) => instance.put('/api/user/cart', { data }, headers(token)),
+  updateAddress: (id: string, data: any, token: string) => instance.put(`/api/user/address/${id}`, { data }, headers(token)),
 };
 
 export default userService;
