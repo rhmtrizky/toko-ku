@@ -56,6 +56,7 @@ const authOptions: NextAuthOptions = {
         token.role = user.role;
         token.id = user.id;
         token.image = user.image;
+        token.address = user.address;
       }
 
       if (account?.provider === 'google') {
@@ -63,7 +64,8 @@ const authOptions: NextAuthOptions = {
           email: user.email,
           image: user?.image,
           fullname: user.name,
-          phoneNumber: '',
+          phoneNumber: user.phoneNumber,
+          address: user.address,
           type: 'google',
         };
 
@@ -71,6 +73,7 @@ const authOptions: NextAuthOptions = {
           token.email = data.email;
           token.fullname = data.fullname;
           token.phoneNumber = data.phoneNumber;
+          token.address = data?.address;
           token.image = data?.image;
           token.role = data.role;
           token.id = data.id;
@@ -83,6 +86,7 @@ const authOptions: NextAuthOptions = {
           image: user?.image,
           fullname: user?.name,
           phoneNumber: '',
+          address: [],
           type: 'github',
         };
 
@@ -90,6 +94,7 @@ const authOptions: NextAuthOptions = {
           token.email = data.email;
           token.fullname = data.fullname;
           token.phoneNumber = data.phoneNumber;
+          token.address = data?.address;
           token.image = data?.image;
           token.role = data.role;
         });
@@ -105,6 +110,9 @@ const authOptions: NextAuthOptions = {
       }
       if ('phoneNumber' in token) {
         session.user.phoneNumber = token.phoneNumber;
+      }
+      if ('address' in token) {
+        session.user.address = token.address;
       }
       if ('password' in token) {
         session.user.password = token.password;

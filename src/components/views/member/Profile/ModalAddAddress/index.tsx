@@ -49,12 +49,16 @@ const ModalAddAddress = (props: PropTypes) => {
         isMain: form['isMain'].value === 'true', // Convert back to boolean
       };
 
-      let allAddress = [...profile.data.address];
-      allAddress = allAddress.map((address, index) => ({
-        ...address,
-        isMain: newAddress.isMain ? false : newAddress.isMain,
-      }));
-      allAddress.push(newAddress);
+      let allAddress = [...profile?.data?.address];
+      if (allAddress.length > 0) {
+        allAddress = allAddress.map((address, index) => ({
+          ...address,
+          isMain: newAddress.isMain ? false : address.isMain,
+        }));
+        allAddress.push(newAddress);
+      } else {
+        allAddress = [newAddress];
+      }
 
       const result = await userService.updateProfile(profile.data.id, { address: allAddress }, session.data?.accessToken);
       if (result.status === 200) {
@@ -62,18 +66,20 @@ const ModalAddAddress = (props: PropTypes) => {
         setProfile(data.data);
         setToaster({
           variant: 'success',
-          message: 'Success Update Address',
+          message: 'Success Create Address',
         });
 
         setModalOpenNewAddress(false);
         setIsLoading(false);
       }
     } catch (error: any) {
+      console.log(error);
+
       setIsLoading(false);
       setModalOpenNewAddress(false);
       setToaster({
         variant: 'error',
-        message: 'Failed Update Address',
+        message: 'Failed Create Address',
       });
     }
   };

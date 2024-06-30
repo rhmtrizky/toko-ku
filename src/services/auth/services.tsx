@@ -7,6 +7,7 @@ export async function signUp(
     fullname: string;
     password: string;
     phoneNumber: string;
+    address: [];
     image?: string;
     role: string;
   },
@@ -22,6 +23,7 @@ export async function signUp(
       userData.role = 'member';
     }
     userData.image = '';
+    userData.address = [];
     userData.password = await bcrypt.hash(userData.password, 10);
     addData('users', userData, (result: boolean) => {
       if (result) {
@@ -46,6 +48,8 @@ export async function loginWithGoogle(
     id?: string;
     email: string;
     password?: string;
+    phoneNumber?: string;
+    address?: [];
     role?: string;
   },
   callback: Function
@@ -55,6 +59,8 @@ export async function loginWithGoogle(
     callback(user[0]);
   } else {
     data.role = 'member';
+    data.phoneNumber = '';
+    data.address = [];
     await addData('users', data, (status: boolean, res: any) => {
       const userId = res.path.split('/').pop();
       data.id = userId;
