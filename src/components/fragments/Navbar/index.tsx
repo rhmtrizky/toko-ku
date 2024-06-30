@@ -148,7 +148,20 @@ const Navbar = (props: PropTypes) => {
 
               <RiShoppingBagLine size={23} />
             </Link>
-            <FiUser size={23} />
+            <Dropdown>
+              <DropdownTrigger>
+                <button style={{ outline: 'none' }}>
+                  <FiUser size={23} />
+                </button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="new">
+                  <Link href={'/member/profile'}>My Profile</Link>
+                </DropdownItem>
+
+                <DropdownItem key="copy">{status === 'authenticated' ? <button onClick={() => signOut()}>Logout</button> : <button onClick={() => signIn()}>Login</button>}</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
             {data &&
               (!data?.user?.hasOwnProperty('fullname') ? (
                 <p className="font-semibold text-sm">
