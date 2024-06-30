@@ -20,6 +20,7 @@ const InputUi = (props: InputProps) => {
       labelPlacement={'inside'}
       type={type}
       name={name}
+      required
       label={label ? label : placeholder}
       defaultValue={defaultValue}
       disabled={disabled}

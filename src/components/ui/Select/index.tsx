@@ -24,6 +24,7 @@ const SelectUi = (props: PropTypes) => {
       labelPlacement={'inside'}
       label={label}
       disabled={disabled}
+      required
     >
       {options.map((option) => (
         <SelectItem
