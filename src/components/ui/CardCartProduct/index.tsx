@@ -8,8 +8,8 @@ import { MdOutlineDeleteOutline } from 'react-icons/md';
 type PropTypes = {
   item: any;
   products: any;
-  setUpdateCart: any;
-  setDeleteCart: any;
+  setUpdateCart?: any;
+  setDeleteCart?: any;
 };
 
 const CardCartProduct = (props: PropTypes) => {

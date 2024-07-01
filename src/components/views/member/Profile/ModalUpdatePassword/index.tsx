@@ -1,6 +1,6 @@
 import AlertUi from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import InputUi from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
 import userService from '@/services/user';
 import { FormEvent, useState } from 'react';
@@ -77,17 +77,19 @@ const ModalUpdatePassword = (props: PropTypes) => {
             />
           </div>
         )}
-        <Input
+        <InputUi
           label="Password"
           type="password"
           name="old-password"
           placeholder="Password"
+          required={true}
         />
-        <Input
+        <InputUi
           label="New Password"
           type="password"
           name="new-password"
           placeholder="Password"
+          required={true}
         />
         <Button
           label={isLoading ? 'Updating...' : 'Update'}

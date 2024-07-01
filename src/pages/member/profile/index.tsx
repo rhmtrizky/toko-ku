@@ -9,8 +9,9 @@ type PropTypes = {
 
 const MemberAdminProfile = (props: PropTypes) => {
   const { setToaster } = props;
-  const [profile, setProfile] = useState({});
   const session: any = useSession();
+
+  const [profile, setProfile] = useState({});
   useEffect(() => {
     if (session.data?.accessToken && Object.keys(profile).length === 0) {
       const getProfile = async () => {

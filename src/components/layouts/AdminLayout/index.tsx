@@ -6,6 +6,12 @@ const SideBarItems = [
     url: '/admin',
     icon: 'bxs-dashboard',
   },
+
+  {
+    title: 'Orders',
+    url: '/admin/orders',
+    icon: 'bx-cart-add',
+  },
   {
     title: 'Products',
     url: '/admin/products',
