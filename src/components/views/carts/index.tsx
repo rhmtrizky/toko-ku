@@ -70,7 +70,7 @@ const CartPageView = (props: PropTypes) => {
             ))}
           </div>
           <div className="w-full bg-color-pink min-h-[100px] rounded-md px-4 py-4 fixed bottom-0 right-0 left-0 z-30 flex justify-center items-center shadow-t-lg">
-            <div className="w-[85%] flex lg:flex-row md:flex-row sm:flex-col flex-col justify-between lg:items-center md:items-center sm:items-start items-start">
+            <div className="w-[85%] flex flex-row justify-between items-center">
               <div className="w-full text-color-primary font-semibold ">
                 <h1>
                   Total items: <span className="text-color-primary">({cart?.length})</span>
@@ -78,17 +78,16 @@ const CartPageView = (props: PropTypes) => {
                 <h1>
                   Total item quantity: <span className="text-color-primary">({getTotalItems()})</span>
                 </h1>
-              </div>
-              <div className="flex gap-5 lg:justify-center md:justify-center sm:justify-between justify-between items-center lg:w-auto md:w-auto sm:w-full w-full">
                 <h1 className="text-color-primary font-semibold">Total: {Converter(getTotalPrice())}</h1>
-                <Link href={'/checkout'}>
-                  <Button
-                    label="Checkout"
-                    type="button"
-                    className="bg-color-red text-color-primary py-2 px-4 rounded-md font-semibold opacity-[90%]"
-                  />
-                </Link>
               </div>
+
+              <Link href={'/checkout'}>
+                <Button
+                  label="Checkout"
+                  type="button"
+                  className="bg-color-red text-color-primary py-2 px-4 rounded-md font-semibold opacity-[90%]"
+                />
+              </Link>
             </div>
           </div>
         </>
