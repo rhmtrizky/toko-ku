@@ -47,6 +47,7 @@ const OrdersAdminView = (props: PropTypes) => {
     {
       title: 'Items',
       uid: 'items',
+      style: { width: '200px' }, // Adjust the width as needed
     },
     {
       title: 'Total Items',
@@ -63,6 +64,7 @@ const OrdersAdminView = (props: PropTypes) => {
     {
       title: 'Address',
       uid: 'address',
+      style: { width: '300px' }, // Adjust the width as needed
     },
     {
       title: 'Status',
@@ -92,7 +94,7 @@ const OrdersAdminView = (props: PropTypes) => {
         );
       case 'items':
         return (
-          <ul>
+          <ul className="w-[150px]">
             {data.items.map((item: any, idx: number) => (
               <li key={idx}>
                 <p>
@@ -119,7 +121,7 @@ const OrdersAdminView = (props: PropTypes) => {
         return <p>{Converter(total)}</p>;
       case 'address':
         return (
-          <div>
+          <div className="flex flex-col gap-1 w-[230px]">
             <p>
               <span className="font-bold">Recipient: </span>
               {data.address.recipient}
@@ -129,8 +131,28 @@ const OrdersAdminView = (props: PropTypes) => {
               {data.address.detailAddress}
             </p>
             <p>
+              <span className="font-bold">Province: </span>
+              {data.address.province}
+            </p>
+            <p>
+              <span className="font-bold">City: </span>
+              {data.address.city}
+            </p>
+            <p>
+              <span className="font-bold">District: </span>
+              {data.address.district}
+            </p>
+            <p>
+              <span className="font-bold">Postal Code: </span>
+              {data.address.postalCode}
+            </p>
+            <p>
               <span className="font-bold">Note: </span>
               {data.address.note}
+            </p>
+            <p>
+              <span className="font-bold">Receiver Number: </span>
+              {data.address.phoneNumber}
             </p>
           </div>
         );

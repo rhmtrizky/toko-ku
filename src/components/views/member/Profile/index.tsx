@@ -237,7 +237,10 @@ const ProfileMemberView = (props: PropTypes) => {
                   >
                     <div className="w-4/5 flex flex-col gap-1">
                       <p className="font-bold text-color-dark text-md">{item.recipient}</p>
-                      <p className="text-color-dark lg:text-sm md:text-sm sm:text-sm text-sm">{item.detailAddress}</p>
+                      <p className="text-color-dark lg:text-sm md:text-sm sm:text-sm text-sm">{item.phoneNumber}</p>
+                      <p className="text-color-dark lg:text-sm md:text-sm sm:text-sm text-sm">
+                        {item.detailAddress}, {item.district}, {item.city}, {item.province}, {item.postcalCode}
+                      </p>
                       {item.note !== '' ? <p className="italic text-sm">Note : {item.note}</p> : <p className="italic text-sm">Note : No Note</p>}
                     </div>
                     {item.isMain && <div className="flex justify-center items-center bg-color-blue font-semibold text-color-primary py-1 px-1 rounded-md w-1/5 h-8 lg:text-sm md:text-sm sm:text-xs text-xs text-justify">Main</div>}

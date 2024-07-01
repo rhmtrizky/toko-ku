@@ -45,6 +45,11 @@ const ModalAddAddress = (props: PropTypes) => {
       const newAddress = {
         recipient: form['recipient'].value,
         detailAddress: form['detailAddress'].value,
+        phoneNumber: form['phoneNumber'].value,
+        province: form['province'].value,
+        city: form['city'].value,
+        district: form['district'].value,
+        postalCode: form['postalCode'].value,
         note: form['note'].value,
         isMain: form['isMain'].value === 'true', // Convert back to boolean
       };
@@ -99,10 +104,45 @@ const ModalAddAddress = (props: PropTypes) => {
           required={true}
         />
         <InputUi
+          label="Province"
+          type="text"
+          name="province"
+          placeholder="Province"
+          required={true}
+        />
+        <InputUi
+          label="City"
+          type="text"
+          name="city"
+          placeholder="City"
+          required={true}
+        />
+        <InputUi
+          label="District"
+          type="text"
+          name="district"
+          placeholder="District"
+          required={true}
+        />
+        <InputUi
           label="Detail Address"
           type="text"
           name="detailAddress"
           placeholder="Detail Address"
+          required={true}
+        />
+        <InputUi
+          label="Postal Code"
+          type="number"
+          name="postalCode"
+          placeholder="Postal Code"
+          required={true}
+        />
+        <InputUi
+          label="Recipient Phone Number"
+          type="number"
+          name="phoneNumber"
+          placeholder="+62xxxxxxxxxx"
           required={true}
         />
         <InputUi

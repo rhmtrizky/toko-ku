@@ -37,12 +37,13 @@ const AdminLayout = (props: PropTypes) => {
   return (
     <>
       <div className="flex lg:flex md:flex sm:hidden hidden">
+        <div className="ml-[20%] w-full px-10 py-7 h-auto min-h-screen">{children}</div>
+
         <SideBar
           lists={SideBarItems}
           title="Admin Panel"
           bgColor={'pink'}
         />
-        <div className="ml-[20%] w-full px-10 py-7 h-auto min-h-screen">{children}</div>
       </div>
       <div className="w-full h-screen lg:hidden md:hidden sm:flex flex justify-center items-center">
         <h1>For admin panel, you can open in dekstop only</h1>
