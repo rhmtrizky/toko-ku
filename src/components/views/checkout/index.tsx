@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
+import { RiErrorWarningLine } from 'react-icons/ri';
 
 type PropTypes = {
   products: any;
@@ -27,7 +28,7 @@ const CheckoutPageView = (props: PropTypes) => {
 
   const getMainAddressIndex = () => {
     const addressIndex = profile?.data?.address?.findIndex((address: any) => address.isMain);
-    return addressIndex !== -1 ? addressIndex : 0;
+    return addressIndex !== -1 ? addressIndex : undefined;
   };
 
   const [selectAddress, setSelectAddress] = useState(getMainAddressIndex());
@@ -157,6 +158,7 @@ const CheckoutPageView = (props: PropTypes) => {
                   className="text-color-dark text-md"
                   style={{ padding: '8px', borderRadius: '4px', backgroundColor: '#DDDDCF', width: '100%', height: '40px', border: 'none' }}
                   onChange={(e) => setSelectAddress(parseInt(e.target.value))}
+                  required
                 >
                   {profile?.data?.address?.map((address: any, index: number) => (
                     <option
@@ -170,6 +172,14 @@ const CheckoutPageView = (props: PropTypes) => {
                   ))}
                 </select>
               </div>
+              {selectAddress === undefined && (
+                <p className="text-color-red text-sm flex justify-start items-center gap-1 w-full">
+                  <span>
+                    <RiErrorWarningLine size={20} />
+                  </span>
+                  Please set your address first at your profile
+                </p>
+              )}
               <div className="w-full">
                 <label className="text-color-pink font-semibold">Receiver Name</label>
                 <input
@@ -273,12 +283,22 @@ const CheckoutPageView = (props: PropTypes) => {
                   <p>Total Quantity : ({getTotalItems()})</p>
                   <p className="font-bold">Total Price : {Converter(getTotalPrice())}</p>
                 </div>
-                <Button
-                  label={isLoading ? 'Loading...' : 'Checkout'}
-                  type="submit"
-                  className="bg-color-cream text-color-red py-2 px-3 rounded-md mt-3"
-                  onClick={handleCheckout}
-                />
+                {selectAddress !== undefined && selectAddress !== null ? (
+                  <Button
+                    label={isLoading ? 'Loading...' : 'Checkout'}
+                    type="submit"
+                    className="bg-color-cream text-color-red py-2 px-3 rounded-md mt-3"
+                    onClick={handleCheckout}
+                  />
+                ) : (
+                  <Button
+                    label={isLoading ? 'Loading...' : 'Checkout'}
+                    type="submit"
+                    className="bg-color-cream text-color-red py-2 px-3 rounded-md mt-3 opacity-50"
+                    onClick={handleCheckout}
+                    disabled
+                  />
+                )}
               </div>
             </div>
           </div>
