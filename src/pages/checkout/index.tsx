@@ -52,6 +52,7 @@ const CheckoutPage = (props: PropTypes) => {
       setCart={setCart}
       profile={profile}
       setProfile={setProfile}
+      setProducts={setProducts}
     />
   );
 };

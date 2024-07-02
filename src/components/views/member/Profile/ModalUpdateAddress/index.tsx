@@ -46,6 +46,11 @@ const ModalUpdateAddress = (props: PropTypes) => {
       const newAddress = {
         recipient: form['recipient'].value,
         detailAddress: form['detailAddress'].value,
+        phoneNumber: form['phoneNumber'].value,
+        province: form['province'].value,
+        city: form['city'].value,
+        district: form['district'].value,
+        postalCode: form['postalCode'].value,
         note: form['note'].value,
         isMain: form['isMain'].value === 'true',
       };
@@ -91,6 +96,31 @@ const ModalUpdateAddress = (props: PropTypes) => {
           name="recipient"
           placeholder="Recipient"
           defaultValue={openModalAddress?.recipient}
+          required={true}
+        />
+        <InputUi
+          label="Province"
+          type="text"
+          name="province"
+          placeholder="Province"
+          required={true}
+          defaultValue={openModalAddress?.province}
+        />
+        <InputUi
+          label="City"
+          type="text"
+          name="city"
+          placeholder="City"
+          required={true}
+          defaultValue={openModalAddress?.city}
+        />
+        <InputUi
+          label="District"
+          type="text"
+          name="district"
+          placeholder="District"
+          required={true}
+          defaultValue={openModalAddress?.district}
         />
         <InputUi
           label="Detail Address"
@@ -98,6 +128,23 @@ const ModalUpdateAddress = (props: PropTypes) => {
           name="detailAddress"
           placeholder="Detail Address"
           defaultValue={openModalAddress?.detailAddress}
+          required={true}
+        />
+        <InputUi
+          label="Postal Code"
+          type="number"
+          name="postalCode"
+          placeholder="Postal Code"
+          required={true}
+          defaultValue={openModalAddress?.postalCode}
+        />
+        <InputUi
+          label="Recipient Phone Number"
+          type="number"
+          name="phoneNumber"
+          placeholder="+62xxxxxxxxxx"
+          required={true}
+          defaultValue={openModalAddress?.phoneNumber}
         />
         <InputUi
           label="Notes Address"
@@ -111,6 +158,7 @@ const ModalUpdateAddress = (props: PropTypes) => {
           defaultSelectedKeys={openModalAddress?.isMain ? ['true'] : ['false']}
           labelPlacement={'inside'}
           label={'Main Address'}
+          required={true}
         >
           {options.map((option) => (
             <SelectItem

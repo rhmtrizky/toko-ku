@@ -1,6 +1,7 @@
 import Button from '@/components/ui/Button';
 import PageCartEmpty from '@/components/ui/PageCartEmpty';
 import orderService from '@/services/order';
+import productService from '@/services/product';
 import userService from '@/services/user';
 import Converter from '@/utils/Converter';
 import { useSession } from 'next-auth/react';
@@ -8,6 +9,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 import { RiErrorWarningLine } from 'react-icons/ri';
+import { TbArrowAutofitWidth } from 'react-icons/tb';
 
 type PropTypes = {
   products: any;
@@ -16,15 +18,14 @@ type PropTypes = {
   setCart: any;
   profile: any;
   setProfile: any;
+  setProducts: any;
 };
 
 const CheckoutPageView = (props: PropTypes) => {
-  const { products, cart, setToaster, setCart, profile, setProfile } = props;
+  const { products, cart, setToaster, setCart, profile, setProfile, setProducts } = props;
   const session: any = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log(products);
 
   const getMainAddressIndex = () => {
     const addressIndex = profile?.data?.address?.findIndex((address: any) => address.isMain);
@@ -32,7 +33,6 @@ const CheckoutPageView = (props: PropTypes) => {
   };
 
   const [selectAddress, setSelectAddress] = useState(getMainAddressIndex());
-  console.log(selectAddress);
 
   const getAddress = () => {
     return profile?.data?.address ? profile.data.address[selectAddress] : null;
@@ -66,6 +66,16 @@ const CheckoutPageView = (props: PropTypes) => {
     return 'BDD-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   };
 
+  const stockDecrement = () => {
+    cart.forEach(async (item: any) => {
+      const product = getCartProducts(item.id);
+      if (product) {
+        const { data } = await productService.updateProduct(product.id, { stock: product.stock - item.qty }, session.data?.accessToken);
+        setProducts(data.data.data);
+      }
+    });
+  };
+
   useEffect(() => {
     setSelectAddress(getMainAddressIndex());
   }, [profile]);
@@ -88,6 +98,8 @@ const CheckoutPageView = (props: PropTypes) => {
         setProfile(data.data);
         const carts = await userService.getCart(session?.data?.accessToken);
         setCart(carts.data.data);
+        stockDecrement();
+        // const products = await productService.updateProducts(cart, session.data?.accessToken);
         setToaster({
           variant: 'success',
           message: 'Success Checkout',
@@ -121,7 +133,7 @@ const CheckoutPageView = (props: PropTypes) => {
                   type="text"
                   name="fullname"
                   defaultValue={profile?.data?.fullname}
-                  className="w-full py-2 px-3 shadow-md rounded-md text-color-dark text-md "
+                  className="w-full py-2 px-3 shadow-md rounded-md text-color-red text-md "
                   style={{ outline: 'none', backgroundColor: '#DDDDCF' }}
                   required
                 />
@@ -132,7 +144,7 @@ const CheckoutPageView = (props: PropTypes) => {
                   type="email"
                   name="email"
                   defaultValue={profile.data?.email}
-                  className="w-full py-2 px-3 shadow-md rounded-md text-color-dark text-md"
+                  className="w-full py-2 px-3 shadow-md rounded-md text-color-red text-md"
                   style={{ outline: 'none', backgroundColor: '#DDDDCF' }}
                   required
                   disabled
@@ -144,7 +156,7 @@ const CheckoutPageView = (props: PropTypes) => {
                   type="number"
                   name="phoneNumber"
                   defaultValue={profile?.data?.phoneNumber}
-                  className="w-full py-2 px-3 shadow-md rounded-md text-color-dark text-md"
+                  className="w-full py-2 px-3 shadow-md rounded-md text-color-red text-md"
                   style={{ outline: 'none', backgroundColor: '#DDDDCF' }}
                   required
                 />
@@ -155,7 +167,7 @@ const CheckoutPageView = (props: PropTypes) => {
                   name="address"
                   id="address"
                   value={selectAddress}
-                  className="text-color-dark text-md"
+                  className="text-color-red text-md"
                   style={{ padding: '8px', borderRadius: '4px', backgroundColor: '#DDDDCF', width: '100%', height: '40px', border: 'none' }}
                   onChange={(e) => setSelectAddress(parseInt(e.target.value))}
                   required
@@ -186,7 +198,7 @@ const CheckoutPageView = (props: PropTypes) => {
                   type="text"
                   name="recipient"
                   defaultValue={getAddress()?.recipient}
-                  className="w-full py-2 px-3 shadow-md rounded-md text-color-dark text-md"
+                  className="w-full py-2 px-3 shadow-md rounded-md text-color-red text-md"
                   style={{ outline: 'none', backgroundColor: '#DDDDCF' }}
                   required
                   disabled
@@ -199,7 +211,7 @@ const CheckoutPageView = (props: PropTypes) => {
                     type="text"
                     name="province"
                     defaultValue={getAddress()?.province}
-                    className="w-full py-2 px-3 shadow-md rounded-md text-color-dark text-md"
+                    className="w-full py-2 px-3 shadow-md rounded-md text-color-red text-md"
                     style={{ outline: 'none', backgroundColor: '#DDDDCF' }}
                     required
                     disabled
@@ -211,7 +223,7 @@ const CheckoutPageView = (props: PropTypes) => {
                     type="text"
                     name="city"
                     defaultValue={getAddress()?.city}
-                    className="w-full py-2 px-3 shadow-md rounded-md text-color-dark text-md"
+                    className="w-full py-2 px-3 shadow-md rounded-md text-color-red text-md"
                     style={{ outline: 'none', backgroundColor: '#DDDDCF' }}
                     required
                     disabled
@@ -223,7 +235,7 @@ const CheckoutPageView = (props: PropTypes) => {
                     type="text"
                     name="district"
                     defaultValue={getAddress()?.city}
-                    className="w-full py-2 px-3 shadow-md rounded-md text-color-dark text-md"
+                    className="w-full py-2 px-3 shadow-md rounded-md text-color-red text-md"
                     style={{ outline: 'none', backgroundColor: '#DDDDCF' }}
                     required
                     disabled
@@ -235,7 +247,7 @@ const CheckoutPageView = (props: PropTypes) => {
                     type="number"
                     name="phoneNumber"
                     defaultValue={getAddress()?.phoneNumber}
-                    className="w-full py-2 px-3 shadow-md rounded-md text-color-dark text-md"
+                    className="w-full py-2 px-3 shadow-md rounded-md text-color-red text-md"
                     style={{ outline: 'none', backgroundColor: '#DDDDCF' }}
                     required
                     disabled
@@ -246,26 +258,27 @@ const CheckoutPageView = (props: PropTypes) => {
           </div>
           <div className="w-full min-h-screen h-auto p-5 flex flex-col justify-start items-center gap-3 lg:mt-5 md:mt-5 sm:mt-0 mt-0 rounded-md relative bg-color-cream">
             <div className="w-full h-[600px] overflow-scroll flex-col justify-center items-center gap-3 lg:pb-20 md:pb-20 sm:pb-20 pb-20">
+              <h1 className="text-color-pink font-semibold mb-3 text-xl">YOUR ORDER</h1>
               {cart.map((item: any, index: number) => (
                 <div
                   className="w-full text-color-pink gap-3 shadow-md p-4 rounded-md mb-3"
                   style={{ backgroundColor: '#DDDDCF' }}
                   key={index}
                 >
-                  <div className="flex gap-3 justify-start items center">
+                  <div className="flex gap-3 justify-start items-center">
                     <Image
                       src={getCartProducts(item.id)?.image}
                       alt={getCartProducts(item.id)?.name}
                       width={130}
-                      height={110}
-                      className="rounded-lg object-cover"
+                      height={130}
+                      className="rounded-lg object-cover lg:h-[170px] lg:w-[170px] md:h-[170px] md:w-[170px] sm:h-[130px] sm:w-[130px] h-[130px] w-[130px]"
                     />
                     <div className="w-full">
                       <p className="lg:text-lg md:text-[15px] sm:text-[15px] text-[15px] font-semibold">{getCartProducts(item.id)?.name}</p>
-                      <div className="lg:max-h-[70px] md:max-h-[60px] sm:max-h-[40px] max-h-[40px] lg:flex md:flex sm:hidden hidden overflow-auto">
+                      <div className="lg:max-h-[70px] md:max-h-[60px] sm:max-h-[50px] max-h-[50px] lg:flex md:flex sm:hidden hidden overflow-auto">
                         {getCartProducts(item.id)?.description !== '' ? <p className="text-color-pink font-normal text-xs">{getCartProducts(item.id)?.description}</p> : <p className="text-color-pink font-normal text-sm italic">No description</p>}
                       </div>
-                      <div className="lg:mt-[3px] md:mt-[3px] sm:mt-[-5px] mt-[-5px] mb-3 ">
+                      <div className="lg:mt-[3px] md:mt-[3px] sm:mt-[0px] mt-[0px] mb-3 ">
                         <p className="text-color-pink lg:flex md:flex sm:flex flex">{getCartProducts(item.id)?.category}</p>
                         <h1 className=" font-semibold text-color-pink text-sm">{Converter(getCartProducts(item.id)?.price)}</h1>
                         <p className="text-sm">Qty: {item.qty}</p>
@@ -284,17 +297,19 @@ const CheckoutPageView = (props: PropTypes) => {
                   <p className="font-bold">Total Price : {Converter(getTotalPrice())}</p>
                 </div>
                 {selectAddress !== undefined && selectAddress !== null ? (
-                  <Button
-                    label={isLoading ? 'Loading...' : 'Checkout'}
-                    type="submit"
-                    className="bg-color-cream text-color-red py-2 px-3 rounded-md mt-3"
-                    onClick={handleCheckout}
-                  />
+                  <div>
+                    <Button
+                      label={isLoading ? 'Loading...' : 'Checkout'}
+                      type="submit"
+                      className="bg-color-cream text-color-red py-2 px-3 rounded-md font-semibold"
+                      onClick={handleCheckout}
+                    />
+                  </div>
                 ) : (
                   <Button
                     label={isLoading ? 'Loading...' : 'Checkout'}
                     type="submit"
-                    className="bg-color-cream text-color-red py-2 px-3 rounded-md mt-3 opacity-50"
+                    className="bg-color-cream text-color-red py-2 px-3 rounded-md opacity-50 font-semibold"
                     onClick={handleCheckout}
                     disabled
                   />
