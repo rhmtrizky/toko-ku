@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import TableNextUi from '@/components/ui/TableNextUi';
 import Converter from '@/utils/Converter';
 import ModalUpdateStatusOrder from './ModalUpdateStatusOrder';
+import Image from 'next/image';
 
 type PropTypes = {
   orders: any[];
@@ -64,6 +65,11 @@ const OrdersAdminView = (props: PropTypes) => {
     {
       title: 'Address',
       uid: 'address',
+      style: { width: '300px' }, // Adjust the width as needed
+    },
+    {
+      title: 'Payment Proof',
+      uid: 'paymentProof',
       style: { width: '300px' }, // Adjust the width as needed
     },
     {
@@ -155,6 +161,15 @@ const OrdersAdminView = (props: PropTypes) => {
               {data.address.phoneNumber}
             </p>
           </div>
+        );
+      case 'paymentProof':
+        return (
+          <Image
+            src={data.paymentProof}
+            alt="payment-proof"
+            width={200}
+            height={200}
+          />
         );
       case 'status':
         return (

@@ -1,7 +1,7 @@
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from '@nextui-org/react';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from '@nextui-org/react';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import { FiUser } from 'react-icons/fi';
+import { useState } from 'react';
+import { FiPackage, FiUser } from 'react-icons/fi';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { MdFavoriteBorder } from 'react-icons/md';
 import { RiSearch2Line, RiShoppingBagLine } from 'react-icons/ri';
@@ -11,12 +11,15 @@ import Link from 'next/link';
 
 type PropTypes = {
   cart: any;
+  orders: any;
 };
 
 const Navbar = (props: PropTypes) => {
-  const { cart } = props;
+  const { cart, orders } = props;
   const { data, status }: any = useSession();
   const [sidebar, setSidebar] = useState(false);
+
+  const filterOrdersUnpaid = orders.filter((order: any) => order.status === 'order');
 
   const SideBarItems = [
     {
@@ -62,7 +65,7 @@ const Navbar = (props: PropTypes) => {
             >
               <p className="text-color-red font-semibold text-xl cursor-pointer">LOGO TOKO</p>
             </Link>
-            <div className="flex w-3/4 h-full items-center justify-evenly items-center px-5 text-color-red font-normal text-[15px]">
+            <div className="flex w-3/4 h-full items-center justify-evenly items-center px-5 text-color-red font-normal text-[14px]">
               <Link href={'/'}>
                 <p>HOME</p>
               </Link>
@@ -81,23 +84,36 @@ const Navbar = (props: PropTypes) => {
                 style={{ backgroundColor: 'transparent' }}
               />
               <div className="absolute top-2 right-2 text-color-red">
-                <RiSearch2Line size={23} />
+                <RiSearch2Line size={20} />
               </div>
             </div>
-            <div className="flex gap-3 items-center text-color-red">
-              <MdFavoriteBorder size={23} />
+            <div className="flex gap-1 items-center text-color-red">
+              <MdFavoriteBorder size={20} />
+
               <Link
                 href={'/member/cart'}
                 className="w-[35px] h-[40px] relative flex flex-col gap-4 justify-center items-center"
               >
                 {cart?.length !== 0 && cart !== undefined ? <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">{cart?.length}</p> : <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">0</p>}
 
-                <RiShoppingBagLine size={23} />
+                <RiShoppingBagLine size={20} />
+              </Link>
+              <Link
+                href={'/member/orders'}
+                className="w-[35px] h-[40px] relative flex flex-col gap-4 justify-center items-center"
+              >
+                {filterOrdersUnpaid?.length !== 0 && filterOrdersUnpaid !== undefined ? (
+                  <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">{filterOrdersUnpaid?.length}</p>
+                ) : (
+                  <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">0</p>
+                )}
+
+                <FiPackage size={20} />
               </Link>
               <Dropdown>
                 <DropdownTrigger>
                   <button style={{ outline: 'none' }}>
-                    <FiUser size={23} />
+                    <FiUser size={20} />
                   </button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
@@ -108,7 +124,6 @@ const Navbar = (props: PropTypes) => {
                   <DropdownItem key="copy">{status === 'authenticated' ? <button onClick={() => signOut()}>Logout</button> : <button onClick={() => signIn()}>Login</button>}</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-
               {data &&
                 (!data?.user?.hasOwnProperty('fullname') ? (
                   <p className="font-semibold text-sm">
@@ -132,26 +147,39 @@ const Navbar = (props: PropTypes) => {
         <div className="lg:hidden md:flex sm:flex flex justify-between w-full h-full items-center px-5">
           <div className="flex gap-3 items-center">
             <button onClick={() => setSidebar(!sidebar)}>
-              <GiHamburgerMenu size={23} />
+              <GiHamburgerMenu size={20} />
             </button>
             <Link href={'/'}>
               <p className="text-color-red font-semibold text-lg cursor-pointer">LOGO TOKO</p>
             </Link>
           </div>
           <div className="flex lg:gap-3 md:gap-3 sm:gap-1 gap-1 items-center text-color-red">
-            <MdFavoriteBorder size={23} />
+            <MdFavoriteBorder size={20} />
             <Link
               href={'/member/cart'}
               className="w-[35px] h-[40px] relative flex flex-col gap-4 justify-center items-center"
             >
               {cart?.length !== 0 && cart !== undefined ? <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">{cart?.length}</p> : <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">0</p>}
 
-              <RiShoppingBagLine size={23} />
+              <RiShoppingBagLine size={20} />
+            </Link>
+
+            <Link
+              href={'/member/orders'}
+              className="w-[35px] h-[40px] relative flex flex-col gap-4 justify-center items-center"
+            >
+              {filterOrdersUnpaid?.length !== 0 && filterOrdersUnpaid !== undefined ? (
+                <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">{filterOrdersUnpaid?.length}</p>
+              ) : (
+                <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">0</p>
+              )}
+
+              <FiPackage size={20} />
             </Link>
             <Dropdown>
               <DropdownTrigger>
                 <button style={{ outline: 'none' }}>
-                  <FiUser size={23} />
+                  <FiUser size={20} />
                 </button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
@@ -162,7 +190,7 @@ const Navbar = (props: PropTypes) => {
                 <DropdownItem key="copy">{status === 'authenticated' ? <button onClick={() => signOut()}>Logout</button> : <button onClick={() => signIn()}>Login</button>}</DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            {data &&
+            {/* {data &&
               (!data?.user?.hasOwnProperty('fullname') ? (
                 <p className="font-semibold text-sm">
                   Hallo, <span className="font-bold text-color-red">{data?.user?.name?.split(' ')[0]}</span>
@@ -171,7 +199,7 @@ const Navbar = (props: PropTypes) => {
                 <p className="font-semibold text-sm">
                   Hallo, <span className="font-bold text-color-red">{data?.user?.fullname?.split(' ')[0]}</span>
                 </p>
-              ))}
+              ))} */}
           </div>
         </div>
       </div>

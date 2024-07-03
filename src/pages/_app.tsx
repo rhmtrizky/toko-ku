@@ -8,6 +8,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import Navbar from '@/components/fragments/Navbar';
 import { useRouter } from 'next/router';
 import userService from '@/services/user';
+import orderService from '@/services/order';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
@@ -22,9 +23,14 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) =>
 
 const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
   const [toaster, setToaster] = useState<any>({});
+
   const router = useRouter();
   const excludedPaths = ['/auth', '/admin'];
+  const showNavbar = !excludedPaths.some((path) => router.pathname.startsWith(path));
+
   const [cart, setCart] = useState([]);
+  const [orders, setOrders] = useState<any>([]);
+
   const { data: sessionData, status: sessionStatus }: any = useSession();
 
   const getCarts = async (token: string) => {
@@ -36,13 +42,31 @@ const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) =
     }
   };
 
+  const getSessionOrders = async (token: string) => {
+    try {
+      const { data } = await orderService.getAllOrders(token);
+
+      const orders = data?.data?.filter((order: any) => {
+        return order?.userId === sessionData?.user?.id;
+      });
+
+      setOrders(orders);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
   useEffect(() => {
     if (sessionStatus === 'authenticated' && sessionData?.accessToken) {
       getCarts(sessionData.accessToken);
     }
   }, [sessionStatus, sessionData]);
 
-  const showNavbar = !excludedPaths.some((path) => router.pathname.startsWith(path));
+  useEffect(() => {
+    if (sessionStatus === 'authenticated' && sessionData?.accessToken) {
+      getSessionOrders(sessionData.accessToken);
+    }
+  }, [sessionStatus, sessionData]);
 
   useEffect(() => {
     if (Object.keys(toaster).length > 0) {
@@ -57,7 +81,10 @@ const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) =
       <div className="relative">
         {showNavbar && (
           <div className="fixed top-0 left-0 right-0 z-40">
-            <Navbar cart={cart} />
+            <Navbar
+              cart={cart}
+              orders={orders}
+            />
           </div>
         )}
         <Component
@@ -65,6 +92,8 @@ const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) =
           setToaster={setToaster}
           setCart={setCart}
           cart={cart}
+          orders={orders}
+          setOrders={setOrders}
         />
       </div>
       {Object.keys(toaster).length > 0 && (

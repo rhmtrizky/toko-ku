@@ -8,10 +8,11 @@ type PropTypes = {
   setToaster: any;
   cart: any;
   setCart: any;
+  setOrders: any;
 };
 
 const CheckoutPage = (props: PropTypes) => {
-  const { setToaster, cart, setCart } = props;
+  const { setToaster, cart, setCart, setOrders } = props;
   const [products, setProducts] = useState([]);
   const [profile, setProfile] = useState({});
 
@@ -53,6 +54,7 @@ const CheckoutPage = (props: PropTypes) => {
       profile={profile}
       setProfile={setProfile}
       setProducts={setProducts}
+      setOrders={setOrders}
     />
   );
 };

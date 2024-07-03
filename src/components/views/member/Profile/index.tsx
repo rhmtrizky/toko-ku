@@ -239,7 +239,7 @@ const ProfileMemberView = (props: PropTypes) => {
                       <p className="font-bold text-color-dark text-md">{item.recipient}</p>
                       <p className="text-color-dark lg:text-sm md:text-sm sm:text-sm text-sm">{item.phoneNumber}</p>
                       <p className="text-color-dark lg:text-sm md:text-sm sm:text-sm text-sm">
-                        {item.detailAddress}, {item.district}, {item.city}, {item.province}, {item.postcalCode}
+                        {item.detailAddress}, {item.district}, {item.city}, {item.province}, {item.postalCode}
                       </p>
                       {item.note !== '' ? <p className="italic text-sm">Note : {item.note}</p> : <p className="italic text-sm">Note : No Note</p>}
                     </div>

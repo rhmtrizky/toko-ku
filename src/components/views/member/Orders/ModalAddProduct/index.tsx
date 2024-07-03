@@ -10,119 +10,121 @@ import { FormEvent, useState } from 'react';
 import { BsUpload } from 'react-icons/bs';
 
 type PropTypes = {
-  setOpenModalAddProduct: any;
+  modalPayOrder: any;
+  setModalPayOrder: any;
   setToaster: any;
-  setProductsData: any;
+  getCartProducts: (id: string) => any;
 };
 
-const ModalAddProduct = (props: PropTypes) => {
-  const { setOpenModalAddProduct, setToaster, setProductsData } = props;
+const ModalPayOrder = (props: PropTypes) => {
+  const { modalPayOrder, setModalPayOrder, setToaster, getCartProducts } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const session: any = useSession();
 
-  const handleAddProduct = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsLoading(true);
+  // const handleAddProduct = async (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   setIsLoading(true);
 
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
+  //   const form = event.target as HTMLFormElement;
+  //   const formData = new FormData(form);
 
-    const data = {
-      name: formData.get('name'),
-      price: formData.get('price'),
-      stock: formData.get('stock'),
-      description: formData.get('description'),
-      category: formData.get('category'),
-    };
+  //   const data = {
+  //     name: formData.get('name'),
+  //     price: formData.get('price'),
+  //     stock: formData.get('stock'),
+  //     description: formData.get('description'),
+  //     category: formData.get('category'),
+  //   };
 
-    try {
-      const result = await productService.addProducts(data, session.data?.accessToken);
-      if (result.status === 200) {
-        if (imageFile) {
-          await handleImageUpload(imageFile, result.data.data.id);
-        } else {
-          setIsLoading(false);
-          setOpenModalAddProduct(false);
-          const { data } = await productService.getAllProducts();
-          setProductsData(data.data);
-          setToaster({
-            variant: 'success',
-            message: 'Success Add Product',
-          });
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-      setOpenModalAddProduct(false);
-      const { data } = await productService.getAllProducts();
-      setProductsData(data.data);
-      setToaster({
-        variant: 'error',
-        message: 'Succes Add Product, but failed to upload image (Size image should be less than 1MB)',
-      });
-      setIsLoading(false);
-    }
-  };
+  //   try {
+  //     const result = await productService.addProducts(data, session.data?.accessToken);
+  //     if (result.status === 200) {
+  //       if (imageFile) {
+  //         await handleImageUpload(imageFile, result.data.data.id);
+  //       } else {
+  //         setIsLoading(false);
+  //         setOpenModalAddProduct(false);
+  //         const { data } = await productService.getAllProducts();
+  //         setProductsData(data.data);
+  //         setToaster({
+  //           variant: 'success',
+  //           message: 'Success Add Product',
+  //         });
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     setIsLoading(false);
+  //     setOpenModalAddProduct(false);
+  //     const { data } = await productService.getAllProducts();
+  //     setProductsData(data.data);
+  //     setToaster({
+  //       variant: 'error',
+  //       message: 'Succes Add Product, but failed to upload image (Size image should be less than 1MB)',
+  //     });
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  const handleImageUpload = async (file: File, productId: string) => {
-    setIsLoading(true);
+  // const handleImageUpload = async (file: File, productId: string) => {
+  //   setIsLoading(true);
 
-    await uploadFile(
-      productId,
-      'products',
-      'product image',
-      file,
-      (status: boolean, progressPercent: number) => {
-        console.log(`Upload progress: ${progressPercent}%`);
-      },
-      async (status: boolean, downloadURL: string, e: any) => {
-        if (status) {
-          const data = {
-            image: downloadURL,
-          };
-          const result = await productService.updateProduct(productId, data, session.data?.accessToken);
-          if (result.status === 200) {
-            const { data } = await productService.getAllProducts();
-            setProductsData(data.data);
-            setToaster({
-              variant: 'success',
-              message: 'Success Add Product',
-            });
-            setOpenModalAddProduct(false);
-          } else {
-            setToaster({
-              variant: 'error',
-              message: 'Failed to update product with image',
-            });
-          }
-        } else {
-          setToaster({
-            variant: 'error',
-            message: 'Size image should be less than 1MB',
-          });
-          setIsLoading(false);
-          e.target[0].value = '';
-        }
-      }
-    );
-  };
+  //   await uploadFile(
+  //     productId,
+  //     'products',
+  //     'product image',
+  //     file,
+  //     (status: boolean, progressPercent: number) => {
+  //       console.log(`Upload progress: ${progressPercent}%`);
+  //     },
+  //     async (status: boolean, downloadURL: string, e: any) => {
+  //       if (status) {
+  //         const data = {
+  //           image: downloadURL,
+  //         };
+  //         const result = await productService.updateProduct(productId, data, session.data?.accessToken);
+  //         if (result.status === 200) {
+  //           const { data } = await productService.getAllProducts();
+  //           setProductsData(data.data);
+  //           setToaster({
+  //             variant: 'success',
+  //             message: 'Success Add Product',
+  //           });
+  //           setOpenModalAddProduct(false);
+  //         } else {
+  //           setToaster({
+  //             variant: 'error',
+  //             message: 'Failed to update product with image',
+  //           });
+  //         }
+  //       } else {
+  //         setToaster({
+  //           variant: 'error',
+  //           message: 'Size image should be less than 1MB',
+  //         });
+  //         setIsLoading(false);
+  //         e.target[0].value = '';
+  //       }
+  //     }
+  //   );
+  // };
 
   return (
-    <Modal onClose={() => setOpenModalAddProduct(true)}>
-      <h1 className="text-lg font-semibold mb-1">Add Product</h1>
+    <Modal onClose={() => setModalPayOrder({})}>
+      <h1 className="text-lg font-semibold mb-1">Add Product {modalPayOrder}</h1>
       <form
         className="flex flex-col gap-2"
-        onSubmit={handleAddProduct}
+        // onSubmit={handleAddProduct}
       >
         <InputUi
           type="text"
-          name="name"
-          placeholder="Product Name"
+          name="orderId"
+          placeholder="Order Id"
           required={true}
+          defaultValue={modalPayOrder.orderId}
         />
-        <InputUi
+        {/* <InputUi
           type="number"
           name="price"
           placeholder="Price"
@@ -151,7 +153,7 @@ const ModalAddProduct = (props: PropTypes) => {
           name="description"
           placeholder="Input description product"
           required={true}
-        />
+        /> */}
         <div className="relative w-full h-full py-2 flex flex-col justify-center items-center border-2 border-color-gray rounded-md mt-2">
           {imageFile ? (
             <div className="flex flex-col justify-center items-center gap-2">
@@ -198,7 +200,7 @@ const ModalAddProduct = (props: PropTypes) => {
             label={'Cancel'}
             className=" text-color-dark py-1 px-3 rounded-md mt-3 border-2 border-color-gray"
             disabled={isLoading}
-            onClick={() => setOpenModalAddProduct(false)}
+            // onClick={() => setOpenModalAddProduct(false)}
           />
           <Button
             label={isLoading ? 'Uploading...' : 'Submit'}
@@ -212,4 +214,4 @@ const ModalAddProduct = (props: PropTypes) => {
   );
 };
 
-export default ModalAddProduct;
+export default ModalPayOrder;

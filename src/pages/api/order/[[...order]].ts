@@ -1,17 +1,27 @@
-import { addData, retrieveData, updateData } from '@/lib/firebase/service';
+import { addData, retrieveData, retrieveDataById, updateData } from '@/lib/firebase/service';
 import jwtAuth from '@/middlewares/jwtAuth';
 
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method == 'GET') {
+    const { order }: any = req.query;
     jwtAuth(req, res, async (decoded: any) => {
       if (decoded) {
-        const orders = await retrieveData('orders');
-        const data = orders.map((order: any) => {
-          return order;
-        });
-        res.status(200).json({ status: true, message: 'Success Get Orders Data', data: data });
+        try {
+          if (order) {
+            const detailProduct = await retrieveDataById('orders', order[0]);
+            res.status(200).json({ status: true, message: 'Success', data: detailProduct });
+          } else {
+            const orders = await retrieveData('orders');
+            const data = orders.map((order: any) => {
+              return order;
+            });
+            res.status(200).json({ status: true, message: 'Success Get Orders Data', data: data });
+          }
+        } catch (err) {
+          res.status(500).json({ status: false, message: 'Internal Server Error' });
+        }
       }
     });
   } else if (req.method === 'PUT') {

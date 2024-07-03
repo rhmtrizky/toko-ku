@@ -1,4 +1,5 @@
 import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
 import PageCartEmpty from '@/components/ui/PageCartEmpty';
 import orderService from '@/services/order';
 import productService from '@/services/product';
@@ -6,10 +7,12 @@ import userService from '@/services/user';
 import Converter from '@/utils/Converter';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
+import { ImHappy } from 'react-icons/im';
+import { IoCheckmarkDoneCircleSharp } from 'react-icons/io5';
 import { RiErrorWarningLine } from 'react-icons/ri';
-import { TbArrowAutofitWidth } from 'react-icons/tb';
 
 type PropTypes = {
   products: any;
@@ -19,13 +22,15 @@ type PropTypes = {
   profile: any;
   setProfile: any;
   setProducts: any;
+  setOrders: any;
 };
 
 const CheckoutPageView = (props: PropTypes) => {
-  const { products, cart, setToaster, setCart, profile, setProfile, setProducts } = props;
+  const { products, cart, setToaster, setCart, profile, setProfile, setProducts, setOrders } = props;
   const session: any = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [alertToPayOrder, setAlertToPayOrder] = useState(false);
 
   const getMainAddressIndex = () => {
     const addressIndex = profile?.data?.address?.findIndex((address: any) => address.isMain);
@@ -94,17 +99,20 @@ const CheckoutPageView = (props: PropTypes) => {
     try {
       const result = await orderService.addOrder(data, session?.data?.accessToken);
       if (result.status === 200) {
-        const data = await userService.updateProfile(profile.data.id, { carts: [] }, session.data?.accessToken);
-        setProfile(data.data);
+        const dataProfile = await userService.updateProfile(profile.data.id, { carts: [] }, session.data?.accessToken);
+        setProfile(dataProfile.data);
         const carts = await userService.getCart(session?.data?.accessToken);
         setCart(carts.data.data);
         stockDecrement();
-        // const products = await productService.updateProducts(cart, session.data?.accessToken);
+        const orders = await orderService.getAllOrders(session?.data?.accessToken);
+        setOrders(orders.data.data);
+
         setToaster({
           variant: 'success',
           message: 'Success Checkout',
         });
-        router.push('/');
+        setAlertToPayOrder(true);
+
         setIsLoading(false);
       }
     } catch (error: any) {
@@ -320,6 +328,27 @@ const CheckoutPageView = (props: PropTypes) => {
         </div>
       ) : (
         <PageCartEmpty />
+      )}
+      {alertToPayOrder && (
+        <Modal onClose={() => setAlertToPayOrder(true)}>
+          <div className="flex justify-center items-center text-color-pink flex-col gap-2 max-w-[370px]">
+            <IoCheckmarkDoneCircleSharp size={80} />
+            <h1 className="font-semibold text-lg text-center flex flex-col">
+              Yeayy, success checkout items. <span className="text-color-red">Next step is payment items !!</span>
+            </h1>
+            <div className="flex flex-col w-full gap-4 mt-2">
+              <Button
+                label="Go to payment"
+                type="button"
+                className="bg-color-red text-color-primary border-color-pink border-2 py-2 px-3 rounded-md font-semibold w-full opacity-70 hover:opacity-90"
+                onClick={() => {
+                  setAlertToPayOrder(false);
+                  router.push('/member/orders');
+                }}
+              />
+            </div>
+          </div>
+        </Modal>
       )}
     </div>
   );
