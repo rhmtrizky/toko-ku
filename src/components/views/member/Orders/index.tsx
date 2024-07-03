@@ -12,7 +12,7 @@ type PropTypes = {
 
 const OrderMemberView = (props: PropTypes) => {
   const { orders, setToaster, setOrders } = props;
-  const [modalPayOrder, setModalPayOrder] = useState('');
+  const [modalPayOrder, setModalPayOrder] = useState<string>('');
 
   const [products, setProducts] = useState([]);
   const getAllProducts = async () => {
@@ -56,7 +56,6 @@ const OrderMemberView = (props: PropTypes) => {
 
   useEffect(() => {
     getAllProducts();
-    console.log(getOrdersPacking().length);
   }, []);
 
   return (
@@ -173,7 +172,7 @@ const OrderMemberView = (props: PropTypes) => {
         </Tab>
       </Tabs>
 
-      {modalPayOrder !== '' && (
+      {modalPayOrder && (
         <ModalPayOrder
           modalPayOrder={modalPayOrder}
           setModalPayOrder={setModalPayOrder}

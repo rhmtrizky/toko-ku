@@ -29,6 +29,9 @@ const ModalPayOrder = (props: PropTypes) => {
   const session: any = useSession();
   console.log(imageFile);
 
+  console.log(modalPayOrder);
+  console.log(detailOrder);
+
   const getDetailOrder = async (id: string) => {
     try {
       const { data } = await orderService.getDetailOrder(id, session.data?.accessToken);
@@ -41,7 +44,10 @@ const ModalPayOrder = (props: PropTypes) => {
   };
 
   useEffect(() => {
-    getDetailOrder(modalPayOrder);
+    console.log(modalPayOrder);
+    if (modalPayOrder) {
+      getDetailOrder(modalPayOrder);
+    }
   }, [modalPayOrder]);
 
   const handlePayOrder = async (event: FormEvent<HTMLFormElement>) => {
@@ -116,7 +122,7 @@ const ModalPayOrder = (props: PropTypes) => {
   };
 
   return (
-    <Modal onClose={() => setModalPayOrder('')}>
+    <Modal onClose={() => setModalPayOrder}>
       <form
         className="flex flex-col gap-2"
         onSubmit={handlePayOrder}

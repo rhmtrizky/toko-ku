@@ -86,14 +86,14 @@ const CardOrders = (props: PropTypes) => {
                 label="Pay Now"
                 type="button"
                 className="bg-color-blue text-color-primary py-2 px-2 rounded-md text-xs opacity-70 w-[90px] hover:opacity-90 lg:hidden md:flex sm:flex flex justify-center items-center"
-                onClick={() => setModalPayOrder(item)}
+                onClick={() => setModalPayOrder(item.id)}
               />
             ) : (
               <Button
                 label="View Details"
                 type="button"
                 className="bg-color-blue text-color-primary py-2 px-2 rounded-md text-xs opacity-70 w-[110px] hover:opacity-90 lg:hidden md:flex sm:flex flex justify-center items-center"
-                onClick={() => setModalPayOrder(item)}
+                onClick={() => setModalPayOrder(item.id)}
               />
             )}
           </div>
