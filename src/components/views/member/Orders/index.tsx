@@ -172,7 +172,7 @@ const OrderMemberView = (props: PropTypes) => {
         </Tab>
       </Tabs>
 
-      {modalPayOrder && (
+      {modalPayOrder !== '' && (
         <ModalPayOrder
           modalPayOrder={modalPayOrder}
           setModalPayOrder={setModalPayOrder}

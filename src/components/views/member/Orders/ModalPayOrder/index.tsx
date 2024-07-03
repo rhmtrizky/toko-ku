@@ -26,25 +26,18 @@ const ModalPayOrder = (props: PropTypes) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [detailOrder, setDetailOrder] = useState<any>({});
-  const session: any = useSession();
-  console.log(imageFile);
-
-  console.log(modalPayOrder);
-  console.log(detailOrder);
+  const { data: session }: any = useSession();
 
   const getDetailOrder = async (id: string) => {
     try {
-      const { data } = await orderService.getDetailOrder(id, session.data?.accessToken);
-      console.log(data.data);
-
+      const { data } = await orderService.getDetailOrder(id, session?.accessToken);
       setDetailOrder(data.data);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching order details:', error);
     }
   };
 
   useEffect(() => {
-    console.log(modalPayOrder);
     if (modalPayOrder) {
       getDetailOrder(modalPayOrder);
     }
@@ -53,66 +46,54 @@ const ModalPayOrder = (props: PropTypes) => {
   const handlePayOrder = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-
-    const data = {
-      status: 'paid',
-    };
+    const data = { status: 'paid' };
 
     try {
-      const result = await orderService.updateOrder(modalPayOrder, data, session.data?.accessToken);
-      if (result.status === 200) {
-        if (imageFile) {
-          await handleImageUpload(imageFile, result.data.data.id);
-        } else {
-          throw new Error('Failed to upload image');
-        }
+      const result = await orderService.updateOrder(modalPayOrder, data, session?.accessToken);
+      console.log(result);
+
+      if (result.status === 200 && imageFile) {
+        await handleImageUpload(imageFile);
+      } else {
+        updateOrderSuccess(result);
       }
     } catch (error) {
-      console.error(error);
-      setIsLoading(false);
+      console.error('Error updating order:', error);
       setToaster({
         variant: 'error',
-        message: 'Succes Add Product, but failed to upload image (Size image should be less than 1MB)',
+        message: 'Failed to update order. Please try again.',
       });
       setIsLoading(false);
     }
   };
 
-  const handleImageUpload = async (file: File, productId: string) => {
-    setIsLoading(true);
-
+  const handleImageUpload = async (file: File) => {
     await uploadFile(
-      productId,
+      modalPayOrder,
       'orders',
-      'payment proof',
+      'payment',
       file,
       (status: boolean, progressPercent: number) => {
         console.log(`Upload progress: ${progressPercent}%`);
       },
       async (status: boolean, downloadURL: string, e: any) => {
         if (status) {
-          const data = {
-            paymentProof: downloadURL,
-          };
-          const result = await orderService.updateOrder(modalPayOrder, data, session.data?.accessToken);
-          if (result.status === 200) {
-            const { data } = await orderService.getAllOrders(session.data?.accessToken);
-            setOrders(data.data);
-            setToaster({
-              variant: 'success',
-              message: 'Success Update orders to be paid',
-            });
-            setModalPayOrder('');
-          } else {
+          try {
+            const data = { paymentProof: downloadURL };
+            const result = await orderService.updateOrder(modalPayOrder, data, session?.accessToken);
+            updateOrderSuccess(result);
+          } catch (error) {
+            console.error('Error updating order with payment proof:', error);
             setToaster({
               variant: 'error',
-              message: 'Failed update orders to be paid',
+              message: 'Successfully added product, but failed to upload image. Size should be less than 1MB.',
             });
+            setIsLoading(false);
           }
         } else {
           setToaster({
             variant: 'error',
-            message: 'Size image should be less than 1MB',
+            message: 'Size of image should be less than 1MB.',
           });
           setIsLoading(false);
           e.target[0].value = '';
@@ -121,8 +102,26 @@ const ModalPayOrder = (props: PropTypes) => {
     );
   };
 
+  const updateOrderSuccess = async (result: any) => {
+    if (result.status === 200) {
+      const { data } = await orderService.getAllOrders(session?.accessToken);
+      setOrders(data.data);
+      setToaster({
+        variant: 'success',
+        message: 'Successfully updated order to be paid.',
+      });
+      setModalPayOrder('');
+    } else {
+      setToaster({
+        variant: 'error',
+        message: 'Failed to update order to be paid.',
+      });
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <Modal onClose={() => setModalPayOrder}>
+    <Modal onClose={() => setModalPayOrder('')}>
       <form
         className="flex flex-col gap-2"
         onSubmit={handlePayOrder}
