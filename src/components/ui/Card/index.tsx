@@ -18,7 +18,7 @@ const CardProduct = ({ title, datas, setDetailProduct }: any) => {
             onPress={() => console.log('item pressed')}
           >
             <Link
-              href={`/products/${data.id}`}
+              href={`/product/${data.id}`}
               className="w-full"
             >
               <CardBody className="overflow-visible p-0">

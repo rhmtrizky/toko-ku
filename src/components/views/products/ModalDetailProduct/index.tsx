@@ -40,7 +40,7 @@ const ModalDetailProduct = (props: PropTypes) => {
             </div>
           </div>
           <div className="flex flex-col w-full gap-4">
-            <Link href={`/products/${detailProduct.id}`}>
+            <Link href={`/product/${detailProduct.id}`}>
               <Button
                 label="Add to cart"
                 type="button"

@@ -1,6 +1,5 @@
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
-import productService from '@/services/product';
 import userService from '@/services/user';
 import { useSession } from 'next-auth/react';
 import { FormEvent, useState } from 'react';

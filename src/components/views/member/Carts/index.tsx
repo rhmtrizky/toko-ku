@@ -2,7 +2,6 @@ import CardCartProduct from '@/components/ui/CardCartProduct';
 import Converter from '@/utils/Converter';
 import { useEffect, useState } from 'react';
 import ModalUpdateCart from './ModalUpdateCart';
-import { BsCart3 } from 'react-icons/bs';
 import Button from '@/components/ui/Button';
 import Link from 'next/link';
 import ModalDeleteCart from './ModalDeleteCart';

@@ -144,7 +144,7 @@ const DetailProductView = (props: PropTypes) => {
                 label={'Go to Cart'}
                 type={status === 'unauthenticated' ? 'button' : 'submit'}
                 className="bg-color-red text-color-primary py-2 px-3 rounded-md font-semibold w-full opacity-70 hover:opacity-90"
-                onClick={() => router.push('/carts/')}
+                onClick={() => router.push('/member/cart')}
               />
               <Button
                 label="Get Others Product"

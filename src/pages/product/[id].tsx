@@ -14,6 +14,7 @@ const DetailProductPage = (props: PropTypes) => {
   const { setToaster, cart, setCart } = props;
   const { id } = useRouter().query;
   const [product, setProduct] = useState<any>({});
+  console.log(id);
 
   const getDetailProduct = async (id: string) => {
     try {

@@ -1,4 +1,4 @@
-import CartPageView from '@/components/views/carts';
+import CartPageView from '@/components/views/member/Carts';
 import productService from '@/services/product';
 import { useEffect, useState } from 'react';
 

@@ -26,7 +26,7 @@ const Navbar = (props: PropTypes) => {
     },
     {
       title: 'Products',
-      url: '/products',
+      url: '/product',
       icon: 'bx-cart-add',
     },
     {
@@ -36,7 +36,7 @@ const Navbar = (props: PropTypes) => {
     },
     {
       title: 'Cart',
-      url: '/carts',
+      url: '/member/cart',
       icon: 'bxs-group',
     },
     {
@@ -87,7 +87,7 @@ const Navbar = (props: PropTypes) => {
             <div className="flex gap-3 items-center text-color-red">
               <MdFavoriteBorder size={23} />
               <Link
-                href={'/carts'}
+                href={'/member/cart'}
                 className="w-[35px] h-[40px] relative flex flex-col gap-4 justify-center items-center"
               >
                 {cart?.length !== 0 && cart !== undefined ? <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">{cart?.length}</p> : <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">0</p>}
@@ -141,7 +141,7 @@ const Navbar = (props: PropTypes) => {
           <div className="flex lg:gap-3 md:gap-3 sm:gap-1 gap-1 items-center text-color-red">
             <MdFavoriteBorder size={23} />
             <Link
-              href={'/carts'}
+              href={'/member/cart'}
               className="w-[35px] h-[40px] relative flex flex-col gap-4 justify-center items-center"
             >
               {cart?.length !== 0 && cart !== undefined ? <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">{cart?.length}</p> : <p className="absolute top-0 right-0 bg-color-pink rounded-lg w-[18px] text-color-primary flex justify-center text-sm">0</p>}
