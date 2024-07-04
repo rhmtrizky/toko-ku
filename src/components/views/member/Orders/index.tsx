@@ -59,7 +59,7 @@ const OrderMemberView = (props: PropTypes) => {
     return order;
   };
 
-  const PAYMENT_DURATION = 60 * 10; // 60 minutes in seconds
+  const PAYMENT_DURATION = 60 * 60; // 60 minutes in seconds
 
   const getDetailOrder = async (id: string) => {
     try {
