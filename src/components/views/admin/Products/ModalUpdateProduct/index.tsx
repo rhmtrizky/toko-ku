@@ -150,14 +150,15 @@ const ModalUpdateProduct = (props: PropTypes) => {
           name="description"
           defaultValue={updatedProduct.description}
         />
-        <div className="relative w-full h-40 flex flex-col justify-center items-center border-2 border-color-gray rounded-md">
+        <div className="relative w-full h-full py-2 flex flex-col justify-center items-center border-2 border-color-gray rounded-md">
           {imageFile ? (
-            <div className="flex flex-col justify-center items-center gap-2">
+            <div className="flex flex-col justify-center items-center gap-2 rounded-md">
               <Image
                 src={URL.createObjectURL(imageFile)}
                 alt="image"
                 width={150}
                 height={120}
+                className="rounded-md"
               />
               <p className="text-center text-sm p-1 bg-color-gray rounded-md">{imageFile.name}</p>
             </div>

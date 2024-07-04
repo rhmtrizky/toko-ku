@@ -9,6 +9,7 @@ import Navbar from '@/components/fragments/Navbar';
 import { useRouter } from 'next/router';
 import userService from '@/services/user';
 import orderService from '@/services/order';
+import Footer from '@/components/fragments/Footer';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
@@ -95,6 +96,9 @@ const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) =
           orders={orders}
           setOrders={setOrders}
         />
+        {/* <div className="absolute bottom-0 mt-20 bg-color-red">
+          <Footer />
+        </div> */}
       </div>
       {Object.keys(toaster).length > 0 && (
         <Toaster

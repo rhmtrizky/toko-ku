@@ -3,6 +3,8 @@ import productService from '@/services/product';
 import { useEffect, useState } from 'react';
 import ModalPayOrder from './ModalPayOrder';
 import { Tabs, Tab } from '@nextui-org/react';
+import orderService from '@/services/order';
+import { useSession } from 'next-auth/react';
 
 type PropTypes = {
   orders: any;
@@ -13,6 +15,9 @@ type PropTypes = {
 const OrderMemberView = (props: PropTypes) => {
   const { orders, setToaster, setOrders } = props;
   const [modalPayOrder, setModalPayOrder] = useState<string>('');
+  const { data: session }: any = useSession();
+  const [remainingTime, setRemainingTime] = useState<any>(null);
+  const [detailOrder, setDetailOrder] = useState<any>({});
 
   const [products, setProducts] = useState([]);
   const getAllProducts = async () => {
@@ -50,9 +55,52 @@ const OrderMemberView = (props: PropTypes) => {
     return order;
   };
   const getOrdersCancel: any = () => {
-    const order = orders?.filter((order: any) => order.status === 'cancel' || order.status === 'declined');
+    const order = orders?.filter((order: any) => order.status === 'cancelled' || order.status === 'declined');
     return order;
   };
+
+  const PAYMENT_DURATION = 60 * 10; // 60 minutes in seconds
+
+  const getDetailOrder = async (id: string) => {
+    try {
+      const { data } = await orderService.getDetailOrder(id, session?.accessToken);
+      setDetailOrder(data.data);
+      // Calculate remaining time in seconds based on createdAt
+      const createdAt = new Date(data.data.created_at.seconds * 1000).getTime();
+      console.log(createdAt);
+
+      const expirationTime = createdAt + PAYMENT_DURATION * 1000;
+      console.log(expirationTime);
+
+      const currentTime = new Date().getTime();
+      const remainingTime = Math.floor((expirationTime - currentTime) / 1000);
+      console.log(remainingTime);
+
+      setRemainingTime(remainingTime);
+    } catch (error) {
+      console.error('Error fetching order details:', error);
+    }
+  };
+
+  const formatTime = (seconds: any) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}m ${remainingSeconds}s`;
+  };
+
+  useEffect(() => {
+    if (remainingTime > 0) {
+      const intervalId = setInterval(() => {
+        setRemainingTime((prevTime: any) => prevTime - 1);
+      }, 1000);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [remainingTime]);
+
+  useEffect(() => {
+    getDetailOrder(modalPayOrder);
+  }, [modalPayOrder]);
 
   useEffect(() => {
     getAllProducts();
@@ -77,6 +125,7 @@ const OrderMemberView = (props: PropTypes) => {
                 products={products}
                 getCartProducts={getCartProducts}
                 setModalPayOrder={setModalPayOrder}
+                setOrders={setOrders}
               />
             ))}
           </div>
@@ -94,6 +143,7 @@ const OrderMemberView = (props: PropTypes) => {
                 products={products}
                 getCartProducts={getCartProducts}
                 setModalPayOrder={setModalPayOrder}
+                setOrders={setOrders}
               />
             ))}
           </div>
@@ -112,6 +162,7 @@ const OrderMemberView = (props: PropTypes) => {
                   products={products}
                   getCartProducts={getCartProducts}
                   setModalPayOrder={setModalPayOrder}
+                  setOrders={setOrders}
                 />
               ))
             ) : (
@@ -132,6 +183,7 @@ const OrderMemberView = (props: PropTypes) => {
                 products={products}
                 getCartProducts={getCartProducts}
                 setModalPayOrder={setModalPayOrder}
+                setOrders={setOrders}
               />
             ))}
           </div>
@@ -149,6 +201,7 @@ const OrderMemberView = (props: PropTypes) => {
                 products={products}
                 getCartProducts={getCartProducts}
                 setModalPayOrder={setModalPayOrder}
+                setOrders={setOrders}
               />
             ))}
           </div>
@@ -166,6 +219,7 @@ const OrderMemberView = (props: PropTypes) => {
                 products={products}
                 getCartProducts={getCartProducts}
                 setModalPayOrder={setModalPayOrder}
+                setOrders={setOrders}
               />
             ))}
           </div>
@@ -179,6 +233,10 @@ const OrderMemberView = (props: PropTypes) => {
           setToaster={setToaster}
           getCartProducts={getCartProducts}
           setOrders={setOrders}
+          getDetailOrder={getDetailOrder}
+          remainingTime={remainingTime}
+          detailOrder={detailOrder}
+          formatTime={formatTime}
         />
       )}
     </div>

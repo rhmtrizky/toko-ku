@@ -95,7 +95,7 @@ const DetailProductView = (props: PropTypes) => {
               height="550"
               src={product?.image}
               alt={product?.name}
-              className="lg:w-450px] lg:h-[450px] md:w-[350px] md:h-[450px] sm:w-[350px] sm:h-[220px] w-[350px] h-[220px] object-cover rounded-md"
+              className="lg:w-450px] lg:h-[450px] md:w-[350px] md:h-[450px] sm:w-[350px] sm:h-[350px] w-[350px] h-[350px] object-cover rounded-md"
             />
           </div>
           <div className="flex flex-col justify-center items-start px-3 w-[350px] gap-5">

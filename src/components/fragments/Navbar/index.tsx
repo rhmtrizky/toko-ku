@@ -8,6 +8,8 @@ import { RiSearch2Line, RiShoppingBagLine } from 'react-icons/ri';
 import SideBar from '../SideBar';
 import { IoClose } from 'react-icons/io5';
 import Link from 'next/link';
+import bdLogo from '../../../../public/BDLOGO.png';
+import Image from 'next/image';
 
 type PropTypes = {
   cart: any;
@@ -63,7 +65,13 @@ const Navbar = (props: PropTypes) => {
               href={'/'}
               className="flex w-1/4 h-full items-center justify-center"
             >
-              <p className="text-color-red font-semibold text-xl cursor-pointer">LOGO TOKO</p>
+              <Image
+                src={bdLogo}
+                alt="Logo Bead Diary"
+                width="100"
+                height="100"
+                className="text-color-red font-semibold text-xl cursor-pointer"
+              />
             </Link>
             <div className="flex w-3/4 h-full items-center justify-evenly items-center px-5 text-color-red font-normal text-[14px]">
               <Link href={'/'}>
@@ -150,7 +158,13 @@ const Navbar = (props: PropTypes) => {
               <GiHamburgerMenu size={20} />
             </button>
             <Link href={'/'}>
-              <p className="text-color-red font-semibold text-lg cursor-pointer">LOGO TOKO</p>
+              <Image
+                src={bdLogo}
+                alt="Logo Bead Diary"
+                width="100"
+                height="100"
+                className="text-color-red font-semibold text-xl cursor-pointer"
+              />
             </Link>
           </div>
           <div className="flex lg:gap-3 md:gap-3 sm:gap-1 gap-1 items-center text-color-red">

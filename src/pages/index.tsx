@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
-  const kalungProducts = products.filter((product: any) => product.category === 'kalung');
+  const gelangProducts = products.filter((product: any) => product.category === 'gelang');
   const cincinProducts = products.filter((product: any) => product.category === 'cincin');
 
   const getAllProducts = async () => {
@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <ProductsView
       cincinProducts={cincinProducts}
-      kalungProducts={kalungProducts}
+      gelangProducts={gelangProducts}
     />
   );
 }

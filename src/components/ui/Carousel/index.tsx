@@ -1,10 +1,19 @@
 // carousels/Responsive.js
 import { Carousel } from 'react-responsive-carousel';
-import { items } from '../../../../item.json';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import banner from '../../../../public/bannerWeb.jpg'; // Make sure the path is correct
 
 const ResponsiveCarousel = () => {
-  const { responsive } = items;
+  const items = [
+    {
+      id: 1,
+      imageUrl: banner,
+    },
+    {
+      id: 2,
+      imageUrl: banner,
+    },
+  ];
 
   return (
     <Carousel
@@ -16,21 +25,17 @@ const ResponsiveCarousel = () => {
       autoPlay={true}
       interval={5000}
     >
-      {responsive.map((item) => (
+      {items.map((item) => (
         <div
           key={item.id}
-          className="lg:h-[90vh] md:h-[70vh] sm:h-[50Svh] h-[50vh] w-full bg-color-cream relative"
+          className="lg:h-[97vh] md:h-[75vh] sm:h-[38vh] h-[38vh] w-full bg-color-cream relative"
         >
-          <div className="h-full bg-blue-500 flex items-center justify-center">
+          <div className="w-full h-full bg-blue-500 flex items-center justify-center">
             <img
-              src={item.imageUrl}
+              src={item.imageUrl.src} // Correctly reference the imported image
               alt="slides"
-              className="h-full w-full object-cover"
+              className="h-full w-full"
             />
-          </div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/2 h-1/2 p-4 flex flex-col justify-center text-color-white">
-            {/* <h2 className="text-2xl font-bold text-gray-800 mb-2">{item?.title}</h2> */}
-            <p className="text-gray-600">{item.text}</p>
           </div>
         </div>
       ))}

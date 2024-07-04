@@ -4,12 +4,12 @@ import ModalDetailProduct from './ModalDetailProduct';
 import { useState } from 'react';
 
 type PropTypes = {
-  kalungProducts: any;
+  gelangProducts: any;
   cincinProducts: any;
 };
 
 const ProductsView = (props: PropTypes) => {
-  const { kalungProducts, cincinProducts } = props;
+  const { gelangProducts, cincinProducts } = props;
   const [detailProduct, setDetailProduct] = useState<any>({});
   return (
     <>
@@ -17,15 +17,14 @@ const ProductsView = (props: PropTypes) => {
         <div className="flex flex-col gap-5">
           <ResponsiveCarousel />
           <CardProduct
-            title={'KALUNG'}
-            datas={kalungProducts}
+            title={'BRACELET COLLECTION'}
+            datas={gelangProducts}
             setDetailProduct={setDetailProduct}
           />
         </div>
         <div className="flex flex-col gap-5">
-          <ResponsiveCarousel />
           <CardProduct
-            title={'CINCIN'}
+            title={'RING COLLECTION'}
             datas={cincinProducts}
             setDetailProduct={setDetailProduct}
           />

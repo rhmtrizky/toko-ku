@@ -94,6 +94,7 @@ const CheckoutPageView = (props: PropTypes) => {
       address: getAddress(),
       status: 'order',
       items: cart,
+      paymentProof: '',
     };
 
     try {

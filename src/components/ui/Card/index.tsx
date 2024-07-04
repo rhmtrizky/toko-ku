@@ -8,8 +8,8 @@ import Link from 'next/link';
 const CardProduct = ({ title, datas, setDetailProduct }: any) => {
   return (
     <div className="flex flex-col justify-center lg:px-10 md:px-10 sm:px-3 px-3 gap-3">
-      <h1 className="lg:text-3xl md:text-3xl sm:text-2xl text-2xl text-color-pink font-semibold">{title}</h1>
-      <div className="lg:gap-4 md:gap-4 sm:gap-3 gap-3 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 ">
+      <h1 className="lg:text-2xl md:text-2xl sm:text-xl text-xl text-color-pink font-semibold">{title}</h1>
+      <div className="lg:gap-4 md:gap-4 sm:gap-3 gap-3 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 ">
         {datas.map((data: any, index: number) => (
           <Card
             shadow="sm"
@@ -40,7 +40,7 @@ const CardProduct = ({ title, datas, setDetailProduct }: any) => {
               <Button
                 label="View detail"
                 type="button"
-                className="bg-color-red text-color-primary py-2 px-3 rounded-md font-semibold w-[100px] opacity-70 hover:opacity-90"
+                className="bg-color-red text-color-primary py-2 px-3 rounded-md font-semibold w-[100px] opacity-70 hover:opacity-90 text-sm"
                 onClick={() => setDetailProduct(data)}
               />
             </CardFooter>

@@ -1,10 +1,7 @@
 import Button from '@/components/ui/Button';
-import InputUi from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
-import Select from '@/components/ui/Select';
 import { uploadFile } from '@/lib/firebase/service';
 import orderService from '@/services/order';
-import productService from '@/services/product';
 import Converter from '@/utils/Converter';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -19,29 +16,38 @@ type PropTypes = {
   setToaster: any;
   getCartProducts: (id: string) => any;
   setOrders: any;
+  getDetailOrder: (id: string) => any;
+  remainingTime: any;
+  detailOrder: any;
+  formatTime: (second: any) => any;
 };
 
 const ModalPayOrder = (props: PropTypes) => {
-  const { modalPayOrder, setModalPayOrder, setToaster, getCartProducts, setOrders } = props;
+  const { modalPayOrder, setModalPayOrder, setToaster, getCartProducts, setOrders, getDetailOrder, remainingTime, detailOrder, formatTime } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [detailOrder, setDetailOrder] = useState<any>({});
   const { data: session }: any = useSession();
 
-  const getDetailOrder = async (id: string) => {
-    try {
-      const { data } = await orderService.getDetailOrder(id, session?.accessToken);
-      setDetailOrder(data.data);
-    } catch (error) {
-      console.error('Error fetching order details:', error);
-    }
+  const [price, setPrice] = useState(0);
+
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    detailOrder?.items?.forEach((item: any) => {
+      const product = getCartProducts(item.id);
+      if (product) {
+        totalPrice += product.price * item.qty;
+      }
+    });
+    return totalPrice;
   };
 
   useEffect(() => {
-    if (modalPayOrder) {
-      getDetailOrder(modalPayOrder);
-    }
+    getDetailOrder(modalPayOrder);
   }, [modalPayOrder]);
+
+  useEffect(() => {
+    setPrice(calculateTotalPrice());
+  }, [detailOrder]);
 
   const handlePayOrder = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -253,6 +259,12 @@ const ModalPayOrder = (props: PropTypes) => {
             required
             disabled
           />
+        </div>
+        <div className=" w-full h-full py-2 px-2 border-2 border-color-gray rounded-md mt-2  flex justify-between items-center">
+          <h1 className="text-color-dark font-semibold">
+            The amount you have to pay : <span className="text-color-red font-bold">{Converter(price)}</span>
+          </h1>
+          <span className="text-color-red font-bold">{formatTime(remainingTime)}</span>
         </div>
         <div className="relative w-full h-full py-2 flex flex-col justify-center items-start px-2 border-2 border-color-gray rounded-md mt-2">
           <h1 className="text-color-dark font-semibold">Rekening Account</h1>
