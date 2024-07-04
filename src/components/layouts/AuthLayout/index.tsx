@@ -16,7 +16,7 @@ const AuthLayout = (props: PropTypes) => {
 
   return (
     <div className="flex w-full h-screen lg:justify-between md:justify-between sm:justify-center justify-center items-center bg-color-pink">
-      <div className="lg:w-1/2 md:w-1/2 sm:w-full flex lg:justify-start md:justify-start sm:justify-center justify-center items-center">
+      <div className="lg:w-1/2 md:w-1/2 sm:w-full flex lg:justify-center md:justify-center sm:justify-center justify-center items-center">
         <div className="lg:w-96 md:w-96 sm:w-80 w-full flex flex-col gap-2 px-10 py-5 rounded-md lg:ml-20 md:ml-20 sm:ml-0 ml-0 ">
           <h1 className="flex justify-center font-bold text-3xl my-3 text-color-primary">{title}</h1>
           <div>{children}</div>

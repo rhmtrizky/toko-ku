@@ -44,19 +44,19 @@ const CardCartProduct = (props: PropTypes) => {
   }, [item]);
 
   return (
-    <div className="w-[90%] h-full lg:min-h-[200px] md:min-h-[180px] sm:min-h-[165px] min-h-[165px] bg-color-cream rounded-md flex justify-center items-center px-10 py-2 shadow-md">
+    <div className="w-[90%] h-full lg:min-h-[200px] md:min-h-[180px] sm:min-h-[165px] min-h-[165px] bg-color-cream rounded-md flex justify-center items-center px-4 py-4 shadow-md">
       <div className="flex lg:flex-row md:flex-col sm:flex-col flex-col justify-center items-center gap-2 w-full h-full gap-2">
         <div className="w-full flex justify-center md:justify-around sm:justify-around justify-around items-center lg:gap-4 md:gap-4 sm:gap-4 gap-4">
-          <div className="w-[40%] h-full">
+          <div className="w-[50%] h-full">
             <Image
               src={getCartProducts(item.id)?.image}
               alt="placeholder"
               width={160}
               height={160}
-              className="object-cover rounded-md max-h-[160px]"
+              className="object-cover rounded-md min-h-[160px]"
             />
           </div>
-          <div className="w-[60%] text-color-pink flex flex-col justify-center items-start gap-0">
+          <div className="w-[50%] text-color-pink flex flex-col justify-center items-start gap-0">
             <div className="w-full flex justify-between items-center">
               <p className="lg:text-lg md:text-[15px] sm:text-[15px] text-[15px] font-semibold">{getCartProducts(item.id)?.name}</p>
               <button
@@ -109,7 +109,7 @@ const CardCartProduct = (props: PropTypes) => {
             </div>
           </div>
         </div>
-        <div className="w-full h-full lg:flex md:hidden sm:hidden hidden flex-col  text-color-pink justify-center items-center pl-5 gap-1 ">
+        <div className="w-full h-full lg:flex md:hidden sm:hidden hidden flex-col  text-color-pink justify-center items-center pl-5 gap-1">
           <h1 className=" font-semibold">Variant :</h1>
           <p>{getCartProducts(item.id)?.category}</p>
         </div>

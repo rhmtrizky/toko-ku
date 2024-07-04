@@ -20,13 +20,13 @@ const ModalDetailProduct = (props: PropTypes) => {
         Detail Product <span className="text-color-red">{`"${detailProduct.name}"`}</span>?
       </h1> */}
       <div className="flex lg:flex-row md:flex-row sm:flex-col flex-col w-auto h-auto gap-2">
-        <div className="flex justify-center lg:items-start md:items-start sm:items-center items-center bg-color-pink">
+        <div className="flex justify-center lg:items-start md:items-start sm:items-center items-center bg-color-pink rounded-md">
           <Image
             width="550"
             height="550"
             src={detailProduct.image}
             alt={detailProduct.name}
-            className="lg:w-[350px] lg:h-[450px] md:w-[350px] md:h-[450px] sm:w-[350px] sm:h-[180px] w-[350px] h-[180px] object-cover"
+            className="lg:w-[350px] lg:h-[450px] md:w-[350px] md:h-[450px] sm:w-[350px] sm:h-[350px] w-[350px] h-[350px] object-cover rounded-md"
           />
         </div>
         <div className="flex flex-col justify-between items-start px-3 w-[350px] gap-2">
