@@ -19,6 +19,8 @@ const OrderMemberView = (props: PropTypes) => {
   const [remainingTime, setRemainingTime] = useState<any>(null);
   const [detailOrder, setDetailOrder] = useState<any>({});
 
+  console.log(detailOrder);
+
   const [products, setProducts] = useState([]);
   const getAllProducts = async () => {
     try {
@@ -125,7 +127,6 @@ const OrderMemberView = (props: PropTypes) => {
                 products={products}
                 getCartProducts={getCartProducts}
                 setModalPayOrder={setModalPayOrder}
-                setOrders={setOrders}
               />
             ))}
           </div>
@@ -143,7 +144,6 @@ const OrderMemberView = (props: PropTypes) => {
                 products={products}
                 getCartProducts={getCartProducts}
                 setModalPayOrder={setModalPayOrder}
-                setOrders={setOrders}
               />
             ))}
           </div>
@@ -162,7 +162,6 @@ const OrderMemberView = (props: PropTypes) => {
                   products={products}
                   getCartProducts={getCartProducts}
                   setModalPayOrder={setModalPayOrder}
-                  setOrders={setOrders}
                 />
               ))
             ) : (
@@ -183,7 +182,6 @@ const OrderMemberView = (props: PropTypes) => {
                 products={products}
                 getCartProducts={getCartProducts}
                 setModalPayOrder={setModalPayOrder}
-                setOrders={setOrders}
               />
             ))}
           </div>
@@ -201,7 +199,6 @@ const OrderMemberView = (props: PropTypes) => {
                 products={products}
                 getCartProducts={getCartProducts}
                 setModalPayOrder={setModalPayOrder}
-                setOrders={setOrders}
               />
             ))}
           </div>
@@ -219,7 +216,6 @@ const OrderMemberView = (props: PropTypes) => {
                 products={products}
                 getCartProducts={getCartProducts}
                 setModalPayOrder={setModalPayOrder}
-                setOrders={setOrders}
               />
             ))}
           </div>
@@ -234,9 +230,7 @@ const OrderMemberView = (props: PropTypes) => {
           getCartProducts={getCartProducts}
           setOrders={setOrders}
           getDetailOrder={getDetailOrder}
-          remainingTime={remainingTime}
           detailOrder={detailOrder}
-          formatTime={formatTime}
         />
       )}
     </div>

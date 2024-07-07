@@ -17,18 +17,17 @@ type PropTypes = {
   getCartProducts: (id: string) => any;
   setOrders: any;
   getDetailOrder: (id: string) => any;
-  remainingTime: any;
   detailOrder: any;
-  formatTime: (second: any) => any;
 };
 
 const ModalPayOrder = (props: PropTypes) => {
-  const { modalPayOrder, setModalPayOrder, setToaster, getCartProducts, setOrders, getDetailOrder, remainingTime, detailOrder, formatTime } = props;
+  const { modalPayOrder, setModalPayOrder, setToaster, getCartProducts, setOrders, getDetailOrder, detailOrder } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const { data: session }: any = useSession();
-
   const [price, setPrice] = useState(0);
+
+  console.log(imageFile);
 
   const calculateTotalPrice = () => {
     let totalPrice = 0;
@@ -55,13 +54,20 @@ const ModalPayOrder = (props: PropTypes) => {
     const data = { status: 'paid' };
 
     try {
-      const result = await orderService.updateOrder(modalPayOrder, data, session?.accessToken);
-      console.log(result);
-
-      if (result.status === 200 && imageFile) {
-        await handleImageUpload(imageFile);
+      if (imageFile) {
+        const result = await orderService.updateOrder(modalPayOrder, data, session?.accessToken);
+        console.log(result);
+        if (result.status === 200 && imageFile) {
+          await handleImageUpload(imageFile);
+        } else {
+          updateOrderSuccess(result);
+        }
       } else {
-        updateOrderSuccess(result);
+        setToaster({
+          variant: 'error',
+          message: 'Please upload payment proof first!.',
+        });
+        setIsLoading(false);
       }
     } catch (error) {
       console.error('Error updating order:', error);
@@ -264,7 +270,7 @@ const ModalPayOrder = (props: PropTypes) => {
           <h1 className="text-color-dark font-semibold">
             The amount you have to pay : <span className="text-color-red font-bold">{Converter(price)}</span>
           </h1>
-          <span className="text-color-red font-bold">{formatTime(remainingTime)}</span>
+          {/* <span className="text-color-red font-bold">{formatTime(remainingTime)}</span> */}
         </div>
         <div className="relative w-full h-full py-2 flex flex-col justify-center items-start px-2 border-2 border-color-gray rounded-md mt-2">
           <h1 className="text-color-dark font-semibold">Rekening Account</h1>
@@ -334,12 +340,21 @@ const ModalPayOrder = (props: PropTypes) => {
             disabled={isLoading}
             onClick={() => setModalPayOrder('')}
           />
-          <Button
-            label={isLoading ? 'Uploading...' : 'Submit'}
-            type="submit"
-            className="bg-color-blue text-color-primary py-1 px-3 rounded-md mt-3"
-            disabled={isLoading}
-          />
+          {imageFile !== null ? (
+            <Button
+              label={isLoading ? 'Uploading...' : 'Submit'}
+              type="submit"
+              className="bg-color-blue text-color-primary py-1 px-3 rounded-md mt-3"
+              disabled={isLoading}
+            />
+          ) : (
+            <Button
+              label={isLoading ? 'Uploading...' : 'Submit'}
+              type="button"
+              className="bg-color-blue text-color-primary py-1 px-3 rounded-md mt-3 opacity-70"
+              disabled
+            />
+          )}
         </div>
       </form>
     </Modal>

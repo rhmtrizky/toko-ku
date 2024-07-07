@@ -28,7 +28,7 @@ const ResponsiveCarousel = () => {
       {items.map((item) => (
         <div
           key={item.id}
-          className="lg:h-[97vh] md:h-[75vh] sm:h-[38vh] h-[38vh] w-full bg-color-cream relative"
+          className="lg:h-[95vh] md:h-[75vh] sm:h-[35vh] h-[35vh] w-full bg-color-cream relative"
         >
           <div className="w-full h-full bg-blue-500 flex items-center justify-center">
             <img

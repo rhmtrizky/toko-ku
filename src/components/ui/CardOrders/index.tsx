@@ -8,25 +8,20 @@ import { useSession } from 'next-auth/react';
 type PropTypes = {
   item: any;
   products?: any;
-  setModalPayOrder?: any;
+  setModalPayOrder: any;
   getCartProducts: (id: string) => any;
-  setOrders?: any;
 };
 
 const CardOrders = (props: PropTypes) => {
-  const { item, products, setModalPayOrder, getCartProducts, setOrders } = props;
-  const [remainingTime, setRemainingTime] = useState<any>(null);
-  const [detailOrder, setDetailOrder] = useState<any>({});
+  const { item, products, setModalPayOrder, getCartProducts } = props;
   const [price, setPrice] = useState(0);
-  const { data: session }: any = useSession();
 
   const getCartImageProduct = () => {
     const firstItem = item?.items[0];
     if (firstItem) {
       const product = getCartProducts(firstItem.id);
-      return product?.image || '/path/to/placeholder.png';
+      return product?.image;
     }
-    return '/path/to/placeholder.png';
   };
 
   const calculateTotalPrice = () => {
@@ -43,66 +38,6 @@ const CardOrders = (props: PropTypes) => {
   useEffect(() => {
     setPrice(calculateTotalPrice());
   }, [item, products]);
-
-  const PAYMENT_DURATION = 60 * 60; // 60 minutes in seconds
-
-  const getDetailOrder = async (id: string) => {
-    try {
-      const { data } = await orderService.getDetailOrder(id, session?.accessToken);
-      setDetailOrder(data.data);
-
-      // Calculate remaining time in seconds based on createdAt
-      const createdAt = new Date(data.data.created_at.seconds * 1000).getTime();
-
-      const expirationTime = createdAt + PAYMENT_DURATION * 1000;
-
-      const currentTime = new Date().getTime();
-      const remainingTime = Math.floor((expirationTime - currentTime) / 1000);
-
-      setRemainingTime(remainingTime);
-    } catch (error) {
-      console.error('Error fetching order details:', error);
-    }
-  };
-
-  const updateOrderAfterTimeIsOut = async (id: string) => {
-    if (remainingTime === 0 && detailOrder.paymentProof === '') {
-      const result = await orderService.updateOrder(id, { status: 'cancelled' }, session?.accessToken);
-
-      if (result.status === 200) {
-        const { data } = await orderService.getAllOrders(session?.accessToken);
-        setOrders(data.data);
-      } else {
-        console.error('Failed to update order to be paid');
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (remainingTime > 0) {
-      const intervalId = setInterval(() => {
-        setRemainingTime((prevTime: any) => prevTime - 1);
-      }, 1000);
-
-      return () => clearInterval(intervalId);
-    }
-  }, [remainingTime]);
-
-  useEffect(() => {
-    if (item.id) {
-      updateOrderAfterTimeIsOut(item.id);
-    }
-  }, [remainingTime, detailOrder]);
-
-  useEffect(() => {
-    getDetailOrder(item.id);
-  }, [item]);
-
-  const formatTime = (seconds: any) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}m ${remainingSeconds}s`;
-  };
 
   return (
     <div className="w-[90%] h-full lg:min-h-[200px] md:min-h-[180px] sm:min-h-[165px] min-h-[165px] bg-color-cream rounded-md px-5 py-6 shadow-md grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-cols-1 lg:text-[13px] md:text-[13px] sm:text-[12px] text-[12px]">
@@ -150,7 +85,7 @@ const CardOrders = (props: PropTypes) => {
           <div className="w-full h-full flex justify-end">
             {item.status === 'order' ? (
               <div className="flex flex-col items-center justify-center">
-                {item.status === 'order' && remainingTime > 0 && <p className="text-color-red font-semibold lg:hidden md:flex sm:flex flex">{formatTime(remainingTime)}</p>}
+                {/* {item.status === 'order' && remainingTime > 0 && <p className="text-color-red font-semibold lg:hidden md:flex sm:flex flex">{formatTime(remainingTime)}</p>} */}
                 <Button
                   label="Pay Now"
                   type="button"
@@ -176,7 +111,7 @@ const CardOrders = (props: PropTypes) => {
         </div>
         {item.status === 'order' ? (
           <div className="flex flex-col gap-1 items-center justify-center">
-            {item.status === 'order' && remainingTime > 0 && <p className="text-color-red font-semibold lg:flex md:hidden sm:hidden hidden">{formatTime(remainingTime)}</p>}
+            {/* {item.status === 'order' && remainingTime > 0 && <p className="text-color-red font-semibold lg:flex md:hidden sm:hidden hidden">{formatTime(remainingTime)}</p>} */}
             <Button
               label="Pay Now"
               type="button"
