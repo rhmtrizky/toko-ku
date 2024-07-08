@@ -86,7 +86,7 @@ const DetailProductView = (props: PropTypes) => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen mt-10">
+    <div className="flex justify-center items-center w-full min-h-screen h-auto mt-20 lg:pt-0 md:pt-0 sm:pt-10 pt-10">
       <div className="flex justify-center items-center gap-5">
         <div className="flex lg:flex-row md:flex-row sm:flex-col flex-col w-auto h-auto lg:gap-20 md:gap-20 sm:gap-5 gap-5 mb-10 ">
           <div className="flex justify-center lg:items-start md:items-start sm:items-center items-center h-full">

@@ -123,11 +123,13 @@ const ProfileMemberView = (props: PropTypes) => {
 
   return (
     <>
-      <div className="w-full min-h-screen h-auto flex flex-col justify-center px-20 py-10">
+      <div className="w-full min-h-screen h-auto flex flex-col justify-center px-20 py-10 ">
         <div className="text-2xl font-bold text-color-pink">Profile</div>
         <div className="my-3">{progressPercent.status && <ProgressUi percent={progressPercent.progressPercent} />}</div>
-        <div className="w-full flex lg:flex-row md:flex-row sm:flex-col flex-col justify-center lg:items-start md:items-start sm:items-center items-center gap-5">
-          <div className="lg:w-2/5 md:w-2/5 sm:w-[350px] w-[350px] border-2 border-color-gray p-3">
+        <div className="w-full flex lg:flex-row md:flex-row sm:flex-col flex-col justify-center lg:items-start md:items-start sm:items-center items-center lg:gap-5 md:gap-5 sm:gap-0  gap-0">
+          <div className="lg:w-2/5 md:w-2/5 sm:w-[400px] w-[400px] lg:border-2 md:border-2 sm:border-0 border-0 border-color-gray px-7 py-5">
+            <div className="text-2xl font-bold text-color-pink lg:hidden md:hidden sm:flex flex">Profile</div>
+
             <form onSubmit={handleChangeProfilePicture}>
               <div className="w-full h-full flex justify-center flex-col items-center py-3">
                 {profile.data?.image ? (
@@ -184,7 +186,7 @@ const ProfileMemberView = (props: PropTypes) => {
               </div>
             </form>
           </div>
-          <div className="lg:w-3/5 md:w-3/5 sm:w-[350px] w-[350px]  border-2 border-color-gray px-5 py-7 rounded-md">
+          <div className="lg:w-3/5 md:w-3/5 sm:w-[400px] w-[400px] lg:border-2 md:border-2 sm:border-0 border-0 border-color-gray px-5 lg:py-7 md:py-7 sm:py-0 py-0 rounded-md">
             <form
               className="flex flex-col gap-4 mt-3"
               action=""
@@ -224,7 +226,7 @@ const ProfileMemberView = (props: PropTypes) => {
                   Please fill a valid phone number
                 </p>
               )}
-              <div className="w-full flex flex-col gap-1 border-2 border-color-gray rounded-md p-3 bg-color-white">
+              <div className="w-full flex flex-col gap-1 shadow-md rounded-md p-3 bg-color-white">
                 <h3 className="font-semibold">Shipping Address</h3>
                 {profile.data?.address?.map((item: any, id: number) => (
                   <div

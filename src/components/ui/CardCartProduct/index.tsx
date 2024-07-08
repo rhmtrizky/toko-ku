@@ -46,8 +46,8 @@ const CardCartProduct = (props: PropTypes) => {
   return (
     <div className="w-[90%] h-full lg:min-h-[200px] md:min-h-[180px] sm:min-h-[165px] min-h-[165px] bg-color-cream rounded-md flex justify-center items-center px-4 py-4 shadow-md">
       <div className="flex lg:flex-row md:flex-col sm:flex-col flex-col justify-center items-center gap-2 w-full h-full gap-2">
-        <div className="w-full flex justify-center md:justify-around sm:justify-around justify-around items-center lg:gap-4 md:gap-4 sm:gap-1 gap-1">
-          <div className="w-[50%] h-full">
+        <div className="w-full h-full flex justify-center items-center lg:gap-4 md:gap-4 sm:gap-1 gap-1 ">
+          <div className="lg:w-[50%] md:w-[40%] sm:w-[40%] w-[40%] h-full ">
             <Image
               src={getCartProducts(item.id)?.image}
               alt="placeholder"
@@ -56,8 +56,8 @@ const CardCartProduct = (props: PropTypes) => {
               className="object-cover rounded-md min-h-[160px]"
             />
           </div>
-          <div className="w-[50%] text-color-pink flex flex-col justify-center items-start gap-0">
-            <div className="w-full flex justify-between items-start">
+          <div className="lg:w-[50%] md:w-[60%] sm:w-[60%] w-[60%] h-full text-color-pink flex flex-col justify-between items-start gap-0 lg:ml-0 md:ml-0 sm:ml-1 ml-1">
+            <div className="w-full h-full flex justify-between items-start">
               <p className="lg:text-lg md:text-[15px] sm:text-[15px] text-[15px] font-semibold">{getCartProducts(item.id)?.name}</p>
               <button
                 onClick={() => setDeleteCart(item)}
@@ -73,7 +73,7 @@ const CardCartProduct = (props: PropTypes) => {
               <p className="text-color-pink lg:hidden md:flex sm:flex flex">{getCartProducts(item.id)?.category}</p>
               <h1 className=" font-semibold text-color-pink lg:hidden md:flex sm:flex flex text-sm">{Converter(price)}</h1>
             </div>
-            <div className="lg:hidden md:hidden sm:flex flex gap-3 justify-evenly items-center bg-color-cream rounded-md text-color-pink py-1 w-[100px] font-semibold text-sm">
+            <div className="lg:hidden md:hidden sm:flex flex gap-3 justify-evenly items-center bg-color-primary rounded-md text-color-pink py-1 w-[100px] font-semibold text-sm">
               <button onClick={() => setUpdateCart(item)}>
                 <FaMinus size={13} />
               </button>
@@ -93,7 +93,7 @@ const CardCartProduct = (props: PropTypes) => {
               <FaPlus size={13} />
             </button>
           </div>
-          <div className="lg:hidden md:flex sm:hidden hidden gap-3 justify-end items-center bg-color-cream rounded-md text-color-pink py-1 w-[80%] font-semibold text-sm">
+          <div className="lg:hidden md:flex sm:hidden hidden gap-3 justify-end items-center  rounded-md text-color-pink py-1 w-[80%] font-semibold text-sm">
             <div className="flex justify-end items-center gap-2 text-sm">
               <Button
                 label="Update"

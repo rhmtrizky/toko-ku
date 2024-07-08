@@ -30,28 +30,23 @@ const Navbar = (props: PropTypes) => {
       icon: 'bxs-dashboard',
     },
     {
-      title: 'Products',
-      url: '/product',
-      icon: 'bx-cart-add',
-    },
-    {
-      title: 'Categories',
-      url: '/categories',
-      icon: 'bxs-group',
+      title: 'Orders',
+      url: '/member/orders',
+      icon: 'bxs-package',
     },
     {
       title: 'Cart',
       url: '/member/cart',
-      icon: 'bxs-group',
+      icon: 'bxs-cart',
     },
     {
       title: 'Favorite',
-      url: '/favorite',
-      icon: 'bxs-group',
+      url: '/member/favorite',
+      icon: 'bxs-heart',
     },
     {
       title: 'Profile',
-      url: '/profile',
+      url: '/member/profile',
       icon: 'bxs-group',
     },
   ];

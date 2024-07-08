@@ -26,8 +26,6 @@ const MemberAdminProfile = (props: PropTypes) => {
     }
   }, [session, profile]);
 
-  console.log(profile);
-
   return (
     <ProfileMemberView
       profile={profile}
