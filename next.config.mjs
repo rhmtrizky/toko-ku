@@ -15,6 +15,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'dev.farizdotid.com/api/daerahindonesia',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

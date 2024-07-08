@@ -313,7 +313,6 @@ const ProfileMemberView = (props: PropTypes) => {
           setProfile={setProfile}
           session={session}
           setToaster={setToaster}
-          openModalNewAddress={openModalNewAddress}
           setModalOpenNewAddress={setModalOpenNewAddress}
         />
       )}

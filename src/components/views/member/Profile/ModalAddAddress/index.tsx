@@ -4,14 +4,14 @@ import Modal from '@/components/ui/Modal';
 
 import userService from '@/services/user';
 import { Select, SelectItem } from '@nextui-org/react';
-import { FormEvent, useState } from 'react';
+import axios from 'axios';
+import { FormEvent, useEffect, useState } from 'react';
 
 type PropTypes = {
   session: any;
   setToaster: any;
   profile: any;
   setProfile: any;
-  openModalNewAddress: any;
   setModalOpenNewAddress: any;
 };
 
@@ -23,19 +23,75 @@ type AlertTypes = {
 };
 
 const ModalAddAddress = (props: PropTypes) => {
-  const { session, setToaster, profile, setProfile, openModalNewAddress, setModalOpenNewAddress } = props;
+  const { session, setToaster, profile, setProfile, setModalOpenNewAddress } = props;
   const [isLoading, setIsLoading] = useState(false);
+  const [provinces, setProvinces] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [subdistricts, setSubdistricts] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedSubdistrict, setSelectedSubdistrict] = useState('');
+
+  const getNameProvince = () => {
+    if (selectedProvince) {
+      const province: any = provinces.find((province: any) => province.id == selectedProvince);
+      return province.nama;
+    }
+  };
+  const getNameCity = () => {
+    if (selectedCity) {
+      const city: any = cities.find((city: any) => city.id == selectedCity);
+      return city.nama;
+    }
+  };
+  const getNameDistrict = () => {
+    if (selectedSubdistrict) {
+      const subdistrict: any = subdistricts.find((subdistrict: any) => subdistrict.id == selectedSubdistrict);
+      return subdistrict.nama;
+    }
+  };
 
   const options = [
     {
-      label: 'Main Address',
+      label: 'Alamat Utama',
       value: 'true',
     },
     {
-      label: 'Sub Address',
+      label: 'Bukana Alamat Utama',
       value: 'false',
     },
   ];
+
+  useEffect(() => {
+    axios.get(`https://dev.farizdotid.com/api/daerahindonesia/provinsi`).then((response) => {
+      setProvinces(response.data.provinsi);
+      setCities([]);
+      setSubdistricts([]);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (selectedProvince) {
+      axios
+        .get(`https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${selectedProvince}`)
+        .then((response) => {
+          setCities(response.data.kota_kabupaten);
+          setSubdistricts([]);
+        })
+        .catch((error) => console.error('Error fetching cities:', error));
+    }
+  }, [selectedProvince]);
+
+  useEffect(() => {
+    if (selectedCity) {
+      axios
+        .get(`https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${selectedCity}`)
+        .then((response) => {
+          setSubdistricts(response.data.kecamatan);
+        })
+        .catch((error) => console.error('Error fetching subdistricts:', error));
+    }
+  }, [selectedCity]);
 
   const handleAddAddress = async (event: FormEvent<HTMLFormElement>) => {
     try {
@@ -46,9 +102,9 @@ const ModalAddAddress = (props: PropTypes) => {
         recipient: form['recipient'].value,
         detailAddress: form['detailAddress'].value,
         phoneNumber: form['phoneNumber'].value,
-        province: form['province'].value,
-        city: form['city'].value,
-        district: form['district'].value,
+        province: getNameProvince(),
+        city: getNameCity(),
+        district: getNameDistrict(),
         postalCode: form['postalCode'].value,
         note: form['note'].value,
         isMain: form['isMain'].value === 'true', // Convert back to boolean
@@ -97,49 +153,82 @@ const ModalAddAddress = (props: PropTypes) => {
         onSubmit={handleAddAddress}
       >
         <InputUi
-          label="Recipient"
+          label="Nama Penerima"
           type="text"
           name="recipient"
           placeholder="Recipient"
           required={true}
         />
-        <InputUi
-          label="Province"
-          type="text"
+        <Select
           name="province"
-          placeholder="Province"
+          labelPlacement={'inside'}
+          label={'Provinsi'}
+          value={selectedProvince}
+          onChange={(e) => setSelectedProvince(e.target.value)}
           required={true}
-        />
-        <InputUi
-          label="City"
-          type="text"
+        >
+          {provinces.map((province: any) => (
+            <SelectItem
+              key={province.id}
+              value={province.id}
+            >
+              {province.nama}
+            </SelectItem>
+          ))}
+        </Select>
+        <Select
           name="city"
-          placeholder="City"
+          labelPlacement={'inside'}
+          label={'Kabupaten/Kota'}
+          value={selectedCity}
+          onChange={(e) => setSelectedCity(e.target.value)}
+          disabled={!selectedProvince}
           required={true}
-        />
-        <InputUi
-          label="District"
-          type="text"
+        >
+          {cities.map((city: any) => (
+            <SelectItem
+              key={city.id}
+              value={city.id}
+            >
+              {city.nama}
+            </SelectItem>
+          ))}
+        </Select>
+        <Select
           name="district"
-          placeholder="District"
+          labelPlacement={'inside'}
+          label={'Kecamatan'}
+          value={selectedSubdistrict}
+          onChange={(e) => setSelectedSubdistrict(e.target.value)}
+          disabled={!selectedCity}
           required={true}
-        />
+        >
+          {subdistricts.map((subdistrict: any) => (
+            <SelectItem
+              key={subdistrict.id}
+              value={subdistrict.id}
+            >
+              {subdistrict.nama}
+            </SelectItem>
+          ))}
+        </Select>
+
         <InputUi
-          label="Detail Address"
+          label="Detail Alamat"
           type="text"
           name="detailAddress"
           placeholder="Detail Address"
           required={true}
         />
         <InputUi
-          label="Postal Code"
+          label="Kode Pos"
           type="number"
           name="postalCode"
           placeholder="Postal Code"
           required={true}
         />
         <InputUi
-          label="Recipient Phone Number"
+          label="Nomor Penerima"
           type="number"
           name="phoneNumber"
           placeholder="+62xxxxxxxxxx"
@@ -154,7 +243,7 @@ const ModalAddAddress = (props: PropTypes) => {
         <Select
           name="isMain"
           labelPlacement={'inside'}
-          label={'Main Address'}
+          label={'Alamat Utama'}
         >
           {options.map((option) => (
             <SelectItem
