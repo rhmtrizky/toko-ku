@@ -5,11 +5,7 @@ import { useRouter } from 'next/router';
 
 type PropTypes = {
   title?: string;
-  lists: Array<{
-    title: string;
-    url: string;
-    icon: string;
-  }>;
+  lists: any;
   closeIcon?: any;
   onClick?: () => void;
   bgColor: string;
@@ -29,11 +25,11 @@ const SideBar = (props: PropTypes) => {
           </button>
         </div>
         <div className="flex flex-col gap-2 mt-7">
-          {lists.map((item, index) => (
+          {lists.map((item: any, index: any) => (
             <Link
               href={item.url}
               key={item.title}
-              className={`flex items-center gap-2 p-2 rounded-lg text-sm font-semibold hover:bg-color-primary hover:text-color-dark hover:ease-in-out hover:duration-300 ${pathname == item.url ? 'bg-color-primary text-color-dark' : 'text-color-primary'}`}
+              className={`flex items-center gap-2 p-2 rounded-lg text-sm font-semibold hover:bg-color-primary hover:text-color-dark hover:ease-in-out hover:duration-300 ${pathname == item.url && item.url !== '' ? 'bg-color-primary text-color-dark' : 'text-color-primary'}`}
             >
               <i className={`bx ${item.icon} text-2xl`} />
               <h4>{item.title}</h4>

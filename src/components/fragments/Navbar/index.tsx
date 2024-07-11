@@ -26,6 +26,21 @@ const Navbar = (props: PropTypes) => {
 
   const SideBarItems = [
     {
+      title: (
+        <Input
+          type="text"
+          placeholder="Search your product..."
+          className=" text-color-red w-full"
+          variant="underlined"
+          color="danger"
+          style={{ backgroundColor: 'transparent' }}
+          onChange={(e) => setSearchProduct(e.target.value)}
+        />
+      ),
+      url: '',
+      icon: <RiSearch2Line size={20} />,
+    },
+    {
       title: 'Home',
       url: '/',
       icon: 'bxs-dashboard',
