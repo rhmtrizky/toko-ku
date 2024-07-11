@@ -4,6 +4,7 @@ import headers from '../headers';
 const productService = {
   getAllProducts: () => instance.get('/api/product'),
   getDetailProduct: (id: string) => instance.get(`/api/product/${id}`),
+  searchProduct: (keyword: string) => instance.get(`/api/product?search=${keyword}`),
   addProducts: (data: any, token: string) => instance.post('/api/product', { data }, headers(token)),
   updateProduct: (id: string, data: any, token: string) => instance.put(`/api/product/${id}`, { data }, headers(token)),
   deleteProduct: (id: string, token: string) => instance.delete(`/api/product/${id}`, headers(token)),

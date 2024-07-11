@@ -1,28 +1,30 @@
 import ProductsView from '@/components/views/products';
-import productService from '@/services/product';
-import { useEffect, useState } from 'react';
+import ProductBySearchView from '@/components/views/products/ProductBySearchPage';
 
-export default function Home() {
-  const [products, setProducts] = useState([]);
+type PropTypes = {
+  products: any;
+  searchProduct: any;
+};
+
+const Home = (props: PropTypes) => {
+  const { products, searchProduct } = props;
   const gelangProducts = products.filter((product: any) => product.category === 'gelang');
   const cincinProducts = products.filter((product: any) => product.category === 'cincin');
 
-  const getAllProducts = async () => {
-    try {
-      const { data } = await productService.getAllProducts();
-      setProducts(data.data);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
-
-  useEffect(() => {
-    getAllProducts();
-  }, []);
   return (
-    <ProductsView
-      cincinProducts={cincinProducts}
-      gelangProducts={gelangProducts}
-    />
+    <>
+      {searchProduct !== '' ? (
+        <ProductBySearchView
+          products={products}
+          searchProduct={searchProduct}
+        />
+      ) : (
+        <ProductsView
+          cincinProducts={cincinProducts}
+          gelangProducts={gelangProducts}
+        />
+      )}
+    </>
   );
-}
+};
+export default Home;

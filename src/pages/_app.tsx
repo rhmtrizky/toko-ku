@@ -10,6 +10,8 @@ import { useRouter } from 'next/router';
 import userService from '@/services/user';
 import orderService from '@/services/order';
 import Footer from '@/components/fragments/Footer';
+import productService from '@/services/product';
+import useDebounce from '@/hooks/useDebounce';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
@@ -31,6 +33,11 @@ const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) =
 
   const [cart, setCart] = useState([]);
   const [orders, setOrders] = useState<any>([]);
+
+  const [products, setProducts] = useState([]);
+  const [searchProduct, setSearchProduct] = useState<string>('');
+
+  const { debounce } = useDebounce();
 
   const { data: sessionData, status: sessionStatus }: any = useSession();
 
@@ -56,6 +63,44 @@ const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) =
       console.error('Error fetching users:', error);
     }
   };
+
+  const getAllProducts = async () => {
+    try {
+      const { data } = await productService.getAllProducts();
+      console.log(data);
+
+      setProducts(data.data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
+  console.log(searchProduct);
+
+  const performSearch = async () => {
+    if (searchProduct !== '') {
+      try {
+        const { data } = await productService.searchProduct(searchProduct);
+        console.log(data);
+
+        setProducts(data.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    } else {
+      getAllProducts();
+    }
+  };
+
+  const debouncedSearch = debounce(performSearch, 1000);
+
+  useEffect(() => {
+    debouncedSearch();
+  }, [searchProduct]);
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   useEffect(() => {
     if (sessionStatus === 'authenticated' && sessionData?.accessToken) {
@@ -85,6 +130,7 @@ const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) =
             <Navbar
               cart={cart}
               orders={orders}
+              setSearchProduct={setSearchProduct}
             />
           </div>
         )}
@@ -95,6 +141,9 @@ const MainApp = ({ Component, pageProps }: { Component: any; pageProps: any }) =
           cart={cart}
           orders={orders}
           setOrders={setOrders}
+          products={products}
+          setProducts={setProducts}
+          searchProduct={searchProduct}
         />
         {/* <div className="absolute bottom-0 mt-20 bg-color-red">
           <Footer />

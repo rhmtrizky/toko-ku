@@ -5,7 +5,15 @@ import Button from '../Button';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const CardProduct = ({ title, datas, setDetailProduct }: any) => {
+type PropTypes = {
+  title: any;
+  datas: any;
+  setDetailProduct?: any;
+  type?: any;
+};
+
+const CardProduct = (props: PropTypes) => {
+  const { title, datas, setDetailProduct, type } = props;
   return (
     <div className="flex flex-col justify-center lg:px-10 md:px-10 sm:px-3 px-3 gap-3">
       <h1 className="lg:text-2xl md:text-2xl sm:text-xl text-xl text-color-pink font-semibold">{title}</h1>
@@ -37,12 +45,14 @@ const CardProduct = ({ title, datas, setDetailProduct }: any) => {
                 <b className="text-color-pink text-start">{data.name}</b>
                 <p className="text-default-500">{Converter(data.price)}</p>
               </div>
-              <Button
-                label="View detail"
-                type="button"
-                className="bg-color-red text-color-primary py-2 px-3 rounded-md font-semibold w-[100px] opacity-70 hover:opacity-90 text-sm"
-                onClick={() => setDetailProduct(data)}
-              />
+              {type !== 'serach' && (
+                <Button
+                  label="View detail"
+                  type="button"
+                  className="bg-color-red text-color-primary py-2 px-3 rounded-md font-semibold w-[100px] opacity-70 hover:opacity-90 text-sm"
+                  onClick={() => setDetailProduct(data)}
+                />
+              )}
             </CardFooter>
           </Card>
         ))}

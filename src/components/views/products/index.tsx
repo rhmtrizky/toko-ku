@@ -13,7 +13,7 @@ const ProductsView = (props: PropTypes) => {
   const [detailProduct, setDetailProduct] = useState<any>({});
   return (
     <>
-      <div className="w-full h-auto pb-10 flex flex-col gap-10 mt-20">
+      <div className="w-full h-auto min-h-screen pb-10 flex flex-col gap-10 mt-20">
         <div className="flex flex-col gap-5">
           <ResponsiveCarousel />
           <CardProduct

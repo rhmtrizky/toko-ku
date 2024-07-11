@@ -14,10 +14,11 @@ import Image from 'next/image';
 type PropTypes = {
   cart: any;
   orders: any;
+  setSearchProduct: any;
 };
 
 const Navbar = (props: PropTypes) => {
-  const { cart, orders } = props;
+  const { cart, orders, setSearchProduct } = props;
   const { data, status }: any = useSession();
   const [sidebar, setSidebar] = useState(false);
 
@@ -85,6 +86,7 @@ const Navbar = (props: PropTypes) => {
                 variant="underlined"
                 color="danger"
                 style={{ backgroundColor: 'transparent' }}
+                onChange={(e) => setSearchProduct(e.target.value)}
               />
               <div className="absolute top-2 right-2 text-color-red">
                 <RiSearch2Line size={20} />
