@@ -52,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const { product }: any = req.query;
       const { data } = req.body;
 
-      if (decoded && decoded.role === 'admin') {
+      if (decoded) {
         await updateData('products', product[0], data, (result: boolean) => {
           if (result) {
             res.status(200).json({ status: true, code: 200, message: 'Success', data: data });

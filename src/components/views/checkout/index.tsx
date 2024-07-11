@@ -10,7 +10,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
-import { ImHappy } from 'react-icons/im';
 import { IoCheckmarkDoneCircleSharp } from 'react-icons/io5';
 import { RiErrorWarningLine } from 'react-icons/ri';
 
@@ -72,13 +71,17 @@ const CheckoutPageView = (props: PropTypes) => {
   };
 
   const stockDecrement = () => {
-    cart.forEach(async (item: any) => {
-      const product = getCartProducts(item.id);
-      if (product) {
-        const { data } = await productService.updateProduct(product.id, { stock: product.stock - item.qty }, session.data?.accessToken);
-        setProducts(data.data.data);
-      }
-    });
+    try {
+      cart.forEach(async (item: any) => {
+        const product = getCartProducts(item.id);
+        if (product) {
+          const { data } = await productService.updateProduct(product.id, { stock: product.stock - item.qty }, session.data?.accessToken);
+          setProducts(data.data.data);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -177,7 +180,7 @@ const CheckoutPageView = (props: PropTypes) => {
                   id="address"
                   value={selectAddress}
                   className="text-color-red text-md"
-                  style={{ padding: '8px', borderRadius: '4px', backgroundColor: '#DDDDCF', width: '100%', height: '40px', border: 'none' }}
+                  style={{ padding: '8px', borderRadius: '4px', backgroundColor: '#DDDDCF', width: '100%', height: '40px', border: 'none', outline: 'none' }}
                   onChange={(e) => setSelectAddress(parseInt(e.target.value))}
                   required
                 >
@@ -198,7 +201,13 @@ const CheckoutPageView = (props: PropTypes) => {
                   <span>
                     <RiErrorWarningLine size={20} />
                   </span>
-                  Please set your address first at your profile
+                  Please set your address first at your profile.{' '}
+                  <Link
+                    href={'/member/profile'}
+                    className="underline italic cursor-pointer"
+                  >
+                    Set address
+                  </Link>
                 </p>
               )}
               <div className="w-full">
